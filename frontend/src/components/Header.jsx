@@ -20,7 +20,7 @@ function Header() {
                         The International Articles
                     </h1>
                 </div>
-                <div className="flex space-x-5 text-white text-xl items-center">
+                <div className="font-opensans flex space-x-5 text-white text-xl items-center">
                     <Link
                         to="/login"
                         className="bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100"
