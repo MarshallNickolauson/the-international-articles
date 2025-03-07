@@ -1,6 +1,6 @@
 function Footer() {
   return (
-    <footer>
+    <footer className="px-4">
       footer
     </footer>
   );
