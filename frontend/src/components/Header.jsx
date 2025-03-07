@@ -8,7 +8,7 @@ function Header() {
 
     return (
         <nav className="top-0 w-full bg-darkGreen py-3 px-4 flex justify-center">
-            <div className="flex justify-between w-full max-w-[1200px]">
+            <div className="flex justify-between w-full max-w-[1450px]">
                 <div
                     className="flex space-x-3 hover:cursor-pointer"
                     onClick={() => navigate("/")}
