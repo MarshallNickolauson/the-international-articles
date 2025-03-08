@@ -2,9 +2,9 @@ import dock from "../assets/dock.png";
 
 const FeaturedArticle = () => {
     return (
-        <div className="card-shadow rounded-[16px] hover:cursor-pointer transform transition-transform duration-200 hover:scale-[1.008]">
+        <div className="card-shadow rounded-[16px] hover:cursor-pointer transition-all duration-200">
             <img src={dock} alt="" className="rounded-t-[16px] image-shadow" />
-            <div className="py-2 px-2 space-y-2">
+            <div className="py-5 px-2 space-y-2">
                 <h1 className="text-darkExpansion text-2xl font-bold">
                     Practice the Presence of God
                 </h1>

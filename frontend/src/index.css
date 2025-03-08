@@ -6,6 +6,11 @@
     box-shadow: 0 0 10px 1px rgb(178, 178, 178);
 }
 
+.card-shadow:hover {
+    box-shadow: 0 0 20px 2px rgb(178, 178, 178);
+    transition: all 200ms;
+}
+
 .image-shadow {
     box-shadow: 0 0 5px 1px rgb(106, 106, 106);
 }
