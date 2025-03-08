@@ -38,7 +38,7 @@ function Header() {
                     </div>
                 </div>
             </nav>
-            <nav className='w-full px-4 py-4 border border-b-2 border-gray-300'>
+            <nav className='w-full px-4 py-4 border border-b-[1px] border-gray-300'>
                 <div className='flex mx-auto max-w-[1450px] justify-between items-center'>
                     <div className='flex space-x-10 items-center'>
                         <Link

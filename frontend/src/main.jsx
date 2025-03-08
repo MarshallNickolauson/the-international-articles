@@ -12,14 +12,14 @@ import {
 import './index.css'
 import MainLayout from './layouts/MainLayout';
 import NotFoundScreen from './screens/NotFoundScreen';
-import HomeScreen from './screens/HomeScreen';
+import Dashboard from './screens/Dashboard.jsx';
 
 function App() {
     const router = createBrowserRouter(
         createRoutesFromElements(
             <Route path='/' element={<MainLayout />}>
                 <Route path='*' element={<NotFoundScreen />} />
-                <Route index element={<HomeScreen />} />
+                <Route index element={<Dashboard />} />
             </Route>
         )
     );
