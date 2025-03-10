@@ -13,6 +13,7 @@ import './index.css'
 import MainLayout from './layouts/MainLayout';
 import NotFoundScreen from './screens/NotFoundScreen';
 import Dashboard from './screens/Dashboard.jsx';
+import ArticleScreen from './screens/ArticleScreen.jsx';
 
 function App() {
     const router = createBrowserRouter(
@@ -20,6 +21,7 @@ function App() {
             <Route path='/' element={<MainLayout />}>
                 <Route path='*' element={<NotFoundScreen />} />
                 <Route index element={<Dashboard />} />
+                <Route path='/article' element={<ArticleScreen />}/>
             </Route>
         )
     );

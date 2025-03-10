@@ -11,6 +11,10 @@
     transition: all 200ms;
 }
 
+.card-shadow-static {
+    box-shadow: 0 0 10px 1px rgb(178, 178, 178);
+}
+
 .image-shadow {
     box-shadow: 0 0 5px 1px rgb(106, 106, 106);
 }

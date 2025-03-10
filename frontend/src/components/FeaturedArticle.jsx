@@ -1,8 +1,12 @@
 import dock from "../assets/dock.png";
+import {useNavigate} from 'react-router-dom';
 
 const FeaturedArticle = () => {
+
+    const navigate = useNavigate();
+
     return (
-        <div className="card-shadow rounded-[16px] hover:cursor-pointer transition-all duration-200">
+        <div className="card-shadow rounded-[16px] hover:cursor-pointer transition-all duration-200" onClick={() => navigate('/article')}>
             <img src={dock} alt="" className="rounded-t-[16px] image-shadow" />
             <div className="py-5 px-2 space-y-2">
                 <h1 className="text-darkExpansion text-2xl font-bold">
