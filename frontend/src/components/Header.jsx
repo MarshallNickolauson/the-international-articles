@@ -153,6 +153,10 @@ function Header() {
         }
     }, [selectedPrimaryLanguage, dispatch]);
 
+    useEffect(() => {
+        setSelectedSecondaryLanguage(secondaryLanguage);
+    }, [secondaryLanguage])
+
     return (
         <>
             <nav className="top-0 w-full bg-darkGreen py-3 px-4 flex justify-center">
