@@ -6,6 +6,7 @@ const initialState = {
               localStorage.getItem("the-international-articles-language-select")
           )
         : "English",
+    secondaryLanguage: "Dual Language"
 };
 
 const languageSlice = createSlice({
@@ -13,15 +14,18 @@ const languageSlice = createSlice({
     initialState,
     reducers: {
         changeLanguage: (state, action) => {
-            const selectedLanguage = action.payload;
-            state.language = selectedLanguage;
-            localStorage.setItem("the-international-articles-language-select", JSON.stringify(selectedLanguage))
+            state.language = action.payload;
+            localStorage.setItem("the-international-articles-language-select", JSON.stringify(action.payload))
+        },
+        changeSecondaryLanguage: (state, action) => {
+            state.secondaryLanguage = action.payload;
         }
     }
 });
 
 export const {
     changeLanguage,
+    changeSecondaryLanguage,
 } = languageSlice.actions;
 
 export default languageSlice.reducer;

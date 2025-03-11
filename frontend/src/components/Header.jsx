@@ -3,7 +3,7 @@ import { FaBookAtlas } from "react-icons/fa6";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IoIosSearch, IoIosArrowDropdown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { changeLanguage } from "../features/language/languageSlice";
+import { changeLanguage, changeSecondaryLanguage } from "../features/language/languageSlice";
 
 function Header() {
     const navigate = useNavigate();
@@ -11,6 +11,7 @@ function Header() {
     const location = useLocation();
 
     const language = useSelector((state) => state.language.language);
+    const secondaryLanguage = useSelector((state) => state.language.secondaryLanguage);
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -140,6 +141,7 @@ function Header() {
     };
 
     const selectSecondaryLanguage = (lang) => {
+        dispatch(changeSecondaryLanguage(lang));
         setSelectedSecondaryLanguage(lang);
         setIsSecondaryLangDropdownOpen(false);
     };
