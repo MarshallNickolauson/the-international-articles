@@ -26,31 +26,27 @@ const ArticleScreen = () => {
     );
 
     useEffect(() => {
-        if (secondaryLanguage !== 'Dual Language') {
-            setisSecondaryLangVisible(true);
-        } else {
-            setisSecondaryLangVisible(false);
-        }
+        setisSecondaryLangVisible(secondaryLanguage !== 'Dual Language');
     }, [secondaryLanguage]);
 
     return (
-        <div className='mt-6'>
+        <div className='mt-6 transition-all duration-300 ease-in-out'>
             <div className='flex w-full space-x-5 items-center'>
                 <div
-                    className={`${
+                    className={`flex justify-between transition-all duration-300 ease-in-out ${
                         isSecondaryLangVisible ? 'w-1/2' : 'w-11/12'
-                    } flex justify-between`}
+                    }`}
                 >
-                    <h1 className={`font-poppins italic text-darkExpansion`}>
+                    <h1 className='font-poppins italic text-darkExpansion'>
                         {'>'} Articles {'>'} English {'>'} Practice the Presence
                         of God
                     </h1>
                     <FiPrinter size={28} className='hover:cursor-pointer' />
                 </div>
                 <div
-                    className={`${
+                    className={`flex items-center justify-end space-x-2 cursor-pointer hover:underline transition-all duration-300 ease-in-out ${
                         isSecondaryLangVisible ? 'w-1/2' : 'w-1/12'
-                    } flex items-center justify-end space-x-2 cursor-pointer hover:underline`}
+                    }`}
                 >
                     <h1 className='font-opensans text-xl'>Share</h1>
                     <CiShare1 size={25} />
@@ -60,9 +56,9 @@ const ArticleScreen = () => {
             <div className='flex w-full space-x-5 mt-4'>
                 {/* Main Language Article */}
                 <div
-                    className={`
-                    ${isSecondaryLangVisible ? 'w-1/2' : 'w-11/12'}
-                    card-shadow-static rounded-[16px]`}
+                    className={`card-shadow-static rounded-[16px] transition-all duration-300 ease-in-out ${
+                        isSecondaryLangVisible ? 'w-1/2' : 'w-11/12'
+                    }`}
                 >
                     <img
                         src={dock}
@@ -84,41 +80,42 @@ const ArticleScreen = () => {
                         </div>
                         <h1 className='text-darkExpansion text-lg'>
                             God is present in our lives every moment of the
-                            day... Lorem ipsum dolor sit amet consectetur
-                            adipisicing elit. Commodi, consequatur! Assumenda
-                            molestiae, dicta architecto deleniti adipisci
-                            aperiam. Molestias labore rerum quam velit deleniti
-                            libero accusantium aut necessitatibus nostrum eius!
-                            Veritatis cupiditate, sed illo porro sunt fugiat
-                            culpa molestiae aliquid impedit commodi dicta
-                            officiis nemo, sint rem incidunt! Harum doloribus
-                            architecto minima saepe quaerat eum vero velit rem
-                            corrupti perferendis ex rerum nulla laudantium nemo
-                            ut recusandae beatae, unde, commodi excepturi
-                            numquam repellendus sapiente laborum natus!
-                            Voluptatum facere debitis consequuntur repellat rem
-                            atque tempora non fuga ut magnam, explicabo aliquam!
-                            Voluptate voluptatibus non repudiandae eligendi
-                            ducimus id, nesciunt inventore tempora odit.
+                            day... Lorem ipsum dolor sit amet, consectetur
+                            adipisicing elit. Ipsa reiciendis porro ex pariatur
+                            perspiciatis iure cupiditate dolorum minima quos,
+                            mollitia sequi iusto vel consequuntur iste! Labore,
+                            iure totam optio voluptates exercitationem sed
+                            laboriosam sapiente, magni esse harum, iste quasi id
+                            explicabo assumenda nobis deleniti sunt quaerat
+                            perferendis vero consequuntur? Doloribus, at rerum.
+                            Provident tempore natus quis fugit praesentium ea,
+                            aut laboriosam inventore similique rem beatae
+                            consequuntur id! Harum officia asperiores quae magni
+                            accusamus, quasi quod exercitationem ea
+                            necessitatibus maiores voluptas. Magni, a
+                            consequatur praesentium dolorum iure impedit ipsam
+                            numquam mollitia pariatur, fuga explicabo cupiditate
+                            rerum necessitatibus veritatis. Fuga, aliquid
+                            dignissimos.
                         </h1>
                     </div>
                 </div>
 
                 {/* Right Section */}
                 <div
-                    className={`${
-                        isSecondaryLangVisible ? 'w-1/2' : 'w-1/12'
-                    } flex flex-col items-end space-y-[320px]`}
+                    className={`flex flex-col items-end transition-all duration-300 ease-in-out ${
+                        isSecondaryLangVisible
+                            ? 'w-1/2 space-y-[320px]'
+                            : 'w-1/12'
+                    }`}
                 >
                     {/* Connect Section */}
                     <div
-                        className={`
-                        ${
+                        className={`card-shadow-static rounded-[16px] p-1 flex justify-center items-center transition-all duration-300 ease-in-out ${
                             isSecondaryLangVisible
                                 ? 'flex-row h-[80px] w-[400px] space-x-4'
                                 : 'flex-col w-[100px] h-[400px] space-y-4'
-                        }
-                        card-shadow-static rounded-[16px] p-1 flex flex-row justify-center items-center`}
+                        }`}
                     >
                         <FaSquareXTwitter
                             size={socialSize}
@@ -141,55 +138,60 @@ const ArticleScreen = () => {
                     </div>
 
                     {/* Secondary Language Article */}
-                    {isSecondaryLangVisible && (
-                        <div className='w-full card-shadow-static rounded-[16px] relative'>
-                            <div className='absolute top-4 right-5 translate-x-2 -translate-y-2 text-2xl'>
-                                <IoClose
-                                    size={30}
-                                    className='hover:cursor-pointer'
-                                    onClick={() => {
-                                        dispatch(changeSecondaryLanguage('Dual Language'));
-                                    }}
+                    <div
+                        className={`transition-all duration-300 ease-in-out ${
+                            isSecondaryLangVisible
+                                ? 'opacity-100 translate-y-0 scale-100'
+                                : 'opacity-0 translate-y-5 scale-95 pointer-events-none absolute'
+                        } w-full card-shadow-static rounded-[16px] relative`}
+                    >
+                        <div className='absolute top-4 right-5 translate-x-2 -translate-y-2 text-2xl'>
+                            <IoClose
+                                size={30}
+                                className='hover:cursor-pointer'
+                                onClick={() => {
+                                    dispatch(
+                                        changeSecondaryLanguage('Dual Language')
+                                    );
+                                }}
+                            />
+                        </div>
+                        <div className='py-3 px-2'>
+                            <h1 className='text-darkExpansion text-3xl font-bold mb-2'>
+                                Practice the Presence of God
+                            </h1>
+                            <div className='flex space-x-2'>
+                                <h1 className='text-gray-600 text-sm italic mb-6'>
+                                    Aug. 19, 2024
+                                </h1>
+                                <HiOutlineSpeakerWave
+                                    size={20}
+                                    className='pt-[1px] hover:cursor-pointer'
                                 />
                             </div>
-                            <div className='py-3 px-2'>
-                                <h1 className='text-darkExpansion text-3xl font-bold mb-2'>
-                                    Practice the Presence of God
-                                </h1>
-                                <div className='flex space-x-2'>
-                                    <h1 className='text-gray-600 text-sm italic mb-6'>
-                                        Aug. 19, 2024
-                                    </h1>
-                                    <HiOutlineSpeakerWave
-                                        size={20}
-                                        className='pt-[1px] hover:cursor-pointer'
-                                    />
-                                </div>
-                                <h1 className='text-darkExpansion text-lg'>
-                                    Dios está presente en nuestras vidas en cada
-                                    momento del día... Lorem ipsum dolor sit,
-                                    amet consectetur adipisicing elit. Beatae,
-                                    praesentium omnis? Aliquam rerum in
-                                    inventore quod vero perferendis doloremque
-                                    nihil autem laboriosam fuga corporis odit
-                                    accusamus magnam, aspernatur at. Provident
-                                    doloremque, nemo omnis ut esse minima
-                                    voluptates hic praesentium, deleniti ea, et
-                                    atque neque enim impedit inventore suscipit
-                                    autem officia laudantium ullam. Totam omnis,
-                                    id vitae a fugit exercitationem explicabo
-                                    ipsam veritatis aperiam tenetur enim
-                                    expedita modi quam quaerat quia blanditiis
-                                    veniam! Tempore ipsam doloremque ex
-                                    recusandae illum consequatur officia.
-                                    Laudantium non doloremque totam accusamus
-                                    quisquam iusto deleniti. Neque repellat
-                                    nobis accusamus eum rem eligendi non
-                                    molestias possimus reiciendis inventore.
-                                </h1>
-                            </div>
+                            <h1 className='text-darkExpansion text-lg'>
+                                Dios está presente en nuestras vidas en cada
+                                momento del día... Lorem ipsum dolor sit amet
+                                consectetur adipisicing elit. Nisi voluptatibus
+                                delectus molestiae nesciunt odio est aut commodi
+                                suscipit aliquid quam. Veritatis nemo laborum
+                                dignissimos inventore consequuntur a excepturi
+                                culpa maxime dolorum numquam quod animi
+                                perferendis quidem nobis ipsam aut maiores, iste
+                                explicabo provident delectus? Assumenda unde
+                                placeat debitis hic excepturi beatae cupiditate
+                                officiis, corrupti inventore, odit maiores
+                                consequuntur, quas ducimus atque ab sapiente!
+                                Illo, qui? Praesentium nemo beatae, atque
+                                pariatur facere, neque labore, doloribus dicta
+                                nihil placeat error maiores delectus dolore
+                                veritatis eaque voluptatum obcaecati maxime
+                                eligendi autem cupiditate vel temporibus quo. At
+                                magni eum amet accusantium nihil, maiores
+                                debitis!
+                            </h1>
                         </div>
-                    )}
+                    </div>
                 </div>
             </div>
         </div>
