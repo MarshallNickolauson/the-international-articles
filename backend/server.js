@@ -1,7 +1,7 @@
 
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import { errorHandler } from './middleware/errorMiddleware.js';
+import { errorHandler } from './middleware/error.middleware.js';
 import { connectDB } from './config/db.js';
 import cors from 'cors';
 import dotenv from 'dotenv';
