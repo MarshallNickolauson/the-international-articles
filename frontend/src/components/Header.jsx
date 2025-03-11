@@ -149,8 +149,9 @@ function Header() {
     useEffect(() => {
         if (selectedPrimaryLanguage === selectedSecondaryLanguage) {
             setSelectedSecondaryLanguage("Dual Language");
+            dispatch(changeSecondaryLanguage("Dual Language"));
         }
-    }, [selectedPrimaryLanguage]);
+    }, [selectedPrimaryLanguage, dispatch]);
 
     return (
         <>

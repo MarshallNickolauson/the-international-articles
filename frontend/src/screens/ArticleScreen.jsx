@@ -1,20 +1,20 @@
-import dock from "../assets/dock.png";
-import { FiPrinter } from "react-icons/fi";
-import { CiShare1 } from "react-icons/ci";
-import { FaSquareXTwitter } from "react-icons/fa6";
-import { FaYoutube } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
-import { FaFacebookSquare } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
-import { FaPinterest } from "react-icons/fa";
-import { HiOutlineSpeakerWave } from "react-icons/hi2";
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import dock from '../assets/dock.png';
+import { FiPrinter } from 'react-icons/fi';
+import { CiShare1 } from 'react-icons/ci';
+import { FaSquareXTwitter } from 'react-icons/fa6';
+import { FaYoutube } from 'react-icons/fa';
+import { FaInstagram } from 'react-icons/fa';
+import { FaFacebookSquare } from 'react-icons/fa';
+import { FaLinkedin } from 'react-icons/fa';
+import { FaPinterest } from 'react-icons/fa';
+import { HiOutlineSpeakerWave } from 'react-icons/hi2';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 const ArticleScreen = () => {
     const socialSize = 45;
     const socialClass =
-        "hover:cursor-pointer transform transition-all duration-150 hover:scale-[1.08]";
+        'hover:cursor-pointer transform transition-all duration-150 hover:scale-[1.08]';
 
     const [isSecondaryLangVisible, setisSecondaryLangVisible] = useState(false);
     const secondaryLanguage = useSelector(
@@ -22,57 +22,62 @@ const ArticleScreen = () => {
     );
 
     useEffect(() => {
-        if (secondaryLanguage !== "Dual Language")
+        if (secondaryLanguage !== 'Dual Language') {
             setisSecondaryLangVisible(true);
-        else setisSecondaryLangVisible(false);
+        } else {
+            setisSecondaryLangVisible(false);
+        }
     }, [secondaryLanguage]);
 
     return (
-        <div className="mt-6">
-            <div className="flex w-full space-x-5 items-center">
-                <div className="flex justify-between w-11/12">
-                    <h1 className="font-poppins italic text-darkExpansion">
-                        {">"} Articles {">"} English {">"} Practice the Presence
+        <div className='mt-6'>
+            <div className='flex w-full space-x-5 items-center'>
+                <div
+                    className={`${
+                        isSecondaryLangVisible ? 'w-1/2' : 'w-11/12'
+                    } flex justify-between`}
+                >
+                    <h1 className={`font-poppins italic text-darkExpansion`}>
+                        {'>'} Articles {'>'} English {'>'} Practice the Presence
                         of God
                     </h1>
-                    <FiPrinter
-                        size={28}
-                        className="mr-2 hover:cursor-pointer"
-                    />
+                    <FiPrinter size={28} className='hover:cursor-pointer' />
                 </div>
                 <div
-                    className={`w-1/12 flex items-center justify-end space-x-2 cursor-pointer hover:underline`}
+                    className={`${
+                        isSecondaryLangVisible ? 'w-1/2' : 'w-1/12'
+                    } flex items-center justify-end space-x-2 cursor-pointer hover:underline`}
                 >
-                    <h1 className="font-opensans text-xl">Share</h1>
+                    <h1 className='font-opensans text-xl'>Share</h1>
                     <CiShare1 size={25} />
                 </div>
             </div>
-            <div className="flex w-full space-x-5 mt-4">
-                {/* Article Section (80%) */}
+            <div className={`flex w-full space-x-5 mt-4 ${isSecondaryLangVisible ? 'justify-between' : ''}`}>
+                {/* Article Section */}
                 <div
                     className={`${
-                        isSecondaryLangVisible ? "w-1/2" : "w-11/12"
+                        isSecondaryLangVisible ? 'w-1/2' : 'w-11/12'
                     } card-shadow-static rounded-[16px] transition-all duration-200`}
                 >
                     <img
                         src={dock}
-                        alt=""
-                        className="rounded-t-[16px] image-shadow w-full"
+                        alt=''
+                        className='rounded-t-[16px] image-shadow w-full'
                     />
-                    <div className="py-5 px-2">
-                        <h1 className="text-darkExpansion text-3xl font-bold mb-2">
+                    <div className='py-5 px-2'>
+                        <h1 className='text-darkExpansion text-3xl font-bold mb-2'>
                             Practice the Presence of God
                         </h1>
-                        <div className="flex space-x-2">
-                            <h1 className="text-gray-600 text-sm italic mb-6">
+                        <div className='flex space-x-2'>
+                            <h1 className='text-gray-600 text-sm italic mb-6'>
                                 Aug. 19, 2024
                             </h1>
                             <HiOutlineSpeakerWave
                                 size={20}
-                                className="pt-[1px] hover:cursor-pointer"
+                                className='pt-[1px] hover:cursor-pointer'
                             />
                         </div>
-                        <h1 className="text-darkExpansion text-lg">
+                        <h1 className='text-darkExpansion text-lg'>
                             God is present in our lives every moment of the day,
                             whether we recognize it or not. More filler words
                             here that have meaning and trail off into dots
@@ -241,12 +246,14 @@ const ArticleScreen = () => {
                     </div>
                 </div>
 
-                {/* Card Section (20%) */}
-                <div className="w-1/12 card-shadow-static rounded-[16px] p-1 h-[400px]">
-                    <h2 className="text-darkExpansion text-xl font-bold text-center">
-                        Connect
-                    </h2>
-                    <p className="text-darkExpansion mt-4 flex flex-col items-center justify-center mx-auto space-y-3">
+                {/* Connect Card */}
+                <div className={`card-shadow-static rounded-[16px] p-1 ${isSecondaryLangVisible ? 'h-[80px] w-[400px]' : 'h-[400px] w-[7%]'}`}>
+                    {!isSecondaryLangVisible && (
+                        <h2 className='text-darkExpansion text-xl font-bold text-center'>
+                            Connect
+                        </h2>
+                    )}
+                    <p className={`flex ${isSecondaryLangVisible ? 'flex-row space-x-4' : 'flex-col space-y-3'} text-darkExpansion mt-4 items-center justify-center mx-auto`}>
                         <FaSquareXTwitter
                             size={socialSize}
                             className={socialClass}
