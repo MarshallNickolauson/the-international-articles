@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import FeaturedArticle from "../components/FeaturedArticle";
-import RecentArticle from "../components/RecentArticle";
+import ArticleListCard from "../components/ArticleListCard";
 
 const Dashboard = () => {
 
@@ -49,10 +49,10 @@ const Dashboard = () => {
                         {translations[language]?.recentArticles || "Recent Articles"}
                     </h1>
                     <div className="flex flex-col h-[500px] justify-between space-y-4">
-                        <RecentArticle />
-                        <RecentArticle />
-                        <RecentArticle />
-                        <RecentArticle />
+                        <ArticleListCard />
+                        <ArticleListCard />
+                        <ArticleListCard />
+                        <ArticleListCard />
                     </div>
                 </div>
             </div>

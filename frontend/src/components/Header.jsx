@@ -35,7 +35,7 @@ function Header() {
         useState("Dual Language");
 
     useEffect(() => {
-        if (location.pathname.includes("/article")) {
+        if (location.pathname === "/article" || location.pathname.startsWith("/article/")) {
             setisSecondaryLangVisible(true);
             setSelectedSecondaryLanguage("Dual Language");
         } else setisSecondaryLangVisible(false);

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import dock from "../assets/dock.png";
 
-const RecentArticle = () => {
+const ArticleListCard = () => {
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
     return (
@@ -42,4 +42,4 @@ const RecentArticle = () => {
     );
 };
 
-export default RecentArticle;
+export default ArticleListCard;
