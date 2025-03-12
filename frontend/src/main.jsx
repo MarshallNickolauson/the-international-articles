@@ -22,7 +22,7 @@ function App() {
             <Route path='/' element={<MainLayout />}>
                 <Route path='*' element={<NotFoundScreen />} />
                 <Route index element={<Dashboard />} />
-                <Route path='/article' element={<ArticleScreen />}/>
+                <Route path='/article/:id' element={<ArticleScreen />}/>
                 <Route path='/articles' element={<ArticleListScreen />} />
             </Route>
         )
