@@ -8,7 +8,7 @@ const MainLayout = () => {
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
     return (
-        <div className={`${isDarkMode ? 'bg-_252825' : 'bg-white'} transition-all duration-200`}>
+        <div className={`${isDarkMode ? 'bg-_252825' : 'bg-white'} transition-all duration-200 pb-[1000px]`}>
             <Header />
             <div className='px-4'>
                 <div className='max-w-[1450px] mx-auto '>

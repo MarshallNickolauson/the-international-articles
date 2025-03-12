@@ -165,6 +165,10 @@ function Header() {
     }, [selectedPrimaryLanguage, dispatch]);
 
     useEffect(() => {
+        dispatch(changeSecondaryLanguage('Dual Language'));
+    }, [location, dispatch]);
+
+    useEffect(() => {
         setSelectedSecondaryLanguage(secondaryLanguage);
     }, [secondaryLanguage]);
 

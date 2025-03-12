@@ -36,26 +36,26 @@ const ArticleScreen = () => {
                         isSecondaryLangVisible ? 'w-1/2' : 'w-11/12'
                     }`}
                 >
-                    <h1 className='font-poppins italic text-darkExpansion'>
+                    <h1 className={`font-poppins italic transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
                         {'>'} Articles {'>'} English {'>'} Practice the Presence
                         of God
                     </h1>
-                    <FiPrinter size={28} className='hover:cursor-pointer' />
+                    <FiPrinter size={28} className={`hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}  />
                 </div>
                 <div
                     className={`flex items-center justify-end space-x-2 cursor-pointer hover:underline transition-all duration-300 ease-in-out ${
                         isSecondaryLangVisible ? 'w-1/2' : 'w-1/12'
                     }`}
                 >
-                    <h1 className='font-opensans text-xl'>Share</h1>
-                    <CiShare1 size={25} />
+                    <h1 className={`font-opensans text-xl transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>Share</h1>
+                    <CiShare1 size={25} className={`transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />
                 </div>
             </div>
 
             <div className='flex w-full space-x-5 mt-4'>
                 {/* Main Language Article */}
                 <div
-                    className={`card-shadow-static rounded-[16px] transition-all duration-300 ease-in-out ${
+                    className={`card-shadow-static rounded-[16px] transition-all duration-200 ease-in-out ${isDarkMode ? 'bg-_303030' : 'bg-white'} ${
                         isSecondaryLangVisible ? 'w-1/2' : 'w-11/12'
                     }`}
                 >
@@ -65,19 +65,19 @@ const ArticleScreen = () => {
                         className='rounded-t-[16px] image-shadow w-full'
                     />
                     <div className='py-5 px-2'>
-                        <h1 className='text-darkExpansion text-3xl font-bold mb-2'>
+                        <h1 className={`text-3xl font-bold mb-2 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
                             Practice the Presence of God
                         </h1>
                         <div className='flex space-x-2'>
-                            <h1 className='text-gray-600 text-sm italic mb-6'>
+                            <h1 className={`text-sm italic mb-6 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
                                 Aug. 19, 2024
                             </h1>
                             <HiOutlineSpeakerWave
                                 size={20}
-                                className='pt-[1px] hover:cursor-pointer'
+                                className={`pt-[1px] hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}
                             />
                         </div>
-                        <h1 className='text-darkExpansion text-lg'>
+                        <h1 className={`text-lg transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
                             God is present in our lives every moment of the
                             day... Lorem ipsum dolor sit amet, consectetur
                             adipisicing elit. Ipsa reiciendis porro ex pariatur
@@ -102,7 +102,7 @@ const ArticleScreen = () => {
 
                 {/* Right Section */}
                 <div
-                    className={`flex flex-col items-end transition-all duration-300 ease-in-out ${
+                    className={`flex flex-col items-end transition-all duration-200 ease-in-out ${
                         isSecondaryLangVisible
                             ? 'w-1/2 space-y-[320px]'
                             : 'w-1/12'
@@ -110,7 +110,7 @@ const ArticleScreen = () => {
                 >
                     {/* Connect Section */}
                     <div
-                        className={`card-shadow-static rounded-[16px] p-1 flex justify-center items-center transition-all duration-300 ease-in-out ${
+                        className={`card-shadow-static rounded-[16px] p-1 flex justify-center items-center transition-all duration-200 ease-in-out ${isDarkMode ? 'text-white bg-_303030' : 'text-darkExpansion bg-white'} ${
                             isSecondaryLangVisible
                                 ? 'flex-row h-[80px] w-[400px] space-x-4'
                                 : 'flex-col w-[100px] h-[400px] space-y-4'
@@ -138,7 +138,7 @@ const ArticleScreen = () => {
 
                     {/* Secondary Language Article */}
                     <div
-                        className={`transition-all duration-300 ease-in-out ${
+                        className={`transition-all duration-200 ease-in-out ${isDarkMode ? 'bg-_303030' : 'bg-white'} ${
                             isSecondaryLangVisible
                                 ? 'opacity-100 translate-y-0 scale-100'
                                 : 'opacity-0 translate-y-5 scale-95 pointer-events-none absolute'
@@ -147,7 +147,7 @@ const ArticleScreen = () => {
                         <div className='absolute top-4 right-5 translate-x-2 -translate-y-2 text-2xl'>
                             <IoClose
                                 size={30}
-                                className='hover:cursor-pointer'
+                                className={`hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}
                                 onClick={() => {
                                     dispatch(
                                         changeSecondaryLanguage('Dual Language')
@@ -156,19 +156,19 @@ const ArticleScreen = () => {
                             />
                         </div>
                         <div className='py-3 px-2'>
-                            <h1 className='text-darkExpansion text-3xl font-bold mb-2'>
+                            <h1 className={`text-3xl font-bold mb-2 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
                                 Practice the Presence of God
                             </h1>
                             <div className='flex space-x-2'>
-                                <h1 className='text-gray-600 text-sm italic mb-6'>
+                                <h1 className={`text-sm italic mb-6 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
                                     Aug. 19, 2024
                                 </h1>
                                 <HiOutlineSpeakerWave
                                     size={20}
-                                    className='pt-[1px] hover:cursor-pointer'
+                                    className={`pt-[1px] hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}
                                 />
                             </div>
-                            <h1 className='text-darkExpansion text-lg'>
+                            <h1 className={`text-lg transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
                                 Dios está presente en nuestras vidas en cada
                                 momento del día... Lorem ipsum dolor sit amet
                                 consectetur adipisicing elit. Nisi voluptatibus
