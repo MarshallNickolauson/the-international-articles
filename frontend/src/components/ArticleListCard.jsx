@@ -44,7 +44,7 @@ const ArticleListCard = ({ article }) => {
                             {articleDate}
                         </h1>
                         <h1 className={`text-lg line-clamp-1 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
-                            {articleData.content.substring(0, 500)}...
+                            {articleData.content.substring(0, 500)}
                         </h1>
                         <div>
                             <h1 className={`text-lg font-bold underline inline-block pb-1 transition-all duration-200 ${isDarkMode ? 'text-white hover:text-blue-300' : 'text-darkExpansion hover:text-mainBlue'}`}>

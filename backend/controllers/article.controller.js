@@ -5,7 +5,7 @@ import Article from '../models/article.model.js';
 // @route   GET api/articles
 // @access  Public
 export const getAllArticles = expressAsyncHandler(async (req, res) => {
-    const articles = await Article.find({});
+    const articles = await Article.find({}).sort({ createdAt: -1 });
     res.status(200).json(articles);
 });
 

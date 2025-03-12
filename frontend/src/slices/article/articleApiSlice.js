@@ -10,9 +10,17 @@ export const articleApiSlice = apiSlice.injectEndpoints({
             }),
             providesTags: ['Articles']
         }),
+        get5RecentArticles: builder.query({
+            query: (data) => ({
+                url: `${ARTICLE_URL}/recent`,
+                method: 'GET'
+            }),
+            providesTags: ['5RecentArticles']
+        }),
     }),
 });
 
 export const {
     useGetAllArticlesQuery,
+    useGet5RecentArticlesQuery,
 } = articleApiSlice;
