@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     changeLanguage,
     changeSecondaryLanguage,
-} from "../features/language/languageSlice";
-import { toggleDarkMode } from "../features/theme/themeSlice";
+} from "../slices/language/languageSlice";
+import { toggleDarkMode } from "../slices/theme/themeSlice";
 
 function Header() {
     const navigate = useNavigate();

@@ -11,7 +11,7 @@ import { HiOutlineSpeakerWave } from 'react-icons/hi2';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
-import { changeSecondaryLanguage } from '../features/language/languageSlice';
+import { changeSecondaryLanguage } from '../slices/language/languageSlice';
 
 const ArticleScreen = () => {
     const dispatch = useDispatch();

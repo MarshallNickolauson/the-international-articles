@@ -49,10 +49,10 @@ const Dashboard = () => {
                         {translations[language]?.recentArticles || "Recent Articles"}
                     </h1>
                     <div className="flex flex-col h-[500px] justify-between space-y-4">
+                        {/* <ArticleListCard />
                         <ArticleListCard />
                         <ArticleListCard />
-                        <ArticleListCard />
-                        <ArticleListCard />
+                        <ArticleListCard /> */}
                     </div>
                 </div>
             </div>
