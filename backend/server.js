@@ -23,7 +23,9 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// app.use('/route', importedRoute)
+import articleRoutes from './routes/article.routes.js';
+
+app.use('/api/articles', articleRoutes);
 
 app.use(errorHandler);
 
