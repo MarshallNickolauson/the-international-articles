@@ -3,7 +3,11 @@ import { FaBookAtlas } from "react-icons/fa6";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IoIosSearch, IoIosArrowDropdown } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { changeLanguage, changeSecondaryLanguage } from "../features/language/languageSlice";
+import {
+    changeLanguage,
+    changeSecondaryLanguage,
+} from "../features/language/languageSlice";
+import { toggleDarkMode } from "../features/theme/themeSlice";
 
 function Header() {
     const navigate = useNavigate();
@@ -12,16 +16,21 @@ function Header() {
 
     const language = useSelector((state) => state.language.language);
     const secondaryLanguage = useSelector((state) => state.language.secondaryLanguage);
+    const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
     const [searchQuery, setSearchQuery] = useState("");
 
-    const [isPrimaryLangDropdownOpen, setIsPrimaryLangDropdownOpen] = useState(false);
+    const [isPrimaryLangDropdownOpen, setIsPrimaryLangDropdownOpen] =
+        useState(false);
     const [selectedPrimaryLanguage, setSelectedPrimaryLanguage] = useState("");
-    const [isPrimaryLanguageLoading, setIsPrimaryLanguageLoading] = useState(false);
+    const [isPrimaryLanguageLoading, setIsPrimaryLanguageLoading] =
+        useState(false);
 
     const [isSecondaryLangVisible, setisSecondaryLangVisible] = useState(false);
-    const [isSecondaryLangDropdownOpen, setIsSecondaryLangDropdownOpen] = useState(false);
-    const [selectedSecondaryLanguage, setSelectedSecondaryLanguage] = useState("Dual Language");
+    const [isSecondaryLangDropdownOpen, setIsSecondaryLangDropdownOpen] =
+        useState(false);
+    const [selectedSecondaryLanguage, setSelectedSecondaryLanguage] =
+        useState("Dual Language");
 
     useEffect(() => {
         if (location.pathname.includes("/article")) {
@@ -155,7 +164,7 @@ function Header() {
 
     useEffect(() => {
         setSelectedSecondaryLanguage(secondaryLanguage);
-    }, [secondaryLanguage])
+    }, [secondaryLanguage]);
 
     return (
         <>
@@ -172,6 +181,23 @@ function Header() {
                         </h1>
                     </div>
                     <div className="font-opensans flex space-x-5 text-white items-center">
+                        
+                        {/* Dark/Light Theme Toggle */}
+                        <div
+                            className={`relative w-14 h-7 rounded-full flex items-center cursor-pointer transition-all duration-300 ${
+                                isDarkMode ? "bg-gray-800" : "bg-gray-100"
+                            }`}
+                            onClick={() => dispatch(toggleDarkMode())}
+                        >
+                            <div
+                                className={`absolute w-5 h-5 rounded-full transition-all duration-300 ${
+                                    isDarkMode
+                                        ? "bg-white translate-x-[30px]"
+                                        : "bg-gray-800 translate-x-[5px]"
+                                }`}
+                            ></div>
+                        </div>
+
                         <Link
                             to="/login"
                             className="bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100"
@@ -179,6 +205,7 @@ function Header() {
                             {translations[selectedPrimaryLanguage]?.signIn ||
                                 "Sign In"}
                         </Link>
+
                         <h1 className="hover:cursor-pointer border-b-2 pb-1 border-b-transparent hover:border-b-mainWhite transition-all duration-100">
                             {translations[selectedPrimaryLanguage]?.menu ||
                                 "Menu"}
