@@ -15,7 +15,9 @@ function Header() {
     const location = useLocation();
 
     const language = useSelector((state) => state.language.language);
-    const secondaryLanguage = useSelector((state) => state.language.secondaryLanguage);
+    const secondaryLanguage = useSelector(
+        (state) => state.language.secondaryLanguage
+    );
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
     const [searchQuery, setSearchQuery] = useState("");
@@ -181,7 +183,6 @@ function Header() {
                         </h1>
                     </div>
                     <div className="font-opensans flex space-x-5 text-white items-center">
-                        
                         {/* Dark/Light Theme Toggle */}
                         <div
                             className={`relative w-14 h-7 rounded-full flex items-center cursor-pointer transition-all duration-300 ${
@@ -213,19 +214,27 @@ function Header() {
                     </div>
                 </div>
             </nav>
-            <nav className="w-full px-4 py-4 border border-b-[1px] border-gray-300">
+
+            {/* Secondary Navbar */}
+            <nav
+                className={`w-full px-4 py-4 border-b-[1px] border-gray-300`}
+            >
                 <div className="flex mx-auto max-w-[1450px] justify-between items-center">
                     <div className="flex space-x-10 items-center">
                         <Link
                             to="/"
-                            className="text-darkExpansion text-lg hover:underline"
+                            className={`text-lg hover:underline transition-all duration-200 ${
+                                isDarkMode ? "text-white" : "text-darkExpansion"
+                            }`}
                         >
                             {translations[selectedPrimaryLanguage]?.dashboard ||
                                 "Dashboard"}
                         </Link>
                         <Link
                             to="/articles"
-                            className="text-darkExpansion text-lg hover:underline"
+                            className={`text-lg hover:underline transition-all duration-200 ${
+                                isDarkMode ? "text-white" : "text-darkExpansion"
+                            }`}
                         >
                             {translations[selectedPrimaryLanguage]?.articles ||
                                 "Articles"}
@@ -242,7 +251,11 @@ function Header() {
                                 }
                             >
                                 <h1
-                                    className={`text-darkExpansion text-lg ${
+                                    className={`${
+                                        isDarkMode
+                                            ? "text-white"
+                                            : "text-darkExpansion"
+                                    } text-lg transition-all duration-200 ${
                                         isPrimaryLanguageLoading
                                             ? "opacity-0"
                                             : "opacity-100"
@@ -250,10 +263,18 @@ function Header() {
                                 >
                                     {selectedPrimaryLanguage}
                                 </h1>
-                                <IoIosArrowDropdown className="ml-2 text-2xl text-darkExpansion" />
+                                <IoIosArrowDropdown
+                                    className={`ml-2 text-2xl transition-all duration-200 ${
+                                        isDarkMode
+                                            ? "text-white"
+                                            : "text-darkExpansion"
+                                    }`}
+                                />
                             </div>
                             {isPrimaryLangDropdownOpen && (
-                                <ul className="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded-[8px] shadow-lg transition-all duration-200">
+                                <ul
+                                    className={`absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded-[8px] shadow-lg opacity-100 transition-all duration-200`}
+                                >
                                     {languages.map((lang, index) => (
                                         <li
                                             key={index}
@@ -284,10 +305,22 @@ function Header() {
                                     )
                                 }
                             >
-                                <h1 className="text-darkExpansion text-lg">
+                                <h1
+                                    className={`${
+                                        isDarkMode
+                                            ? "text-white"
+                                            : "text-darkExpansion"
+                                    } text-lg transition-all duration-200`}
+                                >
                                     {selectedSecondaryLanguage}
                                 </h1>
-                                <IoIosArrowDropdown className="ml-2 text-2xl text-darkExpansion" />
+                                <IoIosArrowDropdown
+                                    className={`ml-2 text-2xl transition-all duration-200 ${
+                                        isDarkMode
+                                            ? "text-white"
+                                            : "text-darkExpansion"
+                                    }`}
+                                />
                             </div>
                             {isSecondaryLangDropdownOpen && (
                                 <ul className="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded-[8px] shadow-lg transition-all duration-200">
@@ -319,7 +352,14 @@ function Header() {
                                 translations[selectedPrimaryLanguage]
                                     ?.searchPlaceholder || "Search..."
                             }
-                            className="border border-gray-300 font-opensans text-darkExpansion rounded-[8px] py-2 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-gray-400 transition-all duration-200 w-[600px] placeholder:italic"
+                            className={`border transition-all duration-200 ${
+                                isDarkMode
+                                    ? "border-white text-white bg-_303030"
+                                    : "border-gray-300 text-darkExpansion bg-white"
+                            }
+                            focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
+                            font-opensans rounded-[8px] py-2 pl-12 pr-4 transition-all duration-200 
+                            w-[600px] placeholder:italic`}
                         />
                     </div>
                 </div>

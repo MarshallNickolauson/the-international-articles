@@ -17,6 +17,9 @@ export default {
                 mainOrange: "#FF611F",
                 mainTan: "#FBEFCB",
                 mainYellow: "#FFD639",
+
+                _252825: "#252825",
+                _303030: "#303030",
             },
             fontFamily: {
                 roboto: ["Roboto", "sans-serif"],

@@ -21,9 +21,8 @@ const ArticleScreen = () => {
         'hover:cursor-pointer transform transition-all duration-150 hover:scale-[1.08]';
 
     const [isSecondaryLangVisible, setisSecondaryLangVisible] = useState(false);
-    const secondaryLanguage = useSelector(
-        (state) => state.language.secondaryLanguage
-    );
+    const secondaryLanguage = useSelector((state) => state.language.secondaryLanguage);
+    const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
     useEffect(() => {
         setisSecondaryLangVisible(secondaryLanguage !== 'Dual Language');
