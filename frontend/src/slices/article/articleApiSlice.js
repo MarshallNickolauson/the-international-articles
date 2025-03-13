@@ -9,7 +9,6 @@ export const articleApiSlice = apiSlice.injectEndpoints({
                 method: 'GET',
             }),
             providesTags: ['Article'],
-            keepUnusedDataFor: 5,
         }),
         get5RecentArticles: builder.query({
             query: (data) => ({
@@ -17,7 +16,6 @@ export const articleApiSlice = apiSlice.injectEndpoints({
                 method: 'GET'
             }),
             providesTags: ['Article'],
-            keepUnusedDataFor: 5,
         }),
         getArticleById: builder.query({
             query: (id) => ({
@@ -25,7 +23,6 @@ export const articleApiSlice = apiSlice.injectEndpoints({
                 method: 'GET'
             }),
             providesTags: ['Article'],
-            keepUnusedDataFor: 5,
         })
     }),
 });

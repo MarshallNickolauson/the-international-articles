@@ -28,6 +28,8 @@ export const getArticleById = expressAsyncHandler(async (req, res) => {
 // @access  Public
 export const get5RecentArticles = expressAsyncHandler(async (req, res) => {
     const articles = await Article.find({}).sort({ createdAt: -1 }).limit(5);
+    // Purposeful delay to test loaders
+    await new Promise((resolve) => setTimeout(resolve, 4000));
     res.status(200).json(articles);
 });
 
