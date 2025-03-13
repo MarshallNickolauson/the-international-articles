@@ -14,6 +14,7 @@ import { IoClose } from 'react-icons/io5';
 import { changeSecondaryLanguage } from '../slices/language/languageSlice';
 import { useParams } from 'react-router-dom';
 import { useGetArticleByIdQuery } from '../slices/article/articleApiSlice';
+import ArticleScreenLoader from '../components/loaders/ArticleScreenLoader';
 
 const ArticleScreen = () => {
     const dispatch = useDispatch();
@@ -37,7 +38,170 @@ const ArticleScreen = () => {
 
     const { data: article, isLoading, isError } = useGetArticleByIdQuery(id);
 
-    if (isLoading) return <p>Loading articles...</p>;
+    if (isLoading) {
+        return (
+            <div className='mt-6 transition-all duration-300 ease-in-out'>
+                <div className='flex w-full space-x-5 items-center'>
+                    <div
+                        className={`flex justify-between transition-all duration-300 ease-in-out ${
+                            isSecondaryLangVisible ? 'w-1/2' : 'w-11/12'
+                        }`}
+                    >
+                        <div className={`animate-pulseh-6 w-[350px] rounded ${isDarkMode ? 'bg-[#303030]' : 'bg-gray-300 '}`}></div>
+                        <FiPrinter
+                            size={28}
+                            className={`hover:cursor-pointer transition-all duration-200 ${
+                                isDarkMode ? 'text-white' : 'text-darkExpansion'
+                            }`}
+                        />
+                    </div>
+                    <div
+                        className={`flex items-center justify-end space-x-2 cursor-pointer hover:underline transition-all duration-300 ease-in-out ${
+                            isSecondaryLangVisible ? 'w-1/2' : 'w-1/12'
+                        }`}
+                    >
+                        <h1
+                            className={`font-opensans text-xl transition-all duration-200 ${
+                                isDarkMode ? 'text-white' : 'text-darkExpansion'
+                            }`}
+                        >
+                            Share
+                        </h1>
+                        <CiShare1
+                            size={25}
+                            className={`transition-all duration-200 ${
+                                isDarkMode ? 'text-white' : 'text-darkExpansion'
+                            }`}
+                        />
+                    </div>
+                </div>
+
+                <div className='flex w-full space-x-5 mt-4'>
+                    {/* Main Language Article */}
+                    <ArticleScreenLoader />
+
+                    {/* Right Section */}
+                    <div
+                        className={`flex flex-col items-end transition-all duration-200 ease-in-out ${
+                            isSecondaryLangVisible
+                                ? 'w-1/2 space-y-[320px]'
+                                : 'w-1/12'
+                        }`}
+                    >
+                        {/* Connect Section */}
+                        <div
+                            className={`card-shadow-static rounded-[16px] p-1 flex justify-center items-center transition-all duration-200 ease-in-out ${
+                                isDarkMode
+                                    ? 'text-white bg-_303030'
+                                    : 'text-darkExpansion bg-white'
+                            } ${
+                                isSecondaryLangVisible
+                                    ? 'flex-row h-[80px] w-[400px] space-x-4'
+                                    : 'flex-col w-[100px] h-[400px] space-y-4'
+                            }`}
+                        >
+                            <FaSquareXTwitter
+                                size={socialSize}
+                                className={socialClass}
+                            />
+                            <FaYoutube
+                                size={socialSize}
+                                className={socialClass}
+                            />
+                            <FaInstagram
+                                size={socialSize}
+                                className={socialClass}
+                            />
+                            <FaFacebookSquare
+                                size={socialSize}
+                                className={socialClass}
+                            />
+                            <FaLinkedin
+                                size={socialSize}
+                                className={socialClass}
+                            />
+                            <FaPinterest
+                                size={socialSize}
+                                className={socialClass}
+                            />
+                        </div>
+
+                        {/* Secondary Language Article */}
+                        {/* <div
+                            className={`transition-all duration-200 ease-in-out ${
+                                isDarkMode ? 'bg-_303030' : 'bg-white'
+                            } ${
+                                isSecondaryLangVisible
+                                    ? 'opacity-100 translate-y-0 scale-100'
+                                    : 'opacity-0 translate-y-5 scale-95 pointer-events-none absolute'
+                            } w-full card-shadow-static rounded-[16px] relative`}
+                        >
+                            <div className='absolute top-4 right-5 translate-x-2 -translate-y-2 text-2xl'>
+                                <IoClose
+                                    size={30}
+                                    className={`hover:cursor-pointer transition-all duration-200 ${
+                                        isDarkMode
+                                            ? 'text-white'
+                                            : 'text-darkExpansion'
+                                    }`}
+                                    onClick={() => {
+                                        dispatch(
+                                            changeSecondaryLanguage(
+                                                'Dual Language'
+                                            )
+                                        );
+                                    }}
+                                />
+                            </div>
+
+                            {secondaryLangArticleData && (
+                                <div className='py-3 px-2'>
+                                    <h1
+                                        className={`text-3xl font-bold mb-2 transition-all duration-200 ${
+                                            isDarkMode
+                                                ? 'text-white'
+                                                : 'text-darkExpansion'
+                                        }`}
+                                    >
+                                        {secondaryLangArticleData.title}
+                                    </h1>
+                                    <div className='flex space-x-2'>
+                                        <h1
+                                            className={`text-sm italic mb-6 transition-all duration-200 ${
+                                                isDarkMode
+                                                    ? 'text-white'
+                                                    : 'text-darkExpansion'
+                                            }`}
+                                        >
+                                            {secondaryLangArticleDate}
+                                        </h1>
+                                        <HiOutlineSpeakerWave
+                                            size={20}
+                                            className={`pt-[1px] hover:cursor-pointer transition-all duration-200 ${
+                                                isDarkMode
+                                                    ? 'text-white'
+                                                    : 'text-darkExpansion'
+                                            }`}
+                                        />
+                                    </div>
+                                    <h1
+                                        className={`text-lg transition-all duration-200 ${
+                                            isDarkMode
+                                                ? 'text-white'
+                                                : 'text-darkExpansion'
+                                        }`}
+                                    >
+                                        {secondaryLangArticleData.content}
+                                    </h1>
+                                </div>
+                            )}
+                        </div> */}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     if (isError) return <p>Error fetching articles</p>;
 
     const articleData = article.languages[language.toLowerCase()];
