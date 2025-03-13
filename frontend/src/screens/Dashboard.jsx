@@ -7,6 +7,12 @@ const Dashboard = () => {
     const language = useSelector((state) => state.language.language);
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
+    const {
+        data: articles = [],
+        isLoading,
+        isError,
+    } = useGet5RecentArticlesQuery();
+
     const translations = {
         English: {
             featuredArticle: 'Featured Article',
@@ -30,14 +36,6 @@ const Dashboard = () => {
         },
     };
 
-    const {
-        data: articles = [],
-        isLoading,
-        isError,
-    } = useGet5RecentArticlesQuery();
-
-    if (isError) return <p>Error fetching articles</p>;
-
     const FeaturedSkeletonLoader = () => (
         <div className='animate-pulse bg-white rounded-lg card-shadow-static p-4'>
             <div className='h-[460px] bg-gray-300 rounded-md relative overflow-hidden'>
@@ -51,12 +49,9 @@ const Dashboard = () => {
 
     const RecentSkeletonLoader = () => (
         <div className='animate-pulse bg-white rounded-lg card-shadow-static p-4 h-[133px] flex space-x-4 items-center'>
-            {/* Image Placeholder */}
             <div className='w-24 h-[90px] bg-gray-300 rounded-md relative overflow-hidden'>
                 <div className='absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 animate-[shimmer_1.5s_infinite]'></div>
             </div>
-
-            {/* Text Placeholder */}
             <div className='flex-1 space-y-4'>
                 <div className='h-5 bg-gray-300 rounded-md w-3/4'></div>
                 <div className='h-4 bg-gray-200 rounded-md w-5/6'></div>
@@ -106,9 +101,12 @@ const Dashboard = () => {
         );
     }
 
+    if (isError) return <p>Error fetching articles</p>;
+
     return (
         <section>
             <div className='flex space-x-6'>
+
                 {/* Featured Article */}
                 <div className='flex-1 flex flex-col'>
                     <h1
@@ -146,6 +144,7 @@ const Dashboard = () => {
                         ))}
                     </div>
                 </div>
+                
             </div>
         </section>
     );
