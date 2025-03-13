@@ -27,7 +27,7 @@ const ArticleListCard = ({ article }) => {
     );
 
     return (
-        <div className="card-shadow rounded-[16px] hover:cursor-pointer transition-all duration-200" onClick={() => navigate(`/article/${article._id}`)}>
+        <div className={`card-shadow rounded-[16px] hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'bg-_303030' : ''}`} onClick={() => navigate(`/article/${article._id}`)}>
             <div className="flex space-x-4">
                 <div className="h-36 w-36 flex-shrink-0">
                     <img
