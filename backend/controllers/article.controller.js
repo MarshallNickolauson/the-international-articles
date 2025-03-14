@@ -18,6 +18,11 @@ export const getArticleById = expressAsyncHandler(async (req, res) => {
     const article = await Article.findById({ _id: req.params.id, isPublished: true });
 
     if (article) {
+        if (!article.isPublished) {
+            res.status(403);
+            throw new Error('Article Access Forbidden');
+        }
+
         // Purposeful delay to test loaders
         await new Promise((resolve) => setTimeout(resolve, 2000));
         res.status(200).json(article);
