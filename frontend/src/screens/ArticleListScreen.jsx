@@ -47,7 +47,7 @@ const ArticleListScreen = () => {
                     {translations[language]?.articles || 'Articles'}
                 </h1>
                 <div className='h-[460px] pt-1'>
-                    {[...Array(5)].map((_, index) => (
+                    {[...Array(8)].map((_, index) => (
                         <div className='pb-5'>
                             <RecentCardLoader key={index} />
                         </div>
