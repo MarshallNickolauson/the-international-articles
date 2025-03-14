@@ -12,13 +12,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import { changeSecondaryLanguage } from '../slices/language/languageSlice';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useGetArticleByIdQuery } from '../slices/article/articleApiSlice';
 import ArticleScreenLoader from '../components/loaders/ArticleScreenLoader';
 import { toggleArticleLoading } from '../slices/article/articleSlice';
 
 const ArticleScreen = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const { id } = useParams();
 
@@ -136,77 +137,6 @@ const ArticleScreen = () => {
                                 className={socialIconClass}
                             />
                         </div>
-
-                        {/* Secondary Language Article */}
-                        {/* <div
-                            className={`transition-all duration-200 ease-in-out ${
-                                isDarkMode ? 'bg-_303030' : 'bg-white'
-                            } ${
-                                isSecondaryLangVisible
-                                    ? 'opacity-100 translate-y-0 scale-100'
-                                    : 'opacity-0 translate-y-5 scale-95 pointer-events-none absolute'
-                            } w-full card-shadow-static rounded-[16px] relative`}
-                        >
-                            <div className='absolute top-4 right-5 translate-x-2 -translate-y-2 text-2xl'>
-                                <IoClose
-                                    size={30}
-                                    className={`hover:cursor-pointer transition-all duration-200 ${
-                                        isDarkMode
-                                            ? 'text-white'
-                                            : 'text-darkExpansion'
-                                    }`}
-                                    onClick={() => {
-                                        dispatch(
-                                            changeSecondaryLanguage(
-                                                'Dual Language'
-                                            )
-                                        );
-                                    }}
-                                />
-                            </div>
-
-                            {secondaryLangArticleData && (
-                                <div className='py-3 px-2'>
-                                    <h1
-                                        className={`text-3xl font-bold mb-2 transition-all duration-200 ${
-                                            isDarkMode
-                                                ? 'text-white'
-                                                : 'text-darkExpansion'
-                                        }`}
-                                    >
-                                        {secondaryLangArticleData.title}
-                                    </h1>
-                                    <div className='flex space-x-2'>
-                                        <h1
-                                            className={`text-sm italic mb-6 transition-all duration-200 ${
-                                                isDarkMode
-                                                    ? 'text-white'
-                                                    : 'text-darkExpansion'
-                                            }`}
-                                        >
-                                            {secondaryLangArticleDate}
-                                        </h1>
-                                        <HiOutlineSpeakerWave
-                                            size={20}
-                                            className={`pt-[1px] hover:cursor-pointer transition-all duration-200 ${
-                                                isDarkMode
-                                                    ? 'text-white'
-                                                    : 'text-darkExpansion'
-                                            }`}
-                                        />
-                                    </div>
-                                    <h1
-                                        className={`text-lg transition-all duration-200 ${
-                                            isDarkMode
-                                                ? 'text-white'
-                                                : 'text-darkExpansion'
-                                        }`}
-                                    >
-                                        {secondaryLangArticleData.content}
-                                    </h1>
-                                </div>
-                            )}
-                        </div> */}
                     </div>
                 </div>
             </div>
