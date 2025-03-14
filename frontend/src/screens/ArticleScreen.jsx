@@ -36,7 +36,12 @@ const ArticleScreen = () => {
         setisSecondaryLangVisible(secondaryLanguage !== 'Dual Language');
     }, [secondaryLanguage]);
 
-    const { data: article, isLoading, isError } = useGetArticleByIdQuery(id);
+    const {
+        data: article,
+        isLoading,
+        isError,
+        error,
+    } = useGetArticleByIdQuery(id);
 
     if (isLoading) {
         return (
@@ -47,7 +52,11 @@ const ArticleScreen = () => {
                             isSecondaryLangVisible ? 'w-1/2' : 'w-11/12'
                         }`}
                     >
-                        <div className={`animate-pulseh-6 w-[350px] rounded ${isDarkMode ? 'bg-[#303030]' : 'bg-gray-300 '}`}></div>
+                        <div
+                            className={`animate-pulseh-6 w-[350px] rounded ${
+                                isDarkMode ? 'bg-[#303030]' : 'bg-gray-300 '
+                            }`}
+                        ></div>
                         <FiPrinter
                             size={28}
                             className={`hover:cursor-pointer transition-all duration-200 ${
@@ -202,7 +211,26 @@ const ArticleScreen = () => {
         );
     }
 
-    if (isError) return <p>Error fetching articles</p>;
+    if (isError) {
+        return (
+            <section className='flex justify-center items-center mt-20'>
+                <div className='bg-red-100 text-red-800 p-6 rounded-2xl shadow-lg text-center max-w-md'>
+                    <h1 className='text-2xl font-bold'>
+                        Error {error?.status || 'Unknown'}
+                    </h1>
+                    <p className='mt-2'>
+                        {error?.data?.message || 'Something went wrong'}
+                    </p>
+                    <button
+                        className='mt-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg'
+                        onClick={() => navigate('/')}
+                    >
+                        Go to Dashboard
+                    </button>
+                </div>
+            </section>
+        );
+    }
 
     const articleData = article.languages[language.toLowerCase()];
     if (!articleData) return null;
