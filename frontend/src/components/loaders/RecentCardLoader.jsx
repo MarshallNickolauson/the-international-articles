@@ -8,7 +8,7 @@ const RecentCardLoader = () => {
         <div
             className={`animate-pulse ${
                 isDarkMode ? 'bg-[#303030]' : 'bg-white'
-            } rounded-lg card-shadow-static p-4 h-[133px] flex space-x-4 items-center`}
+            } rounded-[16px] card-shadow-static p-4 h-[133px] flex space-x-4 items-center`}
         >
             <div
                 className={`w-24 h-[90px] rounded-md relative overflow-hidden ${
