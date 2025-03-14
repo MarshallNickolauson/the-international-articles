@@ -11,7 +11,7 @@ const articleSchema = mongoose.Schema(
             },
             required: true,
         },
-        published: { type: Boolean, required: true },
+        isPublished: { type: Boolean, required: true },
     },
     { timestamps: true }
 );
