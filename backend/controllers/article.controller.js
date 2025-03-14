@@ -5,7 +5,7 @@ import Article from '../models/article.model.js';
 // @route   GET api/articles
 // @access  Public
 export const getAllArticles = expressAsyncHandler(async (req, res) => {
-    const articles = await Article.find({}).sort({ createdAt: -1 });
+    const articles = await Article.find({ isPublished: true }).sort({ createdAt: -1 });
     // Purposeful delay to test loaders
     await new Promise((resolve) => setTimeout(resolve, 2000));
     res.status(200).json(articles);
@@ -15,7 +15,7 @@ export const getAllArticles = expressAsyncHandler(async (req, res) => {
 // @route   GET api/articles/:id
 // @access  Public
 export const getArticleById = expressAsyncHandler(async (req, res) => {
-    const article = await Article.findById(req.params.id);
+    const article = await Article.findById({ _id: req.params.id, isPublished: true });
 
     if (article) {
         // Purposeful delay to test loaders
@@ -31,7 +31,7 @@ export const getArticleById = expressAsyncHandler(async (req, res) => {
 // @route   GET api/articles/recent
 // @access  Public
 export const get5RecentArticles = expressAsyncHandler(async (req, res) => {
-    const articles = await Article.find({}).sort({ createdAt: -1 }).limit(5);
+    const articles = await Article.find({ isPublished: true }).sort({ createdAt: -1 }).limit(5);
     // Purposeful delay to test loaders
     await new Promise((resolve) => setTimeout(resolve, 2000));
     res.status(200).json(articles);
