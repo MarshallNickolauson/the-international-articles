@@ -15,31 +15,26 @@ function Header() {
     const location = useLocation();
 
     const language = useSelector((state) => state.language.language);
-    const secondaryLanguage = useSelector(
-        (state) => state.language.secondaryLanguage
-    );
+    const secondaryLanguage = useSelector((state) => state.language.secondaryLanguage);
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+    const isArticleLoading = useSelector((state) => state.article.isLoading);
 
     const [searchQuery, setSearchQuery] = useState("");
 
-    const [isPrimaryLangDropdownOpen, setIsPrimaryLangDropdownOpen] =
-        useState(false);
+    const [isPrimaryLangDropdownOpen, setIsPrimaryLangDropdownOpen] = useState(false);
     const [selectedPrimaryLanguage, setSelectedPrimaryLanguage] = useState("");
-    const [isPrimaryLanguageLoading, setIsPrimaryLanguageLoading] =
-        useState(false);
+    const [isPrimaryLanguageLoading, setIsPrimaryLanguageLoading] = useState(false);
 
     const [isSecondaryLangVisible, setisSecondaryLangVisible] = useState(false);
-    const [isSecondaryLangDropdownOpen, setIsSecondaryLangDropdownOpen] =
-        useState(false);
-    const [selectedSecondaryLanguage, setSelectedSecondaryLanguage] =
-        useState("Dual Language");
+    const [isSecondaryLangDropdownOpen, setIsSecondaryLangDropdownOpen] = useState(false);
+    const [selectedSecondaryLanguage, setSelectedSecondaryLanguage] = useState("Dual Language");
 
     useEffect(() => {
-        if (location.pathname === "/article" || location.pathname.startsWith("/article/")) {
+        if ((location.pathname === "/article" || location.pathname.startsWith("/article/")) && !isArticleLoading) {
             setisSecondaryLangVisible(true);
             setSelectedSecondaryLanguage("Dual Language");
         } else setisSecondaryLangVisible(false);
-    }, [location]);
+    }, [location, isArticleLoading]);
 
     const primaryLangDropdownRef = useRef(null);
     const secondaryLangDropdownRef = useRef(null);

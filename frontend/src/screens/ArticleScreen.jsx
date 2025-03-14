@@ -15,6 +15,7 @@ import { changeSecondaryLanguage } from '../slices/language/languageSlice';
 import { useParams } from 'react-router-dom';
 import { useGetArticleByIdQuery } from '../slices/article/articleApiSlice';
 import ArticleScreenLoader from '../components/loaders/ArticleScreenLoader';
+import { toggleArticleLoading } from '../slices/article/articleSlice';
 
 const ArticleScreen = () => {
     const dispatch = useDispatch();
@@ -39,6 +40,10 @@ const ArticleScreen = () => {
         isError,
         error,
     } = useGetArticleByIdQuery(id);
+
+    useEffect(() => {
+        dispatch(toggleArticleLoading(isLoading));
+    }, [isLoading, dispatch]);
 
     if (isLoading) {
         return (
