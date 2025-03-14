@@ -1,13 +1,13 @@
-import { useState, useEffect, useRef } from "react";
-import { FaBookAtlas } from "react-icons/fa6";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { IoIosSearch, IoIosArrowDropdown } from "react-icons/io";
-import { useDispatch, useSelector } from "react-redux";
+import { useState, useEffect, useRef } from 'react';
+import { FaBookAtlas } from 'react-icons/fa6';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { IoIosSearch, IoIosArrowDropdown } from 'react-icons/io';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     changeLanguage,
     changeSecondaryLanguage,
-} from "../slices/language/languageSlice";
-import { toggleDarkMode } from "../slices/theme/themeSlice";
+} from '../slices/language/languageSlice';
+import { toggleDarkMode } from '../slices/theme/themeSlice';
 
 function Header() {
     const navigate = useNavigate();
@@ -15,24 +15,34 @@ function Header() {
     const location = useLocation();
 
     const language = useSelector((state) => state.language.language);
-    const secondaryLanguage = useSelector((state) => state.language.secondaryLanguage);
+    const secondaryLanguage = useSelector(
+        (state) => state.language.secondaryLanguage
+    );
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
     const isArticleLoading = useSelector((state) => state.article.isLoading);
 
-    const [searchQuery, setSearchQuery] = useState("");
+    const [searchQuery, setSearchQuery] = useState('');
 
-    const [isPrimaryLangDropdownOpen, setIsPrimaryLangDropdownOpen] = useState(false);
-    const [selectedPrimaryLanguage, setSelectedPrimaryLanguage] = useState("");
-    const [isPrimaryLanguageLoading, setIsPrimaryLanguageLoading] = useState(false);
+    const [isPrimaryLangDropdownOpen, setIsPrimaryLangDropdownOpen] =
+        useState(false);
+    const [selectedPrimaryLanguage, setSelectedPrimaryLanguage] = useState('');
+    const [isPrimaryLanguageLoading, setIsPrimaryLanguageLoading] =
+        useState(false);
 
     const [isSecondaryLangVisible, setisSecondaryLangVisible] = useState(false);
-    const [isSecondaryLangDropdownOpen, setIsSecondaryLangDropdownOpen] = useState(false);
-    const [selectedSecondaryLanguage, setSelectedSecondaryLanguage] = useState("Dual Language");
+    const [isSecondaryLangDropdownOpen, setIsSecondaryLangDropdownOpen] =
+        useState(false);
+    const [selectedSecondaryLanguage, setSelectedSecondaryLanguage] =
+        useState('Dual Language');
 
     useEffect(() => {
-        if ((location.pathname === "/article" || location.pathname.startsWith("/article/")) && !isArticleLoading) {
+        if (
+            (location.pathname === '/article' ||
+                location.pathname.startsWith('/article/')) &&
+            !isArticleLoading
+        ) {
             setisSecondaryLangVisible(true);
-            setSelectedSecondaryLanguage("Dual Language");
+            setSelectedSecondaryLanguage('Dual Language');
         } else setisSecondaryLangVisible(false);
     }, [location, isArticleLoading]);
 
@@ -40,11 +50,11 @@ function Header() {
     const secondaryLangDropdownRef = useRef(null);
 
     const languages = [
-        "English",
-        "Español",
-        "Français",
-        "Deutsch",
-        "Português",
+        'English',
+        'Español',
+        'Français',
+        'Deutsch',
+        'Português',
     ];
 
     const secondaryLanguages = languages.filter(
@@ -53,46 +63,51 @@ function Header() {
 
     const translations = {
         English: {
-            siteTitle: "The International Articles",
-            dashboard: "Dashboard",
-            articles: "Articles",
-            menu: "Menu",
-            signIn: "Sign In",
-            searchPlaceholder: "Search...",
+            siteTitle: 'The International Articles',
+            dashboard: 'Dashboard',
+            articles: 'Articles',
+            menu: 'Menu',
+            signIn: 'Sign In',
+            searchPlaceholder: 'Search...',
+            writeArticle: 'Write Article',
         },
         Español: {
-            siteTitle: "Los Artículos Internacionales",
-            dashboard: "Tablero",
-            articles: "Artículos",
-            menu: "Menú",
-            signIn: "Iniciar sesión",
-            searchPlaceholder: "Buscar...",
+            siteTitle: 'Los Artículos Internacionales',
+            dashboard: 'Tablero',
+            articles: 'Artículos',
+            menu: 'Menú',
+            signIn: 'Iniciar sesión',
+            searchPlaceholder: 'Buscar...',
+            writeArticle: 'Escribir Artículo',
         },
         Français: {
-            siteTitle: "Les Articles Internationaux",
-            dashboard: "Tableau de bord",
-            articles: "Articles",
-            menu: "Menu",
-            signIn: "Se connecter",
-            searchPlaceholder: "Rechercher...",
+            siteTitle: 'Les Articles Internationaux',
+            dashboard: 'Tableau de bord',
+            articles: 'Articles',
+            menu: 'Menu',
+            signIn: 'Se connecter',
+            searchPlaceholder: 'Rechercher...',
+            writeArticle: 'Écrire un Article',
         },
         Deutsch: {
-            siteTitle: "Die Internationalen Artikel",
-            dashboard: "Armaturenbrett",
-            articles: "Artikel",
-            menu: "Menü",
-            signIn: "Anmelden",
-            searchPlaceholder: "Suchen...",
+            siteTitle: 'Die Internationalen Artikel',
+            dashboard: 'Armaturenbrett',
+            articles: 'Artikel',
+            menu: 'Menü',
+            signIn: 'Anmelden',
+            searchPlaceholder: 'Suchen...',
+            writeArticle: 'Artikel Schreiben',
         },
         Português: {
-            siteTitle: "Os Artigos Internacionais",
-            dashboard: "Painel",
-            articles: "Artigos",
-            menu: "Menu",
-            signIn: "Entrar",
-            searchPlaceholder: "Pesquisar...",
+            siteTitle: 'Os Artigos Internacionais',
+            dashboard: 'Painel',
+            articles: 'Artigos',
+            menu: 'Menu',
+            signIn: 'Entrar',
+            searchPlaceholder: 'Pesquisar...',
+            writeArticle: 'Escrever Artigo',
         },
-    };
+    };    
 
     const handleClickOutsidePrimaryLang = (event) => {
         if (
@@ -121,20 +136,20 @@ function Header() {
     }, [language, dispatch]);
 
     useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutsidePrimaryLang);
+        document.addEventListener('mousedown', handleClickOutsidePrimaryLang);
         return () => {
             document.removeEventListener(
-                "mousedown",
+                'mousedown',
                 handleClickOutsidePrimaryLang
             );
         };
     }, []);
 
     useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutsideSecondaryLang);
+        document.addEventListener('mousedown', handleClickOutsideSecondaryLang);
         return () => {
             document.removeEventListener(
-                "mousedown",
+                'mousedown',
                 handleClickOutsideSecondaryLang
             );
         };
@@ -154,8 +169,8 @@ function Header() {
 
     useEffect(() => {
         if (selectedPrimaryLanguage === selectedSecondaryLanguage) {
-            setSelectedSecondaryLanguage("Dual Language");
-            dispatch(changeSecondaryLanguage("Dual Language"));
+            setSelectedSecondaryLanguage('Dual Language');
+            dispatch(changeSecondaryLanguage('Dual Language'));
         }
     }, [selectedPrimaryLanguage, dispatch]);
 
@@ -169,80 +184,87 @@ function Header() {
 
     return (
         <>
-            <nav className="top-0 w-full bg-darkGreen py-3 px-4 flex justify-center">
-                <div className="flex justify-between w-full max-w-[1450px]">
+            <nav className='top-0 w-full bg-darkGreen py-3 px-4 flex justify-center'>
+                <div className='flex justify-between w-full max-w-[1450px]'>
                     <div
-                        className="flex space-x-3 hover:cursor-pointer"
-                        onClick={() => navigate("/")}
+                        className='flex space-x-3 hover:cursor-pointer'
+                        onClick={() => navigate('/')}
                     >
-                        <FaBookAtlas size={40} color="white" />
-                        <h1 className="font-poppins font-bold tracking-wide text-white flex items-center text-3xl">
+                        <FaBookAtlas size={40} color='white' />
+                        <h1 className='font-poppins font-bold tracking-wide text-white flex items-center text-3xl'>
                             {translations[selectedPrimaryLanguage]?.siteTitle ||
-                                "The International Articles"}
+                                'The International Articles'}
                         </h1>
                     </div>
-                    <div className="font-opensans flex space-x-5 text-white items-center">
+                    <div className='font-opensans flex space-x-5 text-white items-center'>
+                        
                         {/* Dark/Light Theme Toggle */}
                         <div
                             className={`relative w-14 h-7 rounded-full flex items-center cursor-pointer transition-all duration-300 ${
-                                isDarkMode ? "bg-gray-800" : "bg-gray-100"
+                                isDarkMode ? 'bg-gray-800' : 'bg-gray-100'
                             }`}
                             onClick={() => dispatch(toggleDarkMode())}
                         >
                             <div
                                 className={`absolute w-5 h-5 rounded-full transition-all duration-300 ${
                                     isDarkMode
-                                        ? "bg-white translate-x-[30px]"
-                                        : "bg-gray-800 translate-x-[5px]"
+                                        ? 'bg-white translate-x-[30px]'
+                                        : 'bg-gray-800 translate-x-[5px]'
                                 }`}
                             ></div>
                         </div>
 
                         <Link
-                            to="/login"
-                            className="bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100"
+                            to='/write/new'
+                            className='bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100'
                         >
-                            {translations[selectedPrimaryLanguage]?.signIn ||
-                                "Sign In"}
+                            {translations[selectedPrimaryLanguage]?.writeArticle ||
+                                'Write Article'}
                         </Link>
 
-                        <h1 className="hover:cursor-pointer border-b-2 pb-1 border-b-transparent hover:border-b-mainWhite transition-all duration-100">
+                        <Link
+                            to='/login'
+                            className='bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100'
+                        >
+                            {translations[selectedPrimaryLanguage]?.signIn ||
+                                'Sign In'}
+                        </Link>
+
+                        <h1 className='hover:cursor-pointer border-b-2 pb-1 border-b-transparent hover:border-b-mainWhite transition-all duration-100'>
                             {translations[selectedPrimaryLanguage]?.menu ||
-                                "Menu"}
+                                'Menu'}
                         </h1>
                     </div>
                 </div>
             </nav>
 
             {/* Secondary Navbar */}
-            <nav
-                className={`w-full px-4 py-4 border-b-[1px] border-gray-300`}
-            >
-                <div className="flex mx-auto max-w-[1450px] justify-between items-center">
-                    <div className="flex space-x-10 items-center">
+            <nav className={`w-full px-4 py-4 border-b-[1px] border-gray-300`}>
+                <div className='flex mx-auto max-w-[1450px] justify-between items-center'>
+                    <div className='flex space-x-10 items-center'>
                         <Link
-                            to="/"
+                            to='/'
                             className={`text-lg hover:underline transition-all duration-200 ${
-                                isDarkMode ? "text-white" : "text-darkExpansion"
+                                isDarkMode ? 'text-white' : 'text-darkExpansion'
                             }`}
                         >
                             {translations[selectedPrimaryLanguage]?.dashboard ||
-                                "Dashboard"}
+                                'Dashboard'}
                         </Link>
                         <Link
-                            to="/articles"
+                            to='/articles'
                             className={`text-lg hover:underline transition-all duration-200 ${
-                                isDarkMode ? "text-white" : "text-darkExpansion"
+                                isDarkMode ? 'text-white' : 'text-darkExpansion'
                             }`}
                         >
                             {translations[selectedPrimaryLanguage]?.articles ||
-                                "Articles"}
+                                'Articles'}
                         </Link>
 
                         {/* Primary Language */}
-                        <div className="relative" ref={primaryLangDropdownRef}>
+                        <div className='relative' ref={primaryLangDropdownRef}>
                             <div
-                                className="flex items-center py-1 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400"
+                                className='flex items-center py-1 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400'
                                 onClick={() =>
                                     setIsPrimaryLangDropdownOpen(
                                         !isPrimaryLangDropdownOpen
@@ -252,12 +274,12 @@ function Header() {
                                 <h1
                                     className={`${
                                         isDarkMode
-                                            ? "text-white"
-                                            : "text-darkExpansion"
+                                            ? 'text-white'
+                                            : 'text-darkExpansion'
                                     } text-lg transition-all duration-200 ${
                                         isPrimaryLanguageLoading
-                                            ? "opacity-0"
-                                            : "opacity-100"
+                                            ? 'opacity-0'
+                                            : 'opacity-100'
                                     }`}
                                 >
                                     {selectedPrimaryLanguage}
@@ -265,8 +287,8 @@ function Header() {
                                 <IoIosArrowDropdown
                                     className={`ml-2 text-2xl transition-all duration-200 ${
                                         isDarkMode
-                                            ? "text-white"
-                                            : "text-darkExpansion"
+                                            ? 'text-white'
+                                            : 'text-darkExpansion'
                                     }`}
                                 />
                             </div>
@@ -277,7 +299,7 @@ function Header() {
                                     {languages.map((lang, index) => (
                                         <li
                                             key={index}
-                                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                            className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
                                             onClick={() =>
                                                 selectPrimaryLanguage(lang)
                                             }
@@ -290,71 +312,77 @@ function Header() {
                         </div>
 
                         {/* Secondary Language */}
-                        <div
-                            className={`relative ${
-                                !isSecondaryLangVisible ? "hidden" : ""
-                            }`}
-                            ref={secondaryLangDropdownRef}
-                        >
+                        {isSecondaryLangVisible && (
                             <div
-                                className="flex items-center py-1 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400"
-                                onClick={() =>
-                                    setIsSecondaryLangDropdownOpen(
-                                        !isSecondaryLangDropdownOpen
-                                    )
-                                }
+                                className={`relative`}
+                                ref={secondaryLangDropdownRef}
                             >
-                                <h1
-                                    className={`${
-                                        isDarkMode
-                                            ? "text-white"
-                                            : "text-darkExpansion"
-                                    } text-lg transition-all duration-200`}
+                                <div
+                                    className='flex items-center py-1 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400'
+                                    onClick={() =>
+                                        setIsSecondaryLangDropdownOpen(
+                                            !isSecondaryLangDropdownOpen
+                                        )
+                                    }
                                 >
-                                    {selectedSecondaryLanguage}
-                                </h1>
-                                <IoIosArrowDropdown
-                                    className={`ml-2 text-2xl transition-all duration-200 ${
-                                        isDarkMode
-                                            ? "text-white"
-                                            : "text-darkExpansion"
-                                    }`}
-                                />
+                                    <h1
+                                        className={`${
+                                            isDarkMode
+                                                ? 'text-white'
+                                                : 'text-darkExpansion'
+                                        } text-lg transition-all duration-200`}
+                                    >
+                                        {selectedSecondaryLanguage}
+                                    </h1>
+                                    <IoIosArrowDropdown
+                                        className={`ml-2 text-2xl transition-all duration-200 ${
+                                            isDarkMode
+                                                ? 'text-white'
+                                                : 'text-darkExpansion'
+                                        }`}
+                                    />
+                                </div>
+                                {isSecondaryLangDropdownOpen && (
+                                    <ul className='absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded-[8px] shadow-lg transition-all duration-200'>
+                                        {secondaryLanguages.map(
+                                            (lang, index) => (
+                                                <li
+                                                    key={index}
+                                                    className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
+                                                    onClick={() =>
+                                                        selectSecondaryLanguage(
+                                                            lang
+                                                        )
+                                                    }
+                                                >
+                                                    {lang}
+                                                </li>
+                                            )
+                                        )}
+                                    </ul>
+                                )}
                             </div>
-                            {isSecondaryLangDropdownOpen && (
-                                <ul className="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded-[8px] shadow-lg transition-all duration-200">
-                                    {secondaryLanguages.map((lang, index) => (
-                                        <li
-                                            key={index}
-                                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                                            onClick={() =>
-                                                selectSecondaryLanguage(lang)
-                                            }
-                                        >
-                                            {lang}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </div>
+                        )}
                     </div>
-                    <div className="relative">
+
+                    {/* Search Bar */}
+                    <div className='relative'>
                         <IoIosSearch
-                            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                            className='absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400'
                             size={20}
                         />
                         <input
-                            type="text"
+                            type='text'
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder={
                                 translations[selectedPrimaryLanguage]
-                                    ?.searchPlaceholder || "Search..."
+                                    ?.searchPlaceholder || 'Search...'
                             }
                             className={`border transition-all duration-200 ${
                                 isDarkMode
-                                    ? "border-white text-white bg-_303030"
-                                    : "border-gray-300 text-darkExpansion bg-white"
+                                    ? 'border-white text-white bg-_303030'
+                                    : 'border-gray-300 text-darkExpansion bg-white'
                             }
                             focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
                             font-opensans rounded-[8px] py-2 pl-12 pr-4 transition-all duration-200 
