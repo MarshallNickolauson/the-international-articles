@@ -21,15 +21,12 @@ const ArticleScreen = () => {
 
     const { id } = useParams();
 
-    const socialSize = 45;
-    const socialClass =
-        'hover:cursor-pointer transform transition-all duration-150 hover:scale-[1.08]';
+    const socialIconSize = 45;
+    const socialIconClass = 'hover:cursor-pointer transform transition-all duration-150 hover:scale-[1.08]';
 
     const language = useSelector((state) => state.language.language);
     const [isSecondaryLangVisible, setisSecondaryLangVisible] = useState(false);
-    const secondaryLanguage = useSelector(
-        (state) => state.language.secondaryLanguage
-    );
+    const secondaryLanguage = useSelector((state) => state.language.secondaryLanguage);
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
     useEffect(() => {
@@ -110,28 +107,28 @@ const ArticleScreen = () => {
                             }`}
                         >
                             <FaSquareXTwitter
-                                size={socialSize}
-                                className={socialClass}
+                                size={socialIconSize}
+                                className={socialIconClass}
                             />
                             <FaYoutube
-                                size={socialSize}
-                                className={socialClass}
+                                size={socialIconSize}
+                                className={socialIconClass}
                             />
                             <FaInstagram
-                                size={socialSize}
-                                className={socialClass}
+                                size={socialIconSize}
+                                className={socialIconClass}
                             />
                             <FaFacebookSquare
-                                size={socialSize}
-                                className={socialClass}
+                                size={socialIconSize}
+                                className={socialIconClass}
                             />
                             <FaLinkedin
-                                size={socialSize}
-                                className={socialClass}
+                                size={socialIconSize}
+                                className={socialIconClass}
                             />
                             <FaPinterest
-                                size={socialSize}
-                                className={socialClass}
+                                size={socialIconSize}
+                                className={socialIconClass}
                             />
                         </div>
 
@@ -371,22 +368,22 @@ const ArticleScreen = () => {
                         }`}
                     >
                         <FaSquareXTwitter
-                            size={socialSize}
-                            className={socialClass}
+                            size={socialIconSize}
+                            className={socialIconClass}
                         />
-                        <FaYoutube size={socialSize} className={socialClass} />
+                        <FaYoutube size={socialIconSize} className={socialIconClass} />
                         <FaInstagram
-                            size={socialSize}
-                            className={socialClass}
+                            size={socialIconSize}
+                            className={socialIconClass}
                         />
                         <FaFacebookSquare
-                            size={socialSize}
-                            className={socialClass}
+                            size={socialIconSize}
+                            className={socialIconClass}
                         />
-                        <FaLinkedin size={socialSize} className={socialClass} />
+                        <FaLinkedin size={socialIconSize} className={socialIconClass} />
                         <FaPinterest
-                            size={socialSize}
-                            className={socialClass}
+                            size={socialIconSize}
+                            className={socialIconClass}
                         />
                     </div>
 
