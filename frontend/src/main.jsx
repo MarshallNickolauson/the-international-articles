@@ -15,6 +15,7 @@ import NotFoundScreen from './screens/NotFoundScreen';
 import Dashboard from './screens/Dashboard.jsx';
 import ArticleScreen from './screens/ArticleScreen.jsx';
 import ArticleListScreen from './screens/ArticleListScreen.jsx';
+import WriteNewScreen from './screens/WriteNewScreen.jsx';
 
 function App() {
     const router = createBrowserRouter(
@@ -24,6 +25,7 @@ function App() {
                 <Route index element={<Dashboard />} />
                 <Route path='/article/:id' element={<ArticleScreen />}/>
                 <Route path='/articles' element={<ArticleListScreen />} />
+                <Route path='/write/new' element={<WriteNewScreen />} />
             </Route>
         )
     );

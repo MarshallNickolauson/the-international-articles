@@ -18,3 +18,9 @@
 .image-shadow {
     box-shadow: 0 0 5px 1px rgb(106, 106, 106);
 }
+
+blockquote {
+    margin-left: 20px;
+    padding-left: 15px;
+    border-left: 3px solid #646464;
+}
