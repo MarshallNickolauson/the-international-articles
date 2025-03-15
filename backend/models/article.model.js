@@ -12,6 +12,7 @@ const articleSchema = mongoose.Schema(
             required: true,
         },
         isPublished: { type: Boolean, required: true },
+        user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     },
     { timestamps: true }
 );
