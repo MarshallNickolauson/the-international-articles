@@ -4,6 +4,7 @@ import ArticleListCard from '../components/ArticleListCard';
 import { useGet5RecentArticlesQuery } from '../slices/article/articleApiSlice';
 import FeaturedCardLoader from '../components/loaders/FeaturedCardLoader';
 import RecentCardLoader from '../components/loaders/RecentCardLoader';
+import { TRANSLATIONS } from '../constants';
 
 const Dashboard = () => {
     const language = useSelector((state) => state.language.language);
@@ -16,28 +17,7 @@ const Dashboard = () => {
         error,
     } = useGet5RecentArticlesQuery();
 
-    const translations = {
-        English: {
-            featuredArticle: 'Featured Article',
-            recentArticles: 'Recent Articles',
-        },
-        Español: {
-            featuredArticle: 'Artículo Destacado',
-            recentArticles: 'Artículos Recientes',
-        },
-        Français: {
-            featuredArticle: 'Article en Vedette',
-            recentArticles: 'Articles Récents',
-        },
-        Deutsch: {
-            featuredArticle: 'Empfohlener Artikel',
-            recentArticles: 'Neueste Artikel',
-        },
-        Português: {
-            featuredArticle: 'Artigo em Destaque',
-            recentArticles: 'Artigos Recentes',
-        },
-    };
+    const translations = TRANSLATIONS[language] || TRANSLATIONS.en;
 
     if (isLoading) {
         return (
@@ -50,8 +30,7 @@ const Dashboard = () => {
                                 isDarkMode ? 'text-white' : 'text-darkExpansion'
                             }`}
                         >
-                            {translations[language]?.featuredArticle ||
-                                'Featured Article'}
+                            {translations.featuredArticle || 'Featured Article'}
                         </h1>
                         <div className='h-[460px]'>
                             <FeaturedCardLoader />
@@ -65,8 +44,7 @@ const Dashboard = () => {
                                 isDarkMode ? 'text-white' : 'text-darkExpansion'
                             }`}
                         >
-                            {translations[language]?.recentArticles ||
-                                'Recent Articles'}
+                            {translations.recentArticles || 'Recent Articles'}
                         </h1>
                         <div className='flex flex-col h-[500px] justify-between space-y-4'>
                             {Array.from({ length: 4 }).map((_, index) => (
@@ -93,7 +71,7 @@ const Dashboard = () => {
                         className='mt-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg'
                         onClick={() => window.location.reload()}
                     >
-                        Go to Dashboard
+                        {translations.goToDashboard || 'Go to Dashboard'}
                     </button>
                 </div>
             </section>
@@ -110,8 +88,7 @@ const Dashboard = () => {
                             isDarkMode ? 'text-white' : 'text-darkExpansion'
                         }`}
                     >
-                        {translations[language]?.featuredArticle ||
-                            'Featured Article'}
+                        {translations.featuredArticle || 'Featured Article'}
                     </h1>
                     <div className='h-[500px]'>
                         <FeaturedArticle
@@ -128,8 +105,7 @@ const Dashboard = () => {
                             isDarkMode ? 'text-white' : 'text-darkExpansion'
                         }`}
                     >
-                        {translations[language]?.recentArticles ||
-                            'Recent Articles'}
+                        {translations.recentArticles || 'Recent Articles'}
                     </h1>
                     <div className='flex flex-col h-[500px] justify-between space-y-4'>
                         {articles.slice(1).map((article) => (

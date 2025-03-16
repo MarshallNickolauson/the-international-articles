@@ -8,8 +8,7 @@ import {
     changeSecondaryLanguage,
 } from '../slices/language/languageSlice';
 import { toggleDarkMode } from '../slices/theme/themeSlice';
-import { logout } from '../slices/auth/authSlice';
-import { useLogoutMutation } from '../slices/auth/userApiSlice';
+import { LANGUAGES, TRANSLATIONS } from '../constants';
 
 function Header() {
     const navigate = useNavigate();
@@ -17,7 +16,6 @@ function Header() {
     const location = useLocation();
 
     const { userInfo } = useSelector((state) => state.auth);
-    const [logoutApiCall] = useLogoutMutation();
 
     const language = useSelector((state) => state.language.language);
     const secondaryLanguage = useSelector(
@@ -40,6 +38,8 @@ function Header() {
     const [selectedSecondaryLanguage, setSelectedSecondaryLanguage] =
         useState('Dual Language');
 
+    const translations = TRANSLATIONS[language] || TRANSLATIONS.en;
+
     useEffect(() => {
         if (
             (location.pathname === '/article' ||
@@ -54,75 +54,19 @@ function Header() {
     const primaryLangDropdownRef = useRef(null);
     const secondaryLangDropdownRef = useRef(null);
 
-    const languages = [
-        'English',
-        'Español',
-        'Français',
-        'Deutsch',
-        'Português',
-    ];
+    const languages = Object.keys(LANGUAGES);
 
     const secondaryLanguages = languages.filter(
         (lang) => lang !== selectedPrimaryLanguage
     );
 
-    const translations = {
-        English: {
-            siteTitle: 'The International Articles',
-            dashboard: 'Dashboard',
-            articles: 'Articles',
-            menu: 'Menu',
-            signIn: 'Sign In',
-            logout: 'Logout',
-            searchPlaceholder: 'Search...',
-            writeArticle: 'Write Article',
-            hi: 'Hi',
-        },
-        Español: {
-            siteTitle: 'Los Artículos Internacionales',
-            dashboard: 'Tablero',
-            articles: 'Artículos',
-            menu: 'Menú',
-            signIn: 'Iniciar sesión',
-            logout: 'Cerrar sesión',
-            searchPlaceholder: 'Buscar...',
-            writeArticle: 'Escribir Artículo',
-            hi: 'Hola',
-        },
-        Français: {
-            siteTitle: 'Les Articles Internationaux',
-            dashboard: 'Tableau de bord',
-            articles: 'Articles',
-            menu: 'Menu',
-            signIn: 'Se connecter',
-            logout: 'Se déconnecter',
-            searchPlaceholder: 'Rechercher...',
-            writeArticle: 'Écrire un Article',
-            hi: 'Salut',
-        },
-        Deutsch: {
-            siteTitle: 'Die Internationalen Artikel',
-            dashboard: 'Armaturenbrett',
-            articles: 'Artikel',
-            menu: 'Menü',
-            signIn: 'Anmelden',
-            logout: 'Abmelden',
-            searchPlaceholder: 'Suchen...',
-            writeArticle: 'Artikel Schreiben',
-            hi: 'Hallo',
-        },
-        Português: {
-            siteTitle: 'Os Artigos Internacionais',
-            dashboard: 'Painel',
-            articles: 'Artigos',
-            menu: 'Menu',
-            signIn: 'Entrar',
-            logout: 'Sair',
-            searchPlaceholder: 'Pesquisar...',
-            writeArticle: 'Escrever Artigo',
-            hi: 'Oi',
-        },
-    };
+    useEffect(() => {
+        setIsPrimaryLanguageLoading(true);
+        if (language) {
+            setSelectedPrimaryLanguage(language);
+        }
+        setIsPrimaryLanguageLoading(false);
+    }, [language, dispatch]);
 
     const handleClickOutsidePrimaryLang = (event) => {
         if (
@@ -141,14 +85,6 @@ function Header() {
             setIsSecondaryLangDropdownOpen(false);
         }
     };
-
-    useEffect(() => {
-        setIsPrimaryLanguageLoading(true);
-        if (language) {
-            setSelectedPrimaryLanguage(language);
-        }
-        setIsPrimaryLanguageLoading(false);
-    }, [language, dispatch]);
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutsidePrimaryLang);
@@ -197,18 +133,6 @@ function Header() {
         setSelectedSecondaryLanguage(secondaryLanguage);
     }, [secondaryLanguage]);
 
-    const handleLogout = async () => {
-        try {
-            await logoutApiCall().unwrap();
-            dispatch(logout());
-            setTimeout(() => {
-                navigate('/');
-            }, 1);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     return (
         <>
             <nav className='top-0 w-full bg-darkGreen py-3 px-4 flex justify-center'>
@@ -219,7 +143,7 @@ function Header() {
                     >
                         <FaBookAtlas size={40} color='white' />
                         <h1 className='font-poppins font-bold tracking-wide text-white flex items-center text-3xl'>
-                            {translations[selectedPrimaryLanguage]?.siteTitle ||
+                            {translations.siteTitle ||
                                 'The International Articles'}
                         </h1>
                     </div>
@@ -244,8 +168,7 @@ function Header() {
                             to='/write/new'
                             className='bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100'
                         >
-                            {translations[selectedPrimaryLanguage]
-                                ?.writeArticle || 'Write Article'}
+                            {translations.writeArticle || 'Write Article'}
                         </Link>
 
                         {userInfo ? (
@@ -253,22 +176,19 @@ function Header() {
                                 onClick={() => navigate('/account')}
                                 className='hover:cursor-pointer border-b-2 pb-1 border-b-transparent hover:border-b-mainWhite transition-all duration-100'
                             >
-                                {translations[selectedPrimaryLanguage]
-                                    ?.hi || 'Hi'}, {userInfo.name}
+                                {translations.hi || 'Hi'}, {userInfo.name}
                             </h1>
                         ) : (
                             <Link
                                 to='/login'
                                 className='bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100'
                             >
-                                {translations[selectedPrimaryLanguage]
-                                    ?.signIn || 'Sign In'}
+                                {translations.signIn || 'Sign In'}
                             </Link>
                         )}
 
                         <h1 className='hover:cursor-pointer border-b-2 pb-1 border-b-transparent hover:border-b-mainWhite transition-all duration-100'>
-                            {translations[selectedPrimaryLanguage]?.menu ||
-                                'Menu'}
+                            {translations.menu || 'Menu'}
                         </h1>
                     </div>
                 </div>
@@ -284,8 +204,7 @@ function Header() {
                                 isDarkMode ? 'text-white' : 'text-darkExpansion'
                             }`}
                         >
-                            {translations[selectedPrimaryLanguage]?.dashboard ||
-                                'Dashboard'}
+                            {translations.dashboard || 'Dashboard'}
                         </Link>
                         <Link
                             to='/articles'
@@ -293,8 +212,7 @@ function Header() {
                                 isDarkMode ? 'text-white' : 'text-darkExpansion'
                             }`}
                         >
-                            {translations[selectedPrimaryLanguage]?.articles ||
-                                'Articles'}
+                            {translations.articles || 'Articles'}
                         </Link>
 
                         {/* Primary Language */}
@@ -318,7 +236,8 @@ function Header() {
                                             : 'opacity-100'
                                     }`}
                                 >
-                                    {selectedPrimaryLanguage}
+                                    {LANGUAGES[selectedPrimaryLanguage]?.name ||
+                                        'English'}
                                 </h1>
                                 <IoIosArrowDropdown
                                     className={`ml-2 text-2xl transition-all duration-200 ${
@@ -340,7 +259,7 @@ function Header() {
                                                 selectPrimaryLanguage(lang)
                                             }
                                         >
-                                            {lang}
+                                            {LANGUAGES[lang]?.name}
                                         </li>
                                     ))}
                                 </ul>
@@ -391,7 +310,7 @@ function Header() {
                                                         )
                                                     }
                                                 >
-                                                    {lang}
+                                                    {LANGUAGES[lang]?.name}
                                                 </li>
                                             )
                                         )}
@@ -411,10 +330,7 @@ function Header() {
                             type='text'
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder={
-                                translations[selectedPrimaryLanguage]
-                                    ?.searchPlaceholder || 'Search...'
-                            }
+                            placeholder={translations.searchPlaceholder || 'Search...'}
                             className={`border transition-all duration-200 ${
                                 isDarkMode
                                     ? 'border-white text-white bg-_303030'

@@ -4,6 +4,7 @@ import { useGetAllArticlesQuery } from '../slices/article/articleApiSlice';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import RecentCardLoader from '../components/loaders/RecentCardLoader';
+import { TRANSLATIONS } from '../constants'; // Import centralized translations
 
 const ArticleListScreen = () => {
     const navigate = useNavigate();
@@ -11,23 +12,8 @@ const ArticleListScreen = () => {
     const language = useSelector((state) => state.language.language);
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
-    const translations = {
-        English: {
-            articles: 'Articles',
-        },
-        Español: {
-            articles: 'Artículos',
-        },
-        Français: {
-            articles: 'Articles',
-        },
-        Deutsch: {
-            articles: 'Artikel',
-        },
-        Português: {
-            articles: 'Artigos',
-        },
-    };
+    // Centralized translations
+    const translations = TRANSLATIONS[language] || TRANSLATIONS.en;
 
     const {
         data: articles = [],
@@ -36,6 +22,7 @@ const ArticleListScreen = () => {
         error,
     } = useGetAllArticlesQuery();
 
+    // Loading state
     if (isLoading) {
         return (
             <div className='flex flex-col'>
@@ -44,12 +31,12 @@ const ArticleListScreen = () => {
                         isDarkMode ? 'text-white' : 'text-darkExpansion'
                     }`}
                 >
-                    {translations[language]?.articles || 'Articles'}
+                    {translations.articles || 'Articles'}
                 </h1>
                 <div className='h-[460px] pt-1'>
                     {[...Array(8)].map((_, index) => (
-                        <div className='pb-5'>
-                            <RecentCardLoader key={index} />
+                        <div className='pb-5' key={index}>
+                            <RecentCardLoader />
                         </div>
                     ))}
                 </div>
@@ -57,6 +44,7 @@ const ArticleListScreen = () => {
         );
     }
 
+    // Error state
     if (isError) {
         return (
             <section className='flex justify-center items-center mt-20'>
@@ -71,13 +59,14 @@ const ArticleListScreen = () => {
                         className='mt-4 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg'
                         onClick={() => navigate('/')}
                     >
-                        Go to Dashboard
+                        {translations.goToDashboard || 'Go to Dashboard'}
                     </button>
                 </div>
             </section>
         );
     }
 
+    // Main content - displaying articles
     return (
         <div>
             <div className='flex flex-col'>
@@ -86,7 +75,7 @@ const ArticleListScreen = () => {
                         isDarkMode ? 'text-white' : 'text-darkExpansion'
                     }`}
                 >
-                    {translations[language]?.articles || 'Articles'}
+                    {translations.articles || 'Articles'}
                 </h1>
             </div>
             <div className='space-y-4 py-2'>

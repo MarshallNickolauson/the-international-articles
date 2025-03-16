@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setCredentials, logout } from '../slices/auth/authSlice.js';
 import { useUpdateMutation } from '../slices/auth/userApiSlice.js';
+import { TRANSLATIONS } from '../constants.js';
 
 const AccountScreen = () => {
     const dispatch = useDispatch();
@@ -20,63 +21,7 @@ const AccountScreen = () => {
     const [passwordsMatch, setPasswordsMatch] = useState(true);
     const [updatedMessage, setUpdatedMessage] = useState(false);
 
-    const translations = {
-        English: {
-            account: 'Your Account',
-            name: 'Name',
-            email: 'Email',
-            password: 'Password',
-            confirmPassword: 'Confirm Password',
-            update: 'Update',
-            logout: 'Logout',
-            passwordsMismatch: 'Passwords do not match',
-            profileUpdated: 'Profile updated successfully',
-        },
-        Español: {
-            account: 'Tu Cuenta',
-            name: 'Nombre',
-            email: 'Correo Electrónico',
-            password: 'Contraseña',
-            confirmPassword: 'Confirmar Contraseña',
-            update: 'Actualizar',
-            logout: 'Cerrar sesión',
-            passwordsMismatch: 'Las contraseñas no coinciden',
-            profileUpdated: 'Perfil actualizado con éxito',
-        },
-        Français: {
-            account: 'Votre Compte',
-            name: 'Nom',
-            email: 'Email',
-            password: 'Mot de passe',
-            confirmPassword: 'Confirmer le mot de passe',
-            update: 'Mettre à jour',
-            logout: 'Se déconnecter',
-            passwordsMismatch: 'Les mots de passe ne correspondent pas',
-            profileUpdated: 'Profil mis à jour avec succès',
-        },
-        Deutsch: {
-            account: 'Ihr Konto',
-            name: 'Name',
-            email: 'E-Mail',
-            password: 'Passwort',
-            confirmPassword: 'Passwort bestätigen',
-            update: 'Aktualisieren',
-            logout: 'Abmelden',
-            passwordsMismatch: 'Passwörter stimmen nicht überein',
-            profileUpdated: 'Profil erfolgreich aktualisiert',
-        },
-        Português: {
-            account: 'Sua Conta',
-            name: 'Nome',
-            email: 'E-mail',
-            password: 'Senha',
-            confirmPassword: 'Confirmar Senha',
-            update: 'Atualizar',
-            logout: 'Sair',
-            passwordsMismatch: 'As senhas não coincidem',
-            profileUpdated: 'Perfil atualizado com sucesso',
-        },
-    };
+    const translations = TRANSLATIONS[language] || TRANSLATIONS.en;
 
     useEffect(() => {
         if (!userInfo) navigate('/login');
@@ -109,7 +54,7 @@ const AccountScreen = () => {
         dispatch(logout());
         setTimeout(() => {
             navigate('/');
-        }, 1);
+        }, 50);
     };
 
     return (
@@ -122,12 +67,12 @@ const AccountScreen = () => {
                 }`}
             >
                 <h2 className='text-3xl font-bold text-center mb-6'>
-                    {translations[language]?.account || 'Your Account'}
+                    {translations.account || 'Your Account'}
                 </h2>
 
                 {updatedMessage && (
                     <div className='text-mainGreen text-md mb-4 text-center'>
-                        {translations[language]?.profileUpdated ||
+                        {translations.profileUpdated ||
                             'Profile updated successfully'}
                     </div>
                 )}
@@ -135,7 +80,7 @@ const AccountScreen = () => {
                 <form onSubmit={handleUpdate}>
                     <div className='mb-4'>
                         <label className='block text-lg font-medium mb-1'>
-                            {translations[language]?.name || 'Name'}
+                            {translations.name || 'Name'}
                         </label>
                         <input
                             type='text'
@@ -154,7 +99,7 @@ const AccountScreen = () => {
                     </div>
                     <div className='mb-4'>
                         <label className='block text-lg font-medium mb-1'>
-                            {translations[language]?.email || 'Email'}
+                            {translations.email || 'Email'}
                         </label>
                         <input
                             type='email'
@@ -173,7 +118,7 @@ const AccountScreen = () => {
                     </div>
                     <div className='mb-4'>
                         <label className='block text-lg font-medium mb-1'>
-                            {translations[language]?.password || 'Password'}
+                            {translations.password || 'Password'}
                         </label>
                         <input
                             type='password'
@@ -191,7 +136,7 @@ const AccountScreen = () => {
                     </div>
                     <div className='mb-4'>
                         <label className='block text-lg font-medium mb-1'>
-                            {translations[language]?.confirmPassword ||
+                            {translations.confirmPassword ||
                                 'Confirm Password'}
                         </label>
                         <input
@@ -211,8 +156,8 @@ const AccountScreen = () => {
 
                     {!passwordsMatch && (
                         <div className='text-red-500 text-md mb-4 text-center'>
-                            {translations[language]?.passwordsMismatch ||
-                            'Passwords do not match'}
+                            {translations.passwordsMismatch ||
+                                'Passwords do not match'}
                         </div>
                     )}
 
@@ -220,14 +165,14 @@ const AccountScreen = () => {
                         type='submit'
                         className='w-full bg-darkGreen text-white py-2 rounded-md font-semibold hover:bg-green-700 transition-all duration-200'
                     >
-                        {translations[language]?.update || 'Update'}
+                        {translations.update || 'Update'}
                     </button>
                 </form>
                 <button
                     onClick={handleLogout}
                     className='w-full mt-4 bg-white text-darkGreen border border-darkGreen py-2 rounded-md font-semibold hover:bg-gray-100 transition-all duration-200'
                 >
-                    {translations[language]?.logout || 'Logout'}
+                    {translations.logout || 'Logout'}
                 </button>
             </div>
         </div>

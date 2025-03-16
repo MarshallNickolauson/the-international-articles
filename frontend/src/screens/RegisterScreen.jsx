@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setCredentials } from '../slices/auth/authSlice.js';
 import { useRegisterMutation } from '../slices/auth/userApiSlice.js';
+import { TRANSLATIONS } from '../constants.js';
 
 const RegisterScreen = () => {
     const dispatch = useDispatch();
@@ -17,83 +18,7 @@ const RegisterScreen = () => {
     const [passwordsMatch, setPasswordsMatch] = useState(true);
     const [registerUser, { isLoading, isError, error }] = useRegisterMutation();
 
-    const translations = {
-        English: {
-            account: 'Your Account',
-            name: 'Name',
-            email: 'Email',
-            password: 'Password',
-            confirmPassword: 'Confirm Password',
-            update: 'Update',
-            logout: 'Logout',
-            passwordsMismatch: 'Passwords do not match',
-            profileUpdated: 'Profile updated successfully',
-            register: 'Register',
-            submit: 'Sign Up',
-            alreadyHaveAccount: 'Already have an account?',
-            login: 'Login',
-        },
-        Español: {
-            account: 'Tu Cuenta',
-            name: 'Nombre',
-            email: 'Correo Electrónico',
-            password: 'Contraseña',
-            confirmPassword: 'Confirmar Contraseña',
-            update: 'Actualizar',
-            logout: 'Cerrar sesión',
-            passwordsMismatch: 'Las contraseñas no coinciden',
-            profileUpdated: 'Perfil actualizado con éxito',
-            register: 'Registrarse',
-            submit: 'Registrarse',
-            alreadyHaveAccount: '¿Ya tienes una cuenta?',
-            login: 'Iniciar sesión',
-        },
-        Français: {
-            account: 'Votre Compte',
-            name: 'Nom',
-            email: 'Email',
-            password: 'Mot de passe',
-            confirmPassword: 'Confirmer le mot de passe',
-            update: 'Mettre à jour',
-            logout: 'Se déconnecter',
-            passwordsMismatch: 'Les mots de passe ne correspondent pas',
-            profileUpdated: 'Profil mis à jour avec succès',
-            register: 'S\'inscrire',
-            submit: 'S\'inscrire',
-            alreadyHaveAccount: 'Vous avez déjà un compte?',
-            login: 'Se connecter',
-        },
-        Deutsch: {
-            account: 'Ihr Konto',
-            name: 'Name',
-            email: 'E-Mail',
-            password: 'Passwort',
-            confirmPassword: 'Passwort bestätigen',
-            update: 'Aktualisieren',
-            logout: 'Abmelden',
-            passwordsMismatch: 'Passwörter stimmen nicht überein',
-            profileUpdated: 'Profil erfolgreich aktualisiert',
-            register: 'Registrieren',
-            submit: 'Anmelden',
-            alreadyHaveAccount: 'Hast du bereits ein Konto?',
-            login: 'Einloggen',
-        },
-        Português: {
-            account: 'Sua Conta',
-            name: 'Nome',
-            email: 'E-mail',
-            password: 'Senha',
-            confirmPassword: 'Confirmar Senha',
-            update: 'Atualizar',
-            logout: 'Sair',
-            passwordsMismatch: 'As senhas não coincidem',
-            profileUpdated: 'Perfil atualizado com sucesso',
-            register: 'Registrar',
-            submit: 'Registrar',
-            alreadyHaveAccount: 'Já tem uma conta?',
-            login: 'Entrar',
-        },
-    };
+    const translations = TRANSLATIONS[language] || TRANSLATIONS.en;
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -122,13 +47,13 @@ const RegisterScreen = () => {
                 }`}
             >
                 <h2 className='text-3xl font-bold text-center mb-6'>
-                    {translations[language]?.register || 'Register'}
+                    {translations.register || 'Register'}
                 </h2>
 
                 <form onSubmit={handleRegister}>
                     <div className='mb-4'>
                         <label className='block text-lg font-medium mb-1'>
-                            {translations[language]?.name || 'Name'}
+                            {translations.name || 'Name'}
                         </label>
                         <input
                             type='text'
@@ -147,7 +72,7 @@ const RegisterScreen = () => {
                     </div>
                     <div className='mb-4'>
                         <label className='block text-lg font-medium mb-1'>
-                            {translations[language]?.email || 'Email'}
+                            {translations.email || 'Email'}
                         </label>
                         <input
                             type='email'
@@ -166,7 +91,7 @@ const RegisterScreen = () => {
                     </div>
                     <div className='mb-4'>
                         <label className='block text-lg font-medium mb-1'>
-                            {translations[language]?.password || 'Password'}
+                            {translations.password || 'Password'}
                         </label>
                         <input
                             type='password'
@@ -185,7 +110,7 @@ const RegisterScreen = () => {
                     </div>
                     <div className='mb-4'>
                         <label className='block text-lg font-medium mb-1'>
-                            {translations[language]?.confirmPassword ||
+                            {translations.confirmPassword ||
                                 'Confirm Password'}
                         </label>
                         <input
@@ -206,7 +131,7 @@ const RegisterScreen = () => {
 
                     {!passwordsMatch && (
                         <div className='text-red-500 text-md mb-4 text-center'>
-                            {translations[language]?.passwordsMismatch ||
+                            {translations.passwordsMismatch ||
                                 'Passwords do not match'}
                         </div>
                     )}
@@ -215,19 +140,19 @@ const RegisterScreen = () => {
                         type='submit'
                         className='w-full bg-darkGreen text-white py-2 rounded-md font-semibold hover:bg-green-700 transition-all duration-200'
                     >
-                        {translations[language]?.submit || 'Sign Up'}
+                        {translations.submit || 'Sign Up'}
                     </button>
                 </form>
                 <div className='text-center mt-4'>
                     <span className='text-lg'>
-                        {translations[language]?.alreadyHaveAccount ||
+                        {translations.alreadyHaveAccount ||
                             'Already have an account?'}{' '}
                     </span>
                     <button
                         onClick={() => navigate('/login')}
                         className='text-blue-500 hover:underline text-lg'
                     >
-                        {translations[language]?.login || 'Login'}
+                        {translations.login || 'Login'}
                     </button>
                 </div>
             </div>

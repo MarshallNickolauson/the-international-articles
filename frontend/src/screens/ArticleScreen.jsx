@@ -16,6 +16,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useGetArticleByIdQuery } from '../slices/article/articleApiSlice';
 import ArticleScreenLoader from '../components/loaders/ArticleScreenLoader';
 import { toggleArticleLoading } from '../slices/article/articleSlice';
+import { LANGUAGES, TRANSLATIONS } from '../constants';
 
 const ArticleScreen = () => {
     const dispatch = useDispatch();
@@ -24,11 +25,14 @@ const ArticleScreen = () => {
     const { id } = useParams();
 
     const socialIconSize = 45;
-    const socialIconClass = 'hover:cursor-pointer transform transition-all duration-150 hover:scale-[1.08]';
+    const socialIconClass =
+        'hover:cursor-pointer transform transition-all duration-150 hover:scale-[1.08]';
 
     const language = useSelector((state) => state.language.language);
     const [isSecondaryLangVisible, setisSecondaryLangVisible] = useState(false);
-    const secondaryLanguage = useSelector((state) => state.language.secondaryLanguage);
+    const secondaryLanguage = useSelector(
+        (state) => state.language.secondaryLanguage
+    );
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
     useEffect(() => {
@@ -203,7 +207,9 @@ const ArticleScreen = () => {
                             isDarkMode ? 'text-white' : 'text-darkExpansion'
                         }`}
                     >
-                        {'>'} Articles {'>'} English {'>'} {articleData.title}
+                        {'>'} {TRANSLATIONS[language]?.articles || 'Articles'}{' '}
+                        {'>'} {LANGUAGES[language]?.name || 'LANG'} {'>'}{' '}
+                        {articleData.title}
                     </h1>
                     <FiPrinter
                         size={28}
@@ -222,7 +228,7 @@ const ArticleScreen = () => {
                             isDarkMode ? 'text-white' : 'text-darkExpansion'
                         }`}
                     >
-                        Share
+                        {TRANSLATIONS[language].share || 'Share'}
                     </h1>
                     <CiShare1
                         size={25}
@@ -306,7 +312,10 @@ const ArticleScreen = () => {
                             size={socialIconSize}
                             className={socialIconClass}
                         />
-                        <FaYoutube size={socialIconSize} className={socialIconClass} />
+                        <FaYoutube
+                            size={socialIconSize}
+                            className={socialIconClass}
+                        />
                         <FaInstagram
                             size={socialIconSize}
                             className={socialIconClass}
@@ -315,7 +324,10 @@ const ArticleScreen = () => {
                             size={socialIconSize}
                             className={socialIconClass}
                         />
-                        <FaLinkedin size={socialIconSize} className={socialIconClass} />
+                        <FaLinkedin
+                            size={socialIconSize}
+                            className={socialIconClass}
+                        />
                         <FaPinterest
                             size={socialIconSize}
                             className={socialIconClass}
