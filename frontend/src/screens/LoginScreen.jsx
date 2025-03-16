@@ -46,7 +46,7 @@ const LoginScreen = () => {
             }`}
         >
             <div
-                className={`w-full max-w-md p-8 rounded-lg card-shadow-static ${
+                className={`w-full max-w-md p-8 rounded-lg card-shadow-static transition-all duration-200 ${
                     isDarkMode
                         ? 'border-white text-white bg-_303030'
                         : 'border-gray-300 text-darkExpansion bg-white'
