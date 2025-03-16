@@ -139,7 +139,7 @@ export const addFavoriteArticle = expressAsyncHandler(async (req, res) => {
 });
 
 // @desc    Remove article from user's favorite list
-// @route   DELETE api/users/favorite
+// @route   DELETE api/users/favorites
 // @access  Private
 export const removeFavoriteArticle = expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
@@ -160,7 +160,7 @@ export const removeFavoriteArticle = expressAsyncHandler(async (req, res) => {
 });
 
 // @desc    Delete user
-// @route   DELETE api/users/profile
+// @route   DELETE api/users/profiles
 // @access  Private
 export const deleteUser = expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);

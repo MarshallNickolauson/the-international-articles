@@ -23,8 +23,10 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+import userRoutes from './routes/user.routes.js';
 import articleRoutes from './routes/article.routes.js';
 
+app.use('/api/users', userRoutes);
 app.use('/api/articles', articleRoutes);
 
 app.use(errorHandler);
