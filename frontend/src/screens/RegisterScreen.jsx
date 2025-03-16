@@ -1,24 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setCredentials, logout } from '../slices/auth/authSlice.js';
-import { useUpdateMutation } from '../slices/auth/userApiSlice.js';
+import { setCredentials } from '../slices/auth/authSlice.js';
+import { useRegisterMutation } from '../slices/auth/userApiSlice.js';
 
-const AccountScreen = () => {
+const RegisterScreen = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
     const language = useSelector((state) => state.language.language);
-    const { userInfo } = useSelector((state) => state.auth);
 
-    const [name, setName] = useState(userInfo?.name || '');
-    const [email, setEmail] = useState(userInfo?.email || '');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-
-    const [updateUser, { isLoading, isError, error }] = useUpdateMutation();
     const [passwordsMatch, setPasswordsMatch] = useState(true);
-    const [updatedMessage, setUpdatedMessage] = useState(false);
+    const [registerUser, { isLoading, isError, error }] = useRegisterMutation();
 
     const translations = {
         English: {
@@ -31,6 +28,10 @@ const AccountScreen = () => {
             logout: 'Logout',
             passwordsMismatch: 'Passwords do not match',
             profileUpdated: 'Profile updated successfully',
+            register: 'Register',
+            submit: 'Sign Up',
+            alreadyHaveAccount: 'Already have an account?',
+            login: 'Login',
         },
         Español: {
             account: 'Tu Cuenta',
@@ -42,6 +43,10 @@ const AccountScreen = () => {
             logout: 'Cerrar sesión',
             passwordsMismatch: 'Las contraseñas no coinciden',
             profileUpdated: 'Perfil actualizado con éxito',
+            register: 'Registrarse',
+            submit: 'Registrarse',
+            alreadyHaveAccount: '¿Ya tienes una cuenta?',
+            login: 'Iniciar sesión',
         },
         Français: {
             account: 'Votre Compte',
@@ -53,6 +58,10 @@ const AccountScreen = () => {
             logout: 'Se déconnecter',
             passwordsMismatch: 'Les mots de passe ne correspondent pas',
             profileUpdated: 'Profil mis à jour avec succès',
+            register: 'S\'inscrire',
+            submit: 'S\'inscrire',
+            alreadyHaveAccount: 'Vous avez déjà un compte?',
+            login: 'Se connecter',
         },
         Deutsch: {
             account: 'Ihr Konto',
@@ -64,6 +73,10 @@ const AccountScreen = () => {
             logout: 'Abmelden',
             passwordsMismatch: 'Passwörter stimmen nicht überein',
             profileUpdated: 'Profil erfolgreich aktualisiert',
+            register: 'Registrieren',
+            submit: 'Anmelden',
+            alreadyHaveAccount: 'Hast du bereits ein Konto?',
+            login: 'Einloggen',
         },
         Português: {
             account: 'Sua Conta',
@@ -75,41 +88,28 @@ const AccountScreen = () => {
             logout: 'Sair',
             passwordsMismatch: 'As senhas não coincidem',
             profileUpdated: 'Perfil atualizado com sucesso',
+            register: 'Registrar',
+            submit: 'Registrar',
+            alreadyHaveAccount: 'Já tem uma conta?',
+            login: 'Entrar',
         },
     };
 
-    useEffect(() => {
-        if (!userInfo) navigate('/login');
-    }, [navigate, userInfo]);
-
-    const handleUpdate = async (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
             setPasswordsMatch(false);
-            setUpdatedMessage(false);
-        } else {
-            try {
-                const res = await updateUser({
-                    name,
-                    email,
-                    password,
-                }).unwrap();
-                dispatch(setCredentials({ ...res }));
-                setPassword('');
-                setConfirmPassword('');
-                setPasswordsMatch(true);
-                setUpdatedMessage(true);
-            } catch (err) {
-                console.log(err?.data?.message || err.error);
-            }
+            return;
         }
-    };
-
-    const handleLogout = () => {
-        dispatch(logout());
-        setTimeout(() => {
-            navigate('/');
-        }, 1);
+        try {
+            const res = await registerUser({ name, email, password }).unwrap();
+            dispatch(setCredentials({ ...res }));
+            setTimeout(() => {
+                navigate('/');
+            }, 1);
+        } catch (err) {
+            console.log(err?.data?.message || err.error);
+        }
     };
 
     return (
@@ -122,17 +122,10 @@ const AccountScreen = () => {
                 }`}
             >
                 <h2 className='text-3xl font-bold text-center mb-6'>
-                    {translations[language]?.account || 'Your Account'}
+                    {translations[language]?.register || 'Register'}
                 </h2>
 
-                {updatedMessage && (
-                    <div className='text-mainGreen text-md mb-4 text-center'>
-                        {translations[language]?.profileUpdated ||
-                            'Profile updated successfully'}
-                    </div>
-                )}
-
-                <form onSubmit={handleUpdate}>
+                <form onSubmit={handleRegister}>
                     <div className='mb-4'>
                         <label className='block text-lg font-medium mb-1'>
                             {translations[language]?.name || 'Name'}
@@ -167,8 +160,8 @@ const AccountScreen = () => {
                             font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
                             w-[600px] placeholder:italic`}
                             value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             required
-                            disabled
                         />
                     </div>
                     <div className='mb-4'>
@@ -187,6 +180,7 @@ const AccountScreen = () => {
                             w-[600px] placeholder:italic`}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            required
                         />
                     </div>
                     <div className='mb-4'>
@@ -206,13 +200,14 @@ const AccountScreen = () => {
                             w-[600px] placeholder:italic`}
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
+                            required
                         />
                     </div>
 
                     {!passwordsMatch && (
                         <div className='text-red-500 text-md mb-4 text-center'>
                             {translations[language]?.passwordsMismatch ||
-                            'Passwords do not match'}
+                                'Passwords do not match'}
                         </div>
                     )}
 
@@ -220,18 +215,24 @@ const AccountScreen = () => {
                         type='submit'
                         className='w-full bg-darkGreen text-white py-2 rounded-md font-semibold hover:bg-green-700 transition-all duration-200'
                     >
-                        {translations[language]?.update || 'Update'}
+                        {translations[language]?.submit || 'Sign Up'}
                     </button>
                 </form>
-                <button
-                    onClick={handleLogout}
-                    className='w-full mt-4 bg-white text-darkGreen border border-darkGreen py-2 rounded-md font-semibold hover:bg-gray-100 transition-all duration-200'
-                >
-                    {translations[language]?.logout || 'Logout'}
-                </button>
+                <div className='text-center mt-4'>
+                    <span className='text-lg'>
+                        {translations[language]?.alreadyHaveAccount ||
+                            'Already have an account?'}{' '}
+                    </span>
+                    <button
+                        onClick={() => navigate('/login')}
+                        className='text-blue-500 hover:underline text-lg'
+                    >
+                        {translations[language]?.login || 'Login'}
+                    </button>
+                </div>
             </div>
         </div>
     );
 };
 
-export default AccountScreen;
+export default RegisterScreen;

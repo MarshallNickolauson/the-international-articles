@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { toggleDarkMode } from '../slices/theme/themeSlice';
-import { useLoginMutation } from '../slices/auth/userApiSlice';
 import { setCredentials } from '../slices/auth/authSlice';
+import { useLoginMutation } from '../slices/auth/userApiSlice';
 
 const LoginScreen = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+    const language = useSelector((state) => state.language.language);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
     const [login, { isLoading, isError, error }] = useLoginMutation();
 
     const { userInfo } = useSelector((state) => state.auth);
@@ -29,7 +29,6 @@ const LoginScreen = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
         try {
             const res = await login({ email, password }).unwrap();
             dispatch(setCredentials({ ...res }));
@@ -37,6 +36,49 @@ const LoginScreen = () => {
         } catch (err) {
             console.log(err?.data?.message || err.error);
         }
+    };
+
+    const translations = {
+        English: {
+            signIn: 'Sign In',
+            email: 'Email',
+            password: 'Password',
+            login: 'Login',
+            dontHaveAccount: "Don't have an account?",
+            signUp: 'Sign Up',
+        },
+        Español: {
+            signIn: 'Iniciar sesión',
+            email: 'Correo electrónico',
+            password: 'Contraseña',
+            login: 'Iniciar sesión',
+            dontHaveAccount: '¿No tienes una cuenta?',
+            signUp: 'Regístrate',
+        },
+        Français: {
+            signIn: 'Se connecter',
+            email: 'Email',
+            password: 'Mot de passe',
+            login: 'Se connecter',
+            dontHaveAccount: 'Vous n\'avez pas de compte?',
+            signUp: 'S\'inscrire',
+        },
+        Deutsch: {
+            signIn: 'Einloggen',
+            email: 'E-Mail',
+            password: 'Passwort',
+            login: 'Einloggen',
+            dontHaveAccount: 'Hast du ein Konto?',
+            signUp: 'Registrieren',
+        },
+        Português: {
+            signIn: 'Entrar',
+            email: 'E-mail',
+            password: 'Senha',
+            login: 'Entrar',
+            dontHaveAccount: 'Não tem uma conta?',
+            signUp: 'Registrar',
+        },
     };
 
     return (
@@ -52,11 +94,14 @@ const LoginScreen = () => {
                         : 'border-gray-300 text-darkExpansion bg-white'
                 }`}
             >
-                <h2 className='text-3xl font-bold text-center mb-6'>Sign In</h2>
+                <h2 className='text-3xl font-bold text-center mb-6'>
+                    {translations[language]?.signIn || 'Sign In'}
+                </h2>
+
                 <form onSubmit={handleLogin}>
                     <div className='mb-4'>
                         <label className='block text-lg font-medium mb-1'>
-                            Email
+                            {translations[language]?.email || 'Email'}
                         </label>
                         <input
                             type='email'
@@ -75,7 +120,7 @@ const LoginScreen = () => {
                     </div>
                     <div className='mb-4'>
                         <label className='block text-lg font-medium mb-1'>
-                            Password
+                            {translations[language]?.password || 'Password'}
                         </label>
                         <input
                             type='password'
@@ -96,17 +141,18 @@ const LoginScreen = () => {
                         type='submit'
                         className='w-full bg-darkGreen text-white py-2 rounded-md font-semibold hover:bg-green-700 transition-all duration-200'
                     >
-                        Login
+                        {isLoading ? 'Loading...' : translations[language]?.login || 'Login'}
                     </button>
                 </form>
+
                 <div className='text-center mt-4'>
                     <p className='text-lg'>
-                        Don't have an account?{' '}
+                        {translations[language]?.dontHaveAccount || "Don't have an account?"}{' '}
                         <Link
                             to='/register'
                             className='text-blue-500 hover:underline'
                         >
-                            Sign Up
+                            {translations[language]?.signUp || 'Sign Up'}
                         </Link>
                     </p>
                 </div>
