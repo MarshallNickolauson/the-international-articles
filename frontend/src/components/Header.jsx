@@ -76,6 +76,7 @@ function Header() {
             logout: 'Logout',
             searchPlaceholder: 'Search...',
             writeArticle: 'Write Article',
+            hi: 'Hi',
         },
         Español: {
             siteTitle: 'Los Artículos Internacionales',
@@ -86,6 +87,7 @@ function Header() {
             logout: 'Cerrar sesión',
             searchPlaceholder: 'Buscar...',
             writeArticle: 'Escribir Artículo',
+            hi: 'Hola',
         },
         Français: {
             siteTitle: 'Les Articles Internationaux',
@@ -96,6 +98,7 @@ function Header() {
             logout: 'Se déconnecter',
             searchPlaceholder: 'Rechercher...',
             writeArticle: 'Écrire un Article',
+            hi: 'Salut',
         },
         Deutsch: {
             siteTitle: 'Die Internationalen Artikel',
@@ -106,6 +109,7 @@ function Header() {
             logout: 'Abmelden',
             searchPlaceholder: 'Suchen...',
             writeArticle: 'Artikel Schreiben',
+            hi: 'Hallo',
         },
         Português: {
             siteTitle: 'Os Artigos Internacionais',
@@ -116,6 +120,7 @@ function Header() {
             logout: 'Sair',
             searchPlaceholder: 'Pesquisar...',
             writeArticle: 'Escrever Artigo',
+            hi: 'Oi',
         },
     };
 
@@ -198,11 +203,11 @@ function Header() {
             dispatch(logout());
             setTimeout(() => {
                 navigate('/');
-            }, 1)
+            }, 1);
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     return (
         <>
@@ -244,14 +249,13 @@ function Header() {
                         </Link>
 
                         {userInfo ? (
-                            <button
-                                onClick={handleLogout}
-                                type='button'
-                                className='bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100'
+                            <h1
+                                onClick={() => navigate('/account')}
+                                className='hover:cursor-pointer border-b-2 pb-1 border-b-transparent hover:border-b-mainWhite transition-all duration-100'
                             >
                                 {translations[selectedPrimaryLanguage]
-                                    ?.logout || 'Logout'}
-                            </button>
+                                    ?.hi || 'Hi'}, {userInfo.name}
+                            </h1>
                         ) : (
                             <Link
                                 to='/login'
