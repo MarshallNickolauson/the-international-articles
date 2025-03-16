@@ -1,5 +1,5 @@
 import { apiSlice } from '../apiSlice';
-const ARTICLE_URL = '/api/articles';
+import { ARTICLE_URL } from '../../constants';
 
 export const articleApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({

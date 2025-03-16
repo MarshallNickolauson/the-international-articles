@@ -1,17 +1,42 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toggleDarkMode } from '../slices/theme/themeSlice';
+import { useLoginMutation } from '../slices/auth/userApiSlice';
+import { setCredentials } from '../slices/auth/authSlice';
 
 const LoginScreen = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = (e) => {
+    const [login, { isLoading, isError, error }] = useLoginMutation();
+
+    const { userInfo } = useSelector((state) => state.auth);
+
+    useEffect(() => {
+        if (userInfo) navigate('/');
+    }, [navigate, userInfo]);
+
+    useEffect(() => {
+        if (isError) {
+            setEmail('');
+            setPassword('');
+        }
+    }, [isError]);
+
+    const handleLogin = async (e) => {
         e.preventDefault();
-        console.log('Login attempted with:', { email, password });
+
+        try {
+            const res = await login({ email, password }).unwrap();
+            dispatch(setCredentials({ ...res }));
+            navigate('/');
+        } catch (err) {
+            console.log(err?.data?.message || err.error);
+        }
     };
 
     return (

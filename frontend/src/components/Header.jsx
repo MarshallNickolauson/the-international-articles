@@ -8,11 +8,16 @@ import {
     changeSecondaryLanguage,
 } from '../slices/language/languageSlice';
 import { toggleDarkMode } from '../slices/theme/themeSlice';
+import { logout } from '../slices/auth/authSlice';
+import { useLogoutMutation } from '../slices/auth/userApiSlice';
 
 function Header() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const location = useLocation();
+
+    const { userInfo } = useSelector((state) => state.auth);
+    const [logoutApiCall] = useLogoutMutation();
 
     const language = useSelector((state) => state.language.language);
     const secondaryLanguage = useSelector(
@@ -68,6 +73,7 @@ function Header() {
             articles: 'Articles',
             menu: 'Menu',
             signIn: 'Sign In',
+            logout: 'Logout',
             searchPlaceholder: 'Search...',
             writeArticle: 'Write Article',
         },
@@ -77,6 +83,7 @@ function Header() {
             articles: 'Artículos',
             menu: 'Menú',
             signIn: 'Iniciar sesión',
+            logout: 'Cerrar sesión',
             searchPlaceholder: 'Buscar...',
             writeArticle: 'Escribir Artículo',
         },
@@ -86,6 +93,7 @@ function Header() {
             articles: 'Articles',
             menu: 'Menu',
             signIn: 'Se connecter',
+            logout: 'Se déconnecter',
             searchPlaceholder: 'Rechercher...',
             writeArticle: 'Écrire un Article',
         },
@@ -95,6 +103,7 @@ function Header() {
             articles: 'Artikel',
             menu: 'Menü',
             signIn: 'Anmelden',
+            logout: 'Abmelden',
             searchPlaceholder: 'Suchen...',
             writeArticle: 'Artikel Schreiben',
         },
@@ -104,10 +113,11 @@ function Header() {
             articles: 'Artigos',
             menu: 'Menu',
             signIn: 'Entrar',
+            logout: 'Sair',
             searchPlaceholder: 'Pesquisar...',
             writeArticle: 'Escrever Artigo',
         },
-    };    
+    };
 
     const handleClickOutsidePrimaryLang = (event) => {
         if (
@@ -182,6 +192,18 @@ function Header() {
         setSelectedSecondaryLanguage(secondaryLanguage);
     }, [secondaryLanguage]);
 
+    const handleLogout = async () => {
+        try {
+            await logoutApiCall().unwrap();
+            dispatch(logout());
+            setTimeout(() => {
+                navigate('/');
+            }, 1)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <>
             <nav className='top-0 w-full bg-darkGreen py-3 px-4 flex justify-center'>
@@ -197,7 +219,6 @@ function Header() {
                         </h1>
                     </div>
                     <div className='font-opensans flex space-x-5 text-white items-center'>
-                        
                         {/* Dark/Light Theme Toggle */}
                         <div
                             className={`relative w-14 h-7 rounded-full flex items-center cursor-pointer transition-all duration-300 ${
@@ -218,17 +239,28 @@ function Header() {
                             to='/write/new'
                             className='bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100'
                         >
-                            {translations[selectedPrimaryLanguage]?.writeArticle ||
-                                'Write Article'}
+                            {translations[selectedPrimaryLanguage]
+                                ?.writeArticle || 'Write Article'}
                         </Link>
 
-                        <Link
-                            to='/login'
-                            className='bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100'
-                        >
-                            {translations[selectedPrimaryLanguage]?.signIn ||
-                                'Sign In'}
-                        </Link>
+                        {userInfo ? (
+                            <button
+                                onClick={handleLogout}
+                                type='button'
+                                className='bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100'
+                            >
+                                {translations[selectedPrimaryLanguage]
+                                    ?.logout || 'Logout'}
+                            </button>
+                        ) : (
+                            <Link
+                                to='/login'
+                                className='bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100'
+                            >
+                                {translations[selectedPrimaryLanguage]
+                                    ?.signIn || 'Sign In'}
+                            </Link>
+                        )}
 
                         <h1 className='hover:cursor-pointer border-b-2 pb-1 border-b-transparent hover:border-b-mainWhite transition-all duration-100'>
                             {translations[selectedPrimaryLanguage]?.menu ||
