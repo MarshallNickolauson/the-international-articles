@@ -8,6 +8,15 @@ const WriteNewScreen = () => {
         return htmlContent.replace(/<p><\/p>/g, '\n');
     };
 
+    // Language Selection (tabs on the top)
+    // Title
+    // Date
+    // Content
+    // Dual language editor view
+    // Generate other languages button??? THAT WOULD BE SO COOL
+    // Save draft button
+    // Publish/Unpublish button
+
     return (
         <div className="py-4">
             <h2 className="text-2xl font-semibold mb-4">Rich Text Editor</h2>
