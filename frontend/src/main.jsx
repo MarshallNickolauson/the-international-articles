@@ -9,7 +9,7 @@ import {
     RouterProvider,
 } from 'react-router-dom';
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css'
+import './index.css';
 import MainLayout from './layouts/MainLayout';
 import NotFoundScreen from './screens/NotFoundScreen';
 import Dashboard from './screens/Dashboard.jsx';
@@ -19,6 +19,7 @@ import WriteNewScreen from './screens/WriteNewScreen.jsx';
 import LoginScreen from './screens/LoginScreen.jsx';
 import AccountScreen from './screens/AccountScreen.jsx';
 import RegisterScreen from './screens/RegisterScreen.jsx';
+import PrivateRoute from './components/PrivateRoute.jsx';
 
 function App() {
     const router = createBrowserRouter(
@@ -28,10 +29,12 @@ function App() {
                 <Route index element={<Dashboard />} />
                 <Route path='/login' element={<LoginScreen />} />
                 <Route path='/register' element={<RegisterScreen />} />
-                <Route path='/account' element={<AccountScreen />} />
-                <Route path='/article/:id' element={<ArticleScreen />}/>
+                <Route path='/article/:id' element={<ArticleScreen />} />
                 <Route path='/articles' element={<ArticleListScreen />} />
-                <Route path='/write/new' element={<WriteNewScreen />} />
+                <Route path='' element={<PrivateRoute />}>
+                    <Route path='/account' element={<AccountScreen />} />
+                    <Route path='/write/new' element={<WriteNewScreen />} />
+                </Route>
             </Route>
         )
     );
@@ -40,9 +43,9 @@ function App() {
 }
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </StrictMode>
+    <StrictMode>
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </StrictMode>
 );
