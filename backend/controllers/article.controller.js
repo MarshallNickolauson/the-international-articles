@@ -25,14 +25,9 @@ export const getAllUserArticles = expressAsyncHandler(async (req, res) => {
 // @route   GET api/articles/:id
 // @access  Public
 export const getArticleById = expressAsyncHandler(async (req, res) => {
-    const article = await Article.findById({ _id: req.params.id, isPublished: true });
+    const article = await Article.findById({ _id: req.params.id });
 
     if (article) {
-        if (!article.isPublished) {
-            res.status(403);
-            throw new Error('Article Access Forbidden');
-        }
-
         // Purposeful delay to test loaders
         await new Promise((resolve) => setTimeout(resolve, 500));
         res.status(200).json(article);
