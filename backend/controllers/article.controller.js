@@ -7,7 +7,17 @@ import Article from '../models/article.model.js';
 export const getAllArticles = expressAsyncHandler(async (req, res) => {
     const articles = await Article.find({ isPublished: true }).sort({ createdAt: -1 });
     // Purposeful delay to test loaders
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    res.status(200).json(articles);
+});
+
+// @desc    Get all user articles
+// @route   GET api/articles/me
+// @access  Public
+export const getAllUserArticles = expressAsyncHandler(async (req, res) => {
+    const articles = await Article.find({ user: req.user._id }).sort({ createdAt: -1 });
+    // Purposeful delay to test loaders
+    await new Promise((resolve) => setTimeout(resolve, 500));
     res.status(200).json(articles);
 });
 
@@ -24,7 +34,7 @@ export const getArticleById = expressAsyncHandler(async (req, res) => {
         }
 
         // Purposeful delay to test loaders
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        await new Promise((resolve) => setTimeout(resolve, 500));
         res.status(200).json(article);
     } else {
         res.status(404);
@@ -38,7 +48,7 @@ export const getArticleById = expressAsyncHandler(async (req, res) => {
 export const get5RecentArticles = expressAsyncHandler(async (req, res) => {
     const articles = await Article.find({ isPublished: true }).sort({ createdAt: -1 }).limit(5);
     // Purposeful delay to test loaders
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 500));
     res.status(200).json(articles);
 });
 
@@ -47,11 +57,11 @@ export const get5RecentArticles = expressAsyncHandler(async (req, res) => {
 // @access  Private
 export const createArticle = expressAsyncHandler(async (req, res) => {
     const languages = {
-        en: { title: '', date: new Date(), content: '' },
-        de: { title: '', date: new Date(), content: '' },
-        es: { title: '', date: new Date(), content: '' },
-        fr: { title: '', date: new Date(), content: '' },
-        pt: { title: '', date: new Date(), content: '' }
+        en: { title: 'My Article', date: new Date(), content: '' },
+        de: { title: 'Mi Artículo', date: new Date(), content: '' },
+        es: { title: 'Mon Article', date: new Date(), content: '' },
+        fr: { title: 'Mein Artikel', date: new Date(), content: '' },
+        pt: { title: 'Meu Artigo', date: new Date(), content: '' }
     };
 
     const article = new Article({

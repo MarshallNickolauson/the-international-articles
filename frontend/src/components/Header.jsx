@@ -181,7 +181,7 @@ function Header() {
                         </div>
 
                         {userInfo && (
-                            <h1 className='hover:cursor-pointer border-b-2 pb-1 border-b-transparent hover:border-b-mainWhite transition-all duration-100'>
+                            <h1 onClick={() => navigate('/my-articles')} className='hover:cursor-pointer border-b-2 pb-1 border-b-transparent hover:border-b-mainWhite transition-all duration-100'>
                                 {translations.myArticles || 'My Articles'}
                             </h1>
                         )}

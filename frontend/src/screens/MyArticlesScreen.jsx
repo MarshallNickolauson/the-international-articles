@@ -1,12 +1,12 @@
 import React from 'react';
 import ArticleListCard from '../components/ArticleListCard';
-import { useGetAllArticlesQuery } from '../slices/article/articleApiSlice';
+import { useGetAllUserArticlesQuery } from '../slices/article/articleApiSlice';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import RecentCardLoader from '../components/loaders/RecentCardLoader';
 import { TRANSLATIONS } from '../constants';
 
-const ArticleListScreen = () => {
+const MyArticlesScreen = () => {
     const navigate = useNavigate();
 
     const language = useSelector((state) => state.language.language);
@@ -19,9 +19,8 @@ const ArticleListScreen = () => {
         isLoading,
         isError,
         error,
-    } = useGetAllArticlesQuery();
+    } = useGetAllUserArticlesQuery();
 
-    // Loading state
     if (isLoading) {
         return (
             <div className='flex flex-col'>
@@ -43,7 +42,6 @@ const ArticleListScreen = () => {
         );
     }
 
-    // Error state
     if (isError) {
         return (
             <section className='flex justify-center items-center mt-20'>
@@ -65,7 +63,6 @@ const ArticleListScreen = () => {
         );
     }
 
-    // Main content - displaying articles
     return (
         <div>
             <div className='flex flex-col'>
@@ -74,7 +71,7 @@ const ArticleListScreen = () => {
                         isDarkMode ? 'text-white' : 'text-darkExpansion'
                     }`}
                 >
-                    {translations.articles || 'Articles'}
+                    {translations.myArticles || 'My Articles'}
                 </h1>
             </div>
             <div className='space-y-4 py-2'>
@@ -86,4 +83,4 @@ const ArticleListScreen = () => {
     );
 };
 
-export default ArticleListScreen;
+export default MyArticlesScreen;
