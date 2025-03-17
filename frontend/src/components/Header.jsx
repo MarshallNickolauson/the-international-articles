@@ -43,8 +43,8 @@ function Header() {
 
     useEffect(() => {
         if (
-            (!location.pathname.endsWith('/edit') &&
-                location.pathname.startsWith('/article/')) &&
+            !location.pathname.endsWith('/edit') &&
+            location.pathname.startsWith('/article/') &&
             !isArticleLoading
         ) {
             setisSecondaryLangVisible(true);
@@ -134,7 +134,8 @@ function Header() {
         setSelectedSecondaryLanguage(secondaryLanguage);
     }, [secondaryLanguage]);
 
-    const [createArticle, {isLoading, isError, error}] = useCreateArticleMutation();
+    const [createArticle, { isLoading, isError, error }] =
+        useCreateArticleMutation();
 
     const handleWriteNewArticle = async () => {
         if (userInfo) {
@@ -146,7 +147,7 @@ function Header() {
                 console.log(error);
             }
         } else navigate('/login');
-    }
+    };
 
     return (
         <>
@@ -179,6 +180,12 @@ function Header() {
                             ></div>
                         </div>
 
+                        {userInfo && (
+                            <h1 className='hover:cursor-pointer border-b-2 pb-1 border-b-transparent hover:border-b-mainWhite transition-all duration-100'>
+                                {translations.myArticles || 'My Articles'}
+                            </h1>
+                        )}
+
                         <h1
                             onClick={handleWriteNewArticle}
                             className='bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100 cursor-pointer'
@@ -201,10 +208,6 @@ function Header() {
                                 {translations.signIn || 'Sign In'}
                             </Link>
                         )}
-
-                        <h1 className='hover:cursor-pointer border-b-2 pb-1 border-b-transparent hover:border-b-mainWhite transition-all duration-100'>
-                            {translations.menu || 'Menu'}
-                        </h1>
                     </div>
                 </div>
             </nav>
@@ -345,7 +348,9 @@ function Header() {
                             type='text'
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder={translations.searchPlaceholder || 'Search...'}
+                            placeholder={
+                                translations.searchPlaceholder || 'Search...'
+                            }
                             className={`border transition-all duration-200 ${
                                 isDarkMode
                                     ? 'border-white text-white bg-_303030'
