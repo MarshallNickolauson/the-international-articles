@@ -15,11 +15,11 @@ import NotFoundScreen from './screens/NotFoundScreen';
 import Dashboard from './screens/Dashboard.jsx';
 import ArticleScreen from './screens/ArticleScreen.jsx';
 import ArticleListScreen from './screens/ArticleListScreen.jsx';
-import WriteNewScreen from './screens/WriteNewScreen.jsx';
 import LoginScreen from './screens/LoginScreen.jsx';
 import AccountScreen from './screens/AccountScreen.jsx';
 import RegisterScreen from './screens/RegisterScreen.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
+import EditArticleScreen from './screens/EditArticleScreen.jsx';
 
 function App() {
     const router = createBrowserRouter(
@@ -33,7 +33,7 @@ function App() {
                 <Route path='/articles' element={<ArticleListScreen />} />
                 <Route path='' element={<PrivateRoute />}>
                     <Route path='/account' element={<AccountScreen />} />
-                    <Route path='/write/new' element={<WriteNewScreen />} />
+                    <Route path='/article/:id/edit' element={<EditArticleScreen />} />
                 </Route>
             </Route>
         )

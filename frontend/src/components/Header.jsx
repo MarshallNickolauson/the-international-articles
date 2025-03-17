@@ -9,6 +9,7 @@ import {
 } from '../slices/language/languageSlice';
 import { toggleDarkMode } from '../slices/theme/themeSlice';
 import { LANGUAGES, TRANSLATIONS } from '../constants';
+import { useCreateArticleMutation } from '../slices/article/articleApiSlice';
 
 function Header() {
     const navigate = useNavigate();
@@ -42,7 +43,7 @@ function Header() {
 
     useEffect(() => {
         if (
-            (location.pathname === '/article' ||
+            (!location.pathname.endsWith('/edit') &&
                 location.pathname.startsWith('/article/')) &&
             !isArticleLoading
         ) {
@@ -133,6 +134,20 @@ function Header() {
         setSelectedSecondaryLanguage(secondaryLanguage);
     }, [secondaryLanguage]);
 
+    const [createArticle, {isLoading, isError, error}] = useCreateArticleMutation();
+
+    const handleWriteNewArticle = async () => {
+        if (userInfo) {
+            // Loader here...
+            try {
+                const res = await createArticle();
+                navigate(`/article/${res.data._id}/edit`);
+            } catch (error) {
+                console.log(error);
+            }
+        } else navigate('/login');
+    }
+
     return (
         <>
             <nav className='top-0 w-full bg-darkGreen py-3 px-4 flex justify-center'>
@@ -164,12 +179,12 @@ function Header() {
                             ></div>
                         </div>
 
-                        <Link
-                            to='/write/new'
-                            className='bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100'
+                        <h1
+                            onClick={handleWriteNewArticle}
+                            className='bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100 cursor-pointer'
                         >
                             {translations.writeArticle || 'Write Article'}
-                        </Link>
+                        </h1>
 
                         {userInfo ? (
                             <h1

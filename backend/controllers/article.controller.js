@@ -44,27 +44,20 @@ export const get5RecentArticles = expressAsyncHandler(async (req, res) => {
 
 // @desc    Create a new article
 // @route   POST api/articles
-// @access  Private/Admin
+// @access  Private
 export const createArticle = expressAsyncHandler(async (req, res) => {
-    const { languages } = req.body;
-
-    if (!languages || typeof languages !== 'object') {
-        res.status(400);
-        throw new Error('Languages field is required and must be an object');
-    }
-
-    for (const lang in languages) {
-        const { title, date, content } = languages[lang] || {};
-        if (!title || !date || !content) {
-            res.status(400);
-            throw new Error(
-                `Each language must have a title, date, and content. Missing fields in: ${lang}`
-            );
-        }
-    }
+    const languages = {
+        en: { title: '', date: new Date(), content: '' },
+        de: { title: '', date: new Date(), content: '' },
+        es: { title: '', date: new Date(), content: '' },
+        fr: { title: '', date: new Date(), content: '' },
+        pt: { title: '', date: new Date(), content: '' }
+    };
 
     const article = new Article({
         languages,
+        isPublished: false,
+        user: req.user._id
     });
 
     const createdArticle = await article.save();
@@ -73,7 +66,7 @@ export const createArticle = expressAsyncHandler(async (req, res) => {
 
 // @desc    Update an article
 // @route   PUT api/articles/:id
-// @access  Private/Admin
+// @access  Private
 export const updateArticle = expressAsyncHandler(async (req, res) => {
     const { languages } = req.body;
 
@@ -107,7 +100,7 @@ export const updateArticle = expressAsyncHandler(async (req, res) => {
 
 // @desc    Delete an article
 // @route   DELETE api/articles/:id
-// @access  Private/Admin
+// @access  Private
 export const deleteArticle = expressAsyncHandler(async (req, res) => {
     const article = await Article.findById(req.params.id);
 

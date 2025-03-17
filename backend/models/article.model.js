@@ -5,9 +5,9 @@ const articleSchema = mongoose.Schema(
         languages: {
             type: Map,
             of: {
-                title: { type: String, required: true },
-                date: { type: Date, required: true },
-                content: { type: String, required: true },
+                title: { type: String },
+                date: { type: Date },
+                content: { type: String },
             },
             required: true,
         },

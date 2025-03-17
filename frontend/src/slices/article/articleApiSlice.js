@@ -23,7 +23,14 @@ export const articleApiSlice = apiSlice.injectEndpoints({
                 method: 'GET'
             }),
             providesTags: ['Article'],
-        })
+        }),
+        createArticle: builder.mutation({
+            query: (data) => ({
+                url: `${ARTICLE_URL}`,
+                method: 'POST',
+                credentials: 'include'
+            }),
+        }),
     }),
 });
 
@@ -31,4 +38,5 @@ export const {
     useGetAllArticlesQuery,
     useGet5RecentArticlesQuery,
     useGetArticleByIdQuery,
+    useCreateArticleMutation,
 } = articleApiSlice;
