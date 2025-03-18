@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
+import { useSelector } from 'react-redux';
 
 const SimpleEditor = ({ onChange }) => {
     const [content, setContent] = useState('');
+    const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
     const editor = useEditor({
         extensions: [StarterKit, Underline],
@@ -34,7 +36,7 @@ const SimpleEditor = ({ onChange }) => {
                 return false;
             },
             attributes: {
-                class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto rounded-[8px] px-2 py-1 pb-2 focus:outline-none border-[1px] border-gray-300 focus:border-gray-500 font-opensans tracking-wider leading-[1.75]',
+                class: `prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto rounded-[8px] px-2 py-1 pb-2 outline-none ring-0 border-[1px] border-gray-300 focus:border-gray-500 font-opensans tracking-wider leading-[1.75] transition-all duration-200 ${isDarkMode ? 'bg-_303030 text-white' : 'bg-white text-darkExpansion'}`,
             },
         },
     });
