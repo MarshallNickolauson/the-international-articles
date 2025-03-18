@@ -21,14 +21,14 @@ export const articleApiSlice = apiSlice.injectEndpoints({
         get5RecentArticles: builder.query({
             query: (data) => ({
                 url: `${ARTICLE_URL}/recent`,
-                method: 'GET'
+                method: 'GET',
             }),
             providesTags: ['Article'],
         }),
         getArticleById: builder.query({
             query: (id) => ({
                 url: `${ARTICLE_URL}/${id}`,
-                method: 'GET'
+                method: 'GET',
             }),
             providesTags: ['Article'],
         }),
@@ -36,7 +36,22 @@ export const articleApiSlice = apiSlice.injectEndpoints({
             query: (data) => ({
                 url: `${ARTICLE_URL}`,
                 method: 'POST',
-                credentials: 'include'
+                credentials: 'include',
+            }),
+        }),
+        updateArticle: builder.mutation({
+            query: (data) => ({
+                url: `${ARTICLE_URL}/${data.id}`,
+                method: 'PUT',
+                credentials: 'include',
+                body: data,
+            }),
+        }),
+        deleteArticle: builder.mutation({
+            query: (data) => ({
+                url: `${ARTICLE_URL}/${data.id}`,
+                method: 'DELETE',
+                credentials: 'include',
             }),
         }),
     }),
@@ -48,4 +63,6 @@ export const {
     useGet5RecentArticlesQuery,
     useGetArticleByIdQuery,
     useCreateArticleMutation,
+    useUpdateArticleMutation,
+    useDeleteArticleMutation,
 } = articleApiSlice;

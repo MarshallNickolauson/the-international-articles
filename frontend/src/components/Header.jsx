@@ -181,7 +181,10 @@ function Header() {
                         </div>
 
                         {userInfo && (
-                            <h1 onClick={() => navigate('/my-articles')} className='hover:cursor-pointer border-b-2 pb-1 border-b-transparent hover:border-b-mainWhite transition-all duration-100'>
+                            <h1
+                                onClick={() => navigate('/my-articles')}
+                                className='hover:cursor-pointer border-b-2 pb-1 border-b-transparent hover:border-b-mainWhite transition-all duration-100'
+                            >
                                 {translations.myArticles || 'My Articles'}
                             </h1>
                         )}
@@ -236,7 +239,9 @@ function Header() {
                         {/* Primary Language */}
                         <div className='relative' ref={primaryLangDropdownRef}>
                             <div
-                                className='flex items-center py-1 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400'
+                                className={`flex items-center py-1 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${
+                                    isDarkMode ? 'bg-_303030 hover:bg-_252825' : 'bg-white'
+                                }`}
                                 onClick={() =>
                                     setIsPrimaryLangDropdownOpen(
                                         !isPrimaryLangDropdownOpen
@@ -265,23 +270,23 @@ function Header() {
                                     }`}
                                 />
                             </div>
-                            {isPrimaryLangDropdownOpen && (
-                                <ul
-                                    className={`absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded-[8px] shadow-lg opacity-100 transition-all duration-200`}
-                                >
-                                    {languages.map((lang, index) => (
-                                        <li
-                                            key={index}
-                                            className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
-                                            onClick={() =>
-                                                selectPrimaryLanguage(lang)
-                                            }
-                                        >
-                                            {LANGUAGES[lang]?.name}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
+                            <div className='relative'>
+                                {isPrimaryLangDropdownOpen && (
+                                    <ul className='absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded-[8px] shadow-lg opacity-100 transition-all duration-200 z-[100]'>
+                                        {languages.map((lang, index) => (
+                                            <li
+                                                key={index}
+                                                className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
+                                                onClick={() =>
+                                                    selectPrimaryLanguage(lang)
+                                                }
+                                            >
+                                                {LANGUAGES[lang]?.name}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
                         </div>
 
                         {/* Secondary Language */}

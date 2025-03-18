@@ -74,20 +74,11 @@ export const createArticle = expressAsyncHandler(async (req, res) => {
 // @access  Private
 export const updateArticle = expressAsyncHandler(async (req, res) => {
     const { languages } = req.body;
+    console.log(languages)
 
     if (!languages || typeof languages !== 'object') {
         res.status(400);
         throw new Error('Languages field is required and must be an object');
-    }
-
-    for (const lang in languages) {
-        const { title, date, content } = languages[lang] || {};
-        if (!title || !date || !content) {
-            res.status(400);
-            throw new Error(
-                `Each language must have a title, date, and content. Missing fields in: ${lang}`
-            );
-        }
     }
 
     const article = await Article.findById(req.params.id);
