@@ -19,44 +19,53 @@ const EditArticleScreen = () => {
     const { data: article, isLoading, isError } = useGetArticleByIdQuery(id);
     const [updateArticle, { isLoading: isUpdating }] =
         useUpdateArticleMutation();
-
     const [deleteArticle, { isLoading: isDeleting }] =
         useDeleteArticleMutation();
 
-    const [formData, setFormData] = useState({
-        title: '',
-        date: '',
-        content: '',
-    });
-
+    const [formData, setFormData] = useState({});
     const [selectedPrimaryLanguage, setSelectedPrimaryLanguage] =
         useState(language);
+    const [selectedSecondaryLanguage, setSelectedSecondaryLanguage] =
+        useState('none');
+
     const [isPrimaryLangDropdownOpen, setIsPrimaryLangDropdownOpen] =
         useState(false);
-    const [selectedSecondaryLanguage, setSelectedSecondaryLanguage] = useState(
-        'Select Secondary Language'
-    );
     const [isSecondaryLangDropdownOpen, setIsSecondaryLangDropdownOpen] =
         useState(false);
 
-    const translations =
-        TRANSLATIONS[selectedPrimaryLanguage] || TRANSLATIONS.en;
+    const primaryLangDropdownRef = useRef(null);
+    const secondaryLangDropdownRef = useRef(null);
 
     useEffect(() => {
-        if (article && article.languages[selectedPrimaryLanguage]) {
-            const langData = article.languages[selectedPrimaryLanguage];
-            setFormData({
-                title: langData.title || '',
-                date: langData.date
-                    ? new Date(langData.date).toISOString().split('T')[0]
-                    : '',
-                content: langData.content || '',
+        if (article) {
+            const initialData = {};
+            Object.keys(article.languages).forEach((lang) => {
+                initialData[lang] = {
+                    title: article.languages[lang]?.title || '',
+                    date: article.languages[lang]?.date
+                        ? new Date(article.languages[lang]?.date)
+                              .toISOString()
+                              .split('T')[0]
+                        : '',
+                    content: article.languages[lang]?.content || '',
+                };
             });
+            setFormData(initialData);
         }
-    }, [article, selectedPrimaryLanguage]);
+    }, [article]);
 
-    const handleChange = (field, value) => {
-        setFormData((prev) => ({ ...prev, [field]: value }));
+    const handleChange = (lang, field, value) => {
+        setFormData((prev) => ({
+            ...prev,
+            [lang]: {
+                ...prev[lang],
+                [field]: value,
+            },
+        }));
+    };
+
+    const handlePublish = async (e) => {
+        console.log('publish button clicked');
     };
 
     const handleSubmit = async (e) => {
@@ -64,54 +73,13 @@ const EditArticleScreen = () => {
         try {
             await updateArticle({
                 id,
-                languages: { [selectedPrimaryLanguage]: formData },
+                languages: formData,
             }).unwrap();
-            console.log('Updated!');
+            console.log('Updated successfully!');
         } catch (error) {
             console.error('Update failed', error);
         }
     };
-
-    const primaryLangDropdownRef = useRef(null);
-    const secondaryLangDropdownRef = useRef(null);
-
-    const handleClickOutsidePrimaryLang = (event) => {
-        if (
-            primaryLangDropdownRef.current &&
-            !primaryLangDropdownRef.current.contains(event.target)
-        ) {
-            setIsPrimaryLangDropdownOpen(false);
-        }
-    };
-
-    const handleClickOutsideSecondaryLang = (event) => {
-        if (
-            secondaryLangDropdownRef.current &&
-            !secondaryLangDropdownRef.current.contains(event.target)
-        ) {
-            setIsSecondaryLangDropdownOpen(false);
-        }
-    };
-
-    useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutsidePrimaryLang);
-        return () => {
-            document.removeEventListener(
-                'mousedown',
-                handleClickOutsidePrimaryLang
-            );
-        };
-    }, []);
-
-    useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutsideSecondaryLang);
-        return () => {
-            document.removeEventListener(
-                'mousedown',
-                handleClickOutsideSecondaryLang
-            );
-        };
-    }, []);
 
     const handleDeleteArticle = async () => {
         if (window.confirm('Are you sure you want to delete this article?')) {
@@ -124,75 +92,118 @@ const EditArticleScreen = () => {
         }
     };
 
+    const handleClickOutside = (ref, setDropdown) => (event) => {
+        if (ref.current && !ref.current.contains(event.target)) {
+            setDropdown(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener(
+            'mousedown',
+            handleClickOutside(
+                primaryLangDropdownRef,
+                setIsPrimaryLangDropdownOpen
+            )
+        );
+        document.addEventListener(
+            'mousedown',
+            handleClickOutside(
+                secondaryLangDropdownRef,
+                setIsSecondaryLangDropdownOpen
+            )
+        );
+        return () => {
+            document.removeEventListener(
+                'mousedown',
+                handleClickOutside(
+                    primaryLangDropdownRef,
+                    setIsPrimaryLangDropdownOpen
+                )
+            );
+            document.removeEventListener(
+                'mousedown',
+                handleClickOutside(
+                    secondaryLangDropdownRef,
+                    setIsSecondaryLangDropdownOpen
+                )
+            );
+        };
+    }, []);
+
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error loading article.</p>;
 
+    const translations =
+        TRANSLATIONS[selectedPrimaryLanguage] || TRANSLATIONS.en;
+
     return (
-        <div>
-            <div className='flex my-4 justify-between'>
-                <div>
-                    <h2
-                        className={`text-3xl font-bold transition-all duration-200 ${
-                            isDarkMode ? 'text-white' : 'text-darkExpansion'
-                        }`}
-                    >
-                        {translations.editArticle || 'Edit'} {formData.title}
-                    </h2>
-                </div>
-
-                <div className='flex space-x-2'>
+        <div className='py-4'>
+            {/* Header */}
+            <div className='flex justify-between items-center mb-6'>
+                <h2
+                    className={`font-poppins font-bold text-4xl ${
+                        isDarkMode ? 'text-white' : 'text-darkExpansion'
+                    }`}
+                >
+                    {translations.editArticle || 'Edit Article'}
+                </h2>
+                <div className='flex gap-4'>
                     <button
-                        type='button'
-                        className='bg-green-700 text-white px-3 py-2 rounded-[8px] font-semibold hover:bg-green-800 transition-all duration-100'
-                        disabled={isUpdating}
-                    >
-                        {translations.saveChanges || 'Save Changes'}
-                    </button>
-
-                    <button
-                        type='button'
-                        className='bg-green-700 text-white px-3 py-2 rounded-[8px] font-semibold hover:bg-green-800 transition-all duration-100'
+                        onClick={handlePublish}
+                        className='bg-blue-500 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100'
                         disabled={isUpdating}
                     >
                         {translations.publish || 'Publish'}
                     </button>
+                    <button
+                        onClick={handleSubmit}
+                        className='bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100'
+                        disabled={isUpdating}
+                    >
+                        {translations.saveChanges || 'Save Changes'}
+                    </button>
+                    <button
+                        onClick={handleDeleteArticle}
+                        className='bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100'
+                    >
+                        {translations.deleteArticle || 'Delete'}
+                    </button>
                 </div>
             </div>
 
-            <div className='flex gap-4 mb-4'>
-                {/* Primary Language Dropdown */}
-                <div className='relative w-1/2' ref={primaryLangDropdownRef}>
+            {/* Language Selectors */}
+            <div className='grid grid-cols-2 gap-4 mb-8'>
+                <div className='relative' ref={primaryLangDropdownRef}>
                     <div
-                        className={`flex items-center justify-center py-2 border border-gray-300 rounded-lg cursor-pointer hover:border-gray-400 transition-all duration-200 ${
+                        className={`flex items-center py-3 justify-center space-x-2 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${
                             isDarkMode
                                 ? 'bg-_303030 hover:bg-_252825'
                                 : 'bg-white'
                         }`}
                         onClick={() =>
-                            setIsPrimaryLangDropdownOpen(
-                                !isPrimaryLangDropdownOpen
-                            )
+                            setIsPrimaryLangDropdownOpen((prev) => !prev)
                         }
                     >
                         <span
-                            className={`transition-all duration-200 ${
+                            className={`${
                                 isDarkMode ? 'text-white' : 'text-darkExpansion'
-                            } text-lg`}
+                            } text-xl transition-all duration-200`}
                         >
                             {LANGUAGES[selectedPrimaryLanguage]?.name}
                         </span>
                         <IoIosArrowDropdown
-                            className={`ml-2 text-2xl transition-all duraiton-200 ${
+                            className={`${
                                 isDarkMode ? 'text-white' : 'text-darkExpansion'
-                            }`}
+                            } text-2xl transition-all duration-200`}
                         />
                     </div>
                     {isPrimaryLangDropdownOpen && (
-                        <ul className='absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-10'>
+                        <ul className='absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded-[8px] shadow-lg opacity-100 transition-all duration-200 z-[100]'>
                             {Object.keys(LANGUAGES).map((lang) => (
                                 <li
                                     key={lang}
-                                    className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
+                                    className='px-4 py-2 hover:bg-gray-200 cursor-pointer'
                                     onClick={() => {
                                         setSelectedPrimaryLanguage(lang);
                                         setIsPrimaryLangDropdownOpen(false);
@@ -205,43 +216,50 @@ const EditArticleScreen = () => {
                     )}
                 </div>
 
-                {/* Secondary Language Dropdown */}
-                <div className='relative w-1/2' ref={secondaryLangDropdownRef}>
+                {/* Secondary Language */}
+                <div className='relative' ref={secondaryLangDropdownRef}>
                     <div
-                        className={`flex items-center justify-center py-2 border border-gray-300 rounded-lg cursor-pointer hover:border-gray-400 transition-all duration-200 ${
+                        className={`flex items-center py-3 justify-center space-x-2 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${
                             isDarkMode
                                 ? 'bg-_303030 hover:bg-_252825'
                                 : 'bg-white'
                         }`}
                         onClick={() =>
-                            setIsSecondaryLangDropdownOpen(
-                                !isSecondaryLangDropdownOpen
-                            )
+                            setIsSecondaryLangDropdownOpen((prev) => !prev)
                         }
                     >
                         <span
-                            className={`transition-all duration-200 ${
+                            className={`${
                                 isDarkMode ? 'text-white' : 'text-darkExpansion'
-                            } text-lg`}
+                            } text-xl transition-all duration-200`}
                         >
-                            {selectedSecondaryLanguage}
+                            {selectedSecondaryLanguage === 'none'
+                                ? 'Select Other Language'
+                                : LANGUAGES[selectedSecondaryLanguage]?.name}
                         </span>
                         <IoIosArrowDropdown
-                            className={`ml-2 text-2xl transition-all duraiton-200 ${
+                            className={`${
                                 isDarkMode ? 'text-white' : 'text-darkExpansion'
-                            }`}
+                            } text-2xl transition-all duration-200`}
                         />
                     </div>
                     {isSecondaryLangDropdownOpen && (
-                        <ul className='absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-10'>
+                        <ul className='absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded-[8px] shadow-lg opacity-100 transition-all duration-200 z-[100]'>
+                            <li
+                                className='px-4 py-3 hover:bg-gray-200 cursor-pointer'
+                                onClick={() => {
+                                    setSelectedSecondaryLanguage('none');
+                                    setIsSecondaryLangDropdownOpen(false);
+                                }}
+                            >
+                                None
+                            </li>
                             {Object.keys(LANGUAGES).map((lang) => (
                                 <li
                                     key={lang}
-                                    className='px-4 py-2 hover:bg-gray-100 cursor-pointer'
+                                    className='px-4 py-3 hover:bg-gray-100 cursor-pointer'
                                     onClick={() => {
-                                        setSelectedSecondaryLanguage(
-                                            LANGUAGES[lang]?.name
-                                        );
+                                        setSelectedSecondaryLanguage(lang);
                                         setIsSecondaryLangDropdownOpen(false);
                                     }}
                                 >
@@ -253,76 +271,74 @@ const EditArticleScreen = () => {
                 </div>
             </div>
 
-            <div>
-                <div className='mb-4'>
-                    <label
-                        className={`block text-lg mb-1 transition-all duration-200 ${
-                            isDarkMode ? 'text-white' : 'text-darkExpansion'
-                        }`}
-                    >
-                        {translations.title || 'Title'}
-                    </label>
-                    <input
-                        type='text'
-                        className={`w-full px-4 py-2 border rounded-lg transition-all duration-200 ${
-                            isDarkMode
-                                ? 'border-white text-white bg-_303030'
-                                : 'border-gray-300 text-darkExpansion bg-white'
-                        }`}
-                        value={formData.title}
-                        onChange={(e) => handleChange('title', e.target.value)}
-                        required
-                    />
-                </div>
-                <div className='mb-4'>
-                    <label
-                        className={`block text-lg mb-1 transition-all duration-200 ${
-                            isDarkMode ? 'text-white' : 'text-darkExpansion'
-                        }`}
-                    >
-                        {translations.date || 'Date'}
-                    </label>
-                    <input
-                        type='date'
-                        className={`w-full px-4 py-2 border rounded-lg transition-all duration-200 ${
-                            isDarkMode
-                                ? 'border-white text-white bg-_303030'
-                                : 'border-gray-300 text-darkExpansion bg-white'
-                        }`}
-                        value={formData.date}
-                        onChange={(e) => handleChange('date', e.target.value)}
-                        required
-                    />
-                </div>
-                <div className='mb-4'>
-                    <label
-                        className={`block text-lg mb-1 transition-all duration-200 ${
-                            isDarkMode ? 'text-white' : 'text-darkExpansion'
-                        }`}
-                    >
-                        {translations.content || 'Content'}
-                    </label>
-                    <textarea
-                        className={`w-full px-4 py-2 border rounded-lg transition-all duration-200 ${
-                            isDarkMode
-                                ? 'border-white text-white bg-_303030'
-                                : 'border-gray-300 text-darkExpansion bg-white'
-                        }`}
-                        value={formData.content}
-                        onChange={(e) =>
-                            handleChange('content', e.target.value)
-                        }
-                        rows={5}
-                        required
-                    />
-                </div>
-                <button
-                    type='button'
-                    onClick={() => handleDeleteArticle()}
-                    className='w-full bg-red-600 text-white py-2 rounded-md font-semibold hover:bg-red-700 transition-all duration-100'
-                >
-                    {translations.deleteArticle || 'Delete Article'}
-                </button>
+            {/* Form Fields */}
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                {[selectedPrimaryLanguage, selectedSecondaryLanguage].map(
+                    (lang) =>
+                        lang !== 'none' && (
+                            <div key={lang} className='space-y-5'>
+                                <input
+                                    className={`w-full px-4 py-2 border transition-all duration-200 ${
+                                        isDarkMode
+                                            ? 'border-white text-white bg-_303030'
+                                            : 'border-gray-300 text-darkExpansion bg-white'
+                                    }
+                                    focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
+                                    font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
+                                    w-[600px] placeholder:italic`}
+                                    type='text'
+                                    placeholder='Title'
+                                    value={formData[lang]?.title || ''}
+                                    onChange={(e) =>
+                                        handleChange(
+                                            lang,
+                                            'title',
+                                            e.target.value
+                                        )
+                                    }
+                                />
+                                <input
+                                    className={`w-full px-4 py-2 border transition-all duration-200 ${
+                                        isDarkMode
+                                            ? 'border-white text-white bg-_303030'
+                                            : 'border-gray-300 text-darkExpansion bg-white'
+                                    }
+                                    focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
+                                    font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
+                                    w-[600px] placeholder:italic`}
+                                    type='date'
+                                    value={formData[lang]?.date || ''}
+                                    onChange={(e) =>
+                                        handleChange(
+                                            lang,
+                                            'date',
+                                            e.target.value
+                                        )
+                                    }
+                                />
+                                <textarea
+                                    className={`w-full px-4 py-2 border transition-all duration-200 ${
+                                        isDarkMode
+                                            ? 'border-white text-white bg-_303030'
+                                            : 'border-gray-300 text-darkExpansion bg-white'
+                                    }
+                                    focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
+                                    font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
+                                    w-[600px] placeholder:italic`}
+                                    placeholder='Content'
+                                    rows={6}
+                                    value={formData[lang]?.content || ''}
+                                    onChange={(e) =>
+                                        handleChange(
+                                            lang,
+                                            'content',
+                                            e.target.value
+                                        )
+                                    }
+                                />
+                            </div>
+                        )
+                )}
             </div>
         </div>
     );
