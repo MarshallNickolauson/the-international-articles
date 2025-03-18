@@ -2,12 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IoIosArrowDropdown } from 'react-icons/io';
-import {
-    useDeleteArticleMutation,
-    useGetArticleByIdQuery,
-    useUpdateArticleMutation,
-} from '../slices/article/articleApiSlice';
+import { useDeleteArticleMutation, useGetArticleByIdQuery, useUpdateArticleMutation } from '../slices/article/articleApiSlice';
 import { TRANSLATIONS, LANGUAGES } from '../constants';
+import SimpleEditor from './SimpleEditor';
 
 const EditArticleScreen = () => {
     const dispatch = useDispatch();
@@ -17,21 +14,15 @@ const EditArticleScreen = () => {
     const { id } = useParams();
 
     const { data: article, isLoading, isError } = useGetArticleByIdQuery(id);
-    const [updateArticle, { isLoading: isUpdating }] =
-        useUpdateArticleMutation();
-    const [deleteArticle, { isLoading: isDeleting }] =
-        useDeleteArticleMutation();
+    const [updateArticle, { isLoading: isUpdating }] = useUpdateArticleMutation();
+    const [deleteArticle, { isLoading: isDeleting }] = useDeleteArticleMutation();
 
     const [formData, setFormData] = useState({});
-    const [selectedPrimaryLanguage, setSelectedPrimaryLanguage] =
-        useState(language);
-    const [selectedSecondaryLanguage, setSelectedSecondaryLanguage] =
-        useState('none');
+    const [selectedPrimaryLanguage, setSelectedPrimaryLanguage] = useState(language);
+    const [selectedSecondaryLanguage, setSelectedSecondaryLanguage] = useState('none');
 
-    const [isPrimaryLangDropdownOpen, setIsPrimaryLangDropdownOpen] =
-        useState(false);
-    const [isSecondaryLangDropdownOpen, setIsSecondaryLangDropdownOpen] =
-        useState(false);
+    const [isPrimaryLangDropdownOpen, setIsPrimaryLangDropdownOpen] = useState(false);
+    const [isSecondaryLangDropdownOpen, setIsSecondaryLangDropdownOpen] = useState(false);
 
     const primaryLangDropdownRef = useRef(null);
     const secondaryLangDropdownRef = useRef(null);
@@ -42,11 +33,7 @@ const EditArticleScreen = () => {
             Object.keys(article.languages).forEach((lang) => {
                 initialData[lang] = {
                     title: article.languages[lang]?.title || '',
-                    date: article.languages[lang]?.date
-                        ? new Date(article.languages[lang]?.date)
-                              .toISOString()
-                              .split('T')[0]
-                        : '',
+                    date: article.languages[lang]?.date ? new Date(article.languages[lang]?.date).toISOString().split('T')[0] : '',
                     content: article.languages[lang]?.content || '',
                 };
             });
@@ -99,75 +86,34 @@ const EditArticleScreen = () => {
     };
 
     useEffect(() => {
-        document.addEventListener(
-            'mousedown',
-            handleClickOutside(
-                primaryLangDropdownRef,
-                setIsPrimaryLangDropdownOpen
-            )
-        );
-        document.addEventListener(
-            'mousedown',
-            handleClickOutside(
-                secondaryLangDropdownRef,
-                setIsSecondaryLangDropdownOpen
-            )
-        );
+        document.addEventListener('mousedown', handleClickOutside(primaryLangDropdownRef, setIsPrimaryLangDropdownOpen));
+        document.addEventListener('mousedown', handleClickOutside(secondaryLangDropdownRef, setIsSecondaryLangDropdownOpen));
         return () => {
-            document.removeEventListener(
-                'mousedown',
-                handleClickOutside(
-                    primaryLangDropdownRef,
-                    setIsPrimaryLangDropdownOpen
-                )
-            );
-            document.removeEventListener(
-                'mousedown',
-                handleClickOutside(
-                    secondaryLangDropdownRef,
-                    setIsSecondaryLangDropdownOpen
-                )
-            );
+            document.removeEventListener('mousedown', handleClickOutside(primaryLangDropdownRef, setIsPrimaryLangDropdownOpen));
+            document.removeEventListener('mousedown', handleClickOutside(secondaryLangDropdownRef, setIsSecondaryLangDropdownOpen));
         };
     }, []);
 
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error loading article.</p>;
 
-    const translations =
-        TRANSLATIONS[selectedPrimaryLanguage] || TRANSLATIONS.en;
+    const translations = TRANSLATIONS[selectedPrimaryLanguage] || TRANSLATIONS.en;
 
     return (
         <div className='py-4'>
             {/* Header */}
             <div className='flex justify-between items-center mb-6'>
-                <h2
-                    className={`font-poppins font-bold text-4xl ${
-                        isDarkMode ? 'text-white' : 'text-darkExpansion'
-                    }`}
-                >
-                    {translations.edit || 'Edit'}{' '}
-                    {formData[selectedPrimaryLanguage]?.title}
+                <h2 className={`font-poppins font-bold text-4xl ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
+                    {translations.edit || 'Edit'} {formData[selectedPrimaryLanguage]?.title}
                 </h2>
                 <div className='flex gap-4'>
-                    <button
-                        onClick={handlePublish}
-                        className='bg-blue-500 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100'
-                        disabled={isUpdating}
-                    >
+                    <button onClick={handlePublish} className='bg-blue-500 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100' disabled={isUpdating}>
                         {translations.publish || 'Publish'}
                     </button>
-                    <button
-                        onClick={handleSubmit}
-                        className='bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100'
-                        disabled={isUpdating}
-                    >
+                    <button onClick={handleSubmit} className='bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100' disabled={isUpdating}>
                         {translations.saveChanges || 'Save Changes'}
                     </button>
-                    <button
-                        onClick={handleDeleteArticle}
-                        className='bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100'
-                    >
+                    <button onClick={handleDeleteArticle} className='bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100'>
                         {translations.deleteArticle || 'Delete'}
                     </button>
                 </div>
@@ -176,28 +122,9 @@ const EditArticleScreen = () => {
             {/* Language Selectors */}
             <div className='grid grid-cols-2 gap-4 mb-8'>
                 <div className='relative' ref={primaryLangDropdownRef}>
-                    <div
-                        className={`flex items-center py-3 justify-center space-x-2 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${
-                            isDarkMode
-                                ? 'bg-_303030 hover:bg-_252825'
-                                : 'bg-white'
-                        }`}
-                        onClick={() =>
-                            setIsPrimaryLangDropdownOpen((prev) => !prev)
-                        }
-                    >
-                        <span
-                            className={`${
-                                isDarkMode ? 'text-white' : 'text-darkExpansion'
-                            } text-xl transition-all duration-200`}
-                        >
-                            {LANGUAGES[selectedPrimaryLanguage]?.name}
-                        </span>
-                        <IoIosArrowDropdown
-                            className={`${
-                                isDarkMode ? 'text-white' : 'text-darkExpansion'
-                            } text-2xl transition-all duration-200`}
-                        />
+                    <div className={`flex items-center py-3 justify-center space-x-2 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${isDarkMode ? 'bg-_303030 hover:bg-_252825' : 'bg-white'}`} onClick={() => setIsPrimaryLangDropdownOpen((prev) => !prev)}>
+                        <span className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-xl transition-all duration-200`}>{LANGUAGES[selectedPrimaryLanguage]?.name}</span>
+                        <IoIosArrowDropdown className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-2xl transition-all duration-200`} />
                     </div>
                     {isPrimaryLangDropdownOpen && (
                         <ul className='absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded-[8px] shadow-lg opacity-100 transition-all duration-200 z-[100]'>
@@ -219,30 +146,9 @@ const EditArticleScreen = () => {
 
                 {/* Secondary Language */}
                 <div className='relative' ref={secondaryLangDropdownRef}>
-                    <div
-                        className={`flex items-center py-3 justify-center space-x-2 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${
-                            isDarkMode
-                                ? 'bg-_303030 hover:bg-_252825'
-                                : 'bg-white'
-                        }`}
-                        onClick={() =>
-                            setIsSecondaryLangDropdownOpen((prev) => !prev)
-                        }
-                    >
-                        <span
-                            className={`${
-                                isDarkMode ? 'text-white' : 'text-darkExpansion'
-                            } text-xl transition-all duration-200`}
-                        >
-                            {selectedSecondaryLanguage === 'none'
-                                ? 'Select Other Language'
-                                : LANGUAGES[selectedSecondaryLanguage]?.name}
-                        </span>
-                        <IoIosArrowDropdown
-                            className={`${
-                                isDarkMode ? 'text-white' : 'text-darkExpansion'
-                            } text-2xl transition-all duration-200`}
-                        />
+                    <div className={`flex items-center py-3 justify-center space-x-2 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${isDarkMode ? 'bg-_303030 hover:bg-_252825' : 'bg-white'}`} onClick={() => setIsSecondaryLangDropdownOpen((prev) => !prev)}>
+                        <span className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-xl transition-all duration-200`}>{selectedSecondaryLanguage === 'none' ? 'Select Other Language' : LANGUAGES[selectedSecondaryLanguage]?.name}</span>
+                        <IoIosArrowDropdown className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-2xl transition-all duration-200`} />
                     </div>
                     {isSecondaryLangDropdownOpen && (
                         <ul className='absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded-[8px] shadow-lg opacity-100 transition-all duration-200 z-[100]'>
@@ -273,71 +179,39 @@ const EditArticleScreen = () => {
             </div>
 
             {/* Form Fields */}
-            <div
-                className={`flex gap-6 ${
-                    selectedSecondaryLanguage === 'none' ? '' : ''
-                }`}
-            >
+            <div className={`flex gap-6 ${selectedSecondaryLanguage === 'none' ? '' : ''}`}>
                 {[selectedPrimaryLanguage, selectedSecondaryLanguage].map(
                     (lang) =>
                         lang !== 'none' && (
-                            <div
-                                key={lang}
-                                className={`flex flex-col transition-all duration-700 ${
-                                    selectedSecondaryLanguage === 'none'
-                                        ? 'w-full'
-                                        : 'w-1/2'
-                                }`}
-                            >
-                                <label className={`text-lg mb-1 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
-                                    {translations.title || 'Title'}
-                                </label>
+                            <div key={lang} className={`flex flex-col transition-all duration-700 ${selectedSecondaryLanguage === 'none' ? 'w-full' : 'w-1/2'}`}>
+                                <label className={`text-lg mb-1 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{translations.title || 'Title'}</label>
                                 <input
-                                    className={`w-full mb-3 px-4 py-2 border transition-all duration-200 ${
-                                        isDarkMode
-                                            ? 'border-white text-white bg-_303030'
-                                            : 'border-gray-300 text-darkExpansion bg-white'
-                                    }
+                                    className={`w-full mb-3 px-4 py-2 border transition-all duration-200 ${isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'}
                         focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
                         font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
                         placeholder:italic`}
                                     type='text'
                                     placeholder='Title'
                                     value={formData[lang]?.title || ''}
-                                    onChange={(e) =>
-                                        handleChange(
-                                            lang,
-                                            'title',
-                                            e.target.value
-                                        )
-                                    }
+                                    onChange={(e) => handleChange(lang, 'title', e.target.value)}
                                 />
-                                <label className={`text-lg mb-1 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
-                                    {translations.date || 'Date'}
-                                </label>
+                                <label className={`text-lg mb-1 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{translations.date || 'Date'}</label>
                                 <input
-                                    className={`w-full mb-3 px-4 py-2 border transition-all duration-200 ${
-                                        isDarkMode
-                                            ? 'border-white text-white bg-_303030'
-                                            : 'border-gray-300 text-darkExpansion bg-white'
-                                    }
+                                    className={`w-full mb-3 px-4 py-2 border transition-all duration-200 ${isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'}
                         focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
                         font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
                         placeholder:italic`}
                                     type='date'
                                     value={formData[lang]?.date || ''}
-                                    onChange={(e) =>
-                                        handleChange(
-                                            lang,
-                                            'date',
-                                            e.target.value
-                                        )
-                                    }
+                                    onChange={(e) => handleChange(lang, 'date', e.target.value)}
                                 />
-                                <label className={`text-lg mb-1 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
-                                    {translations.content || 'Content'}
-                                </label>
-                                <textarea
+                                <label className={`text-lg mb-1 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{translations.content || 'Content'}</label>
+                                <SimpleEditor
+                                    onChange={(content) => {
+                                        handleChange(lang, 'content', content);
+                                    }}
+                                />
+                                {/* <textarea
                                     className={`w-full px-4 py-2 border transition-all duration-200 ${
                                         isDarkMode
                                             ? 'border-white text-white bg-_303030'
@@ -356,7 +230,7 @@ const EditArticleScreen = () => {
                                             e.target.value
                                         )
                                     }
-                                />
+                                /> */}
                             </div>
                         )
                 )}
