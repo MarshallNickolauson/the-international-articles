@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IoIosArrowDropdown } from 'react-icons/io';
-import { useDeleteArticleMutation, useGetArticleByIdQuery, useUpdateArticleMutation } from '../slices/article/articleApiSlice';
+import { useDeleteArticleMutation, useGetArticleByIdQuery, useToggleArticlePublishedMutation, useUpdateArticleMutation } from '../slices/article/articleApiSlice';
 import { TRANSLATIONS, LANGUAGES } from '../constants';
 import SimpleEditor from './SimpleEditor';
 
@@ -20,6 +20,7 @@ const EditArticleScreen = () => {
     const [referenceArticleData, setReferenceArticleData] = useState({});
     const [formData, setFormData] = useState({});
     const [isSaved, setIsSaved] = useState(true);
+    const [isPublished, setIsPublished] = useState(null);
     const [selectedPrimaryLanguage, setSelectedPrimaryLanguage] = useState(language);
     const [selectedSecondaryLanguage, setSelectedSecondaryLanguage] = useState('none');
 
@@ -41,6 +42,7 @@ const EditArticleScreen = () => {
             });
             setReferenceArticleData(initialData);
             setFormData(initialData);
+            setIsPublished(article.isPublished);
         }
     }, [article]);
 
@@ -57,10 +59,17 @@ const EditArticleScreen = () => {
     useEffect(() => {
         if (formData === referenceArticleData) setIsSaved(true);
         else setIsSaved(false);
-    }, [referenceArticleData, formData])
+    }, [referenceArticleData, formData]);
 
-    const handlePublish = async (e) => {
-        console.log('publish button clicked');
+    const [toggleArticleUpdate, { isLoading: isPublishing, isError: isPublishingError }] = useToggleArticlePublishedMutation();
+
+    const handlePublishToggle = async (e) => {
+        try {
+            const res = await toggleArticleUpdate({ id }).unwrap();
+            setIsPublished(res.isPublished);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const handleSave = async (e) => {
@@ -116,9 +125,13 @@ const EditArticleScreen = () => {
                     {translations.edit || 'Edit'} {formData[selectedPrimaryLanguage]?.title}
                 </h2>
                 <div className='flex gap-4'>
-                    <button onClick={handlePublish} className={` text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100 
-                        ${!isSaved ? 'cursor-not-allowed bg-gray-500' : 'bg-blue-500 hover:bg-blue-700'}`} disabled={!isSaved}>
-                        {translations.publish || 'Publish'}
+                    <button
+                        onClick={handlePublishToggle}
+                        className={` text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100 
+                        ${!isSaved ? 'cursor-not-allowed bg-gray-500' : 'bg-blue-500 hover:bg-blue-700'}`}
+                        disabled={!isSaved}
+                    >
+                        {!isPublished ? translations.publish || 'Publish' : translations.unpublish || 'Unpublish'}
                     </button>
                     <button onClick={handleSave} className='bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100' disabled={isUpdating}>
                         {translations.saveChanges || 'Save Changes'}

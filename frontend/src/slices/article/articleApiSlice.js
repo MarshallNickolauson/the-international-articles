@@ -47,6 +47,13 @@ export const articleApiSlice = apiSlice.injectEndpoints({
                 body: data,
             }),
         }),
+        toggleArticlePublished: builder.mutation({
+            query: (data) => ({
+                url: `${ARTICLE_URL}/${data.id}/toggle-published`,
+                method: 'PUT',
+                credentials: 'include',
+            }),
+        }),
         deleteArticle: builder.mutation({
             query: (data) => ({
                 url: `${ARTICLE_URL}/${data.id}`,
@@ -64,5 +71,6 @@ export const {
     useGetArticleByIdQuery,
     useCreateArticleMutation,
     useUpdateArticleMutation,
+    useToggleArticlePublishedMutation,
     useDeleteArticleMutation,
 } = articleApiSlice;

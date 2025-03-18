@@ -93,6 +93,22 @@ export const updateArticle = expressAsyncHandler(async (req, res) => {
     }
 });
 
+// @desc    Toggle article published boolean
+// @route   PUT api/articles/:id/toggle-published
+// @access  Private
+export const toggleArticlePublished = expressAsyncHandler(async (req, res) => {
+    const article = await Article.findById(req.params.id);
+    
+    if (article) {
+        article.isPublished = !article.isPublished;
+        const updatedArticle = await article.save();
+        res.status(200).json(updatedArticle);
+    } else {
+        res.status(404);
+        throw new Error('Article not found');
+    }
+});
+
 // @desc    Delete an article
 // @route   DELETE api/articles/:id
 // @access  Private
