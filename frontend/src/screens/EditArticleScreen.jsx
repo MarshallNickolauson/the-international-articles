@@ -242,26 +242,6 @@ const EditArticleScreen = () => {
                                         handleChange(lang, 'content', content);
                                     }}
                                 />
-                                {/* <textarea
-                                    className={`w-full px-4 py-2 border transition-all duration-200 ${
-                                        isDarkMode
-                                            ? 'border-white text-white bg-_303030'
-                                            : 'border-gray-300 text-darkExpansion bg-white'
-                                    }
-                        focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
-                        font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
-                        placeholder:italic`}
-                                    placeholder='Content'
-                                    rows={6}
-                                    value={formData[lang]?.content || ''}
-                                    onChange={(e) =>
-                                        handleChange(
-                                            lang,
-                                            'content',
-                                            e.target.value
-                                        )
-                                    }
-                                /> */}
                             </div>
                         )
                 )}
