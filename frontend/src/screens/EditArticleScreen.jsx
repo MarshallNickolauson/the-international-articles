@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { IoIosArrowDropdown } from 'react-icons/io';
 import { useDeleteArticleMutation, useGetArticleByIdQuery, useToggleArticlePublishedMutation, useUpdateArticleMutation } from '../slices/article/articleApiSlice';
 import { TRANSLATIONS, LANGUAGES } from '../constants';
@@ -11,9 +11,15 @@ const EditArticleScreen = () => {
     const navigate = useNavigate();
     const language = useSelector((state) => state.language.language);
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+    const location = useLocation();
     const { id } = useParams();
 
-    const { data: article, isLoading, isError } = useGetArticleByIdQuery(id);
+    const { data: article, isLoading, isError, refetch, isFetching } = useGetArticleByIdQuery(id, { refetchOnMountOrArgChange: true });
+
+    useEffect(() => {
+        refetch();
+    }, [location, id, refetch]);
+
     const [updateArticle, { isLoading: isUpdating }] = useUpdateArticleMutation();
     const [deleteArticle, { isLoading: isDeleting }] = useDeleteArticleMutation();
 
@@ -112,7 +118,7 @@ const EditArticleScreen = () => {
         };
     }, []);
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading || isFetching) return <p>Loading...</p>;
     if (isError) return <p>Error loading article.</p>;
 
     const translations = TRANSLATIONS[selectedPrimaryLanguage] || TRANSLATIONS.en;
@@ -230,6 +236,7 @@ const EditArticleScreen = () => {
                                 />
                                 <label className={`text-lg mb-1 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{translations.content || 'Content'}</label>
                                 <SimpleEditor
+                                    key={formData[lang]?.content}
                                     initialContent={formData[lang]?.content}
                                     onChange={(content) => {
                                         handleChange(lang, 'content', content);
