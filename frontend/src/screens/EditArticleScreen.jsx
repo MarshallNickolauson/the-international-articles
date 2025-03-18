@@ -217,6 +217,7 @@ const EditArticleScreen = () => {
                                 />
                                 <label className={`text-lg mb-1 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{translations.content || 'Content'}</label>
                                 <SimpleEditor
+                                    initialContent={formData[lang]?.content}
                                     onChange={(content) => {
                                         handleChange(lang, 'content', content);
                                     }}

@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import { useSelector } from 'react-redux';
 
-const SimpleEditor = ({ onChange }) => {
+const SimpleEditor = ({ initialContent, onChange }) => {
     const [content, setContent] = useState('');
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
     const editor = useEditor({
         extensions: [StarterKit, Underline],
-        content: '<p>Start typing...</p>',
+        content: initialContent,
         onUpdate: ({ editor }) => {
             const html = editor.getHTML();
             setContent(html);
@@ -40,6 +40,12 @@ const SimpleEditor = ({ onChange }) => {
             },
         },
     });
+
+    useEffect(() => {
+        if (editor && initialContent) {
+            editor.commands.setContent(initialContent);
+        }
+    }, [editor, initialContent]);
 
     return (
         <div>
