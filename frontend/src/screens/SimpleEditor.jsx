@@ -34,7 +34,7 @@ const SimpleEditor = ({ onChange }) => {
                 return false;
             },
             attributes: {
-                class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto rounded-[5px] px-2 py-1 pb-2 focus:outline-none ring-[1px] ring-blue-200 focus:ring-blue-600 font-opensans tracking-wider leading-[1.75]',
+                class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto rounded-[8px] px-2 py-1 pb-2 focus:outline-none border-[1px] border-gray-300 focus:border-gray-500 font-opensans tracking-wider leading-[1.75]',
             },
         },
     });

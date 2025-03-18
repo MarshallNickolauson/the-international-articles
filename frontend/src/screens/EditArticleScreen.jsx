@@ -186,10 +186,10 @@ const EditArticleScreen = () => {
                             <div key={lang} className={`flex flex-col transition-all duration-700 ${selectedSecondaryLanguage === 'none' ? 'w-full' : 'w-1/2'}`}>
                                 <label className={`text-lg mb-1 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{translations.title || 'Title'}</label>
                                 <input
-                                    className={`w-full mb-3 px-4 py-2 border transition-all duration-200 ${isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'}
-                        focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
-                        font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
-                        placeholder:italic`}
+                                    className={`w-full mb-3 px-4 py-2 border-[1px] ${isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'}
+                                            focus:outline-none outline-none ring-0 focus:border-gray-500
+                                            font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
+                                            placeholder:italic`}
                                     type='text'
                                     placeholder='Title'
                                     value={formData[lang]?.title || ''}
@@ -197,10 +197,10 @@ const EditArticleScreen = () => {
                                 />
                                 <label className={`text-lg mb-1 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{translations.date || 'Date'}</label>
                                 <input
-                                    className={`w-full mb-3 px-4 py-2 border transition-all duration-200 ${isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'}
-                        focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
-                        font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
-                        placeholder:italic`}
+                                    className={`w-full mb-3 px-4 py-2 border-[1px] ${isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'}
+                                                focus:outline-none outline-none ring-0 focus:border-gray-500
+                                                font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
+                                                placeholder:italic`}
                                     type='date'
                                     value={formData[lang]?.date || ''}
                                     onChange={(e) => handleChange(lang, 'date', e.target.value)}

@@ -356,13 +356,13 @@ function Header() {
                             placeholder={
                                 translations.searchPlaceholder || 'Search...'
                             }
-                            className={`border transition-all duration-200 ${
+                            className={`border-[1px] transition-all duration-200 ${
                                 isDarkMode
                                     ? 'border-white text-white bg-_303030'
                                     : 'border-gray-300 text-darkExpansion bg-white'
                             }
-                            focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
-                            font-opensans rounded-[8px] py-2 pl-12 pr-4 transition-all duration-200 
+                            outline-none ring-0 focus:border-gray-500
+                            font-opensans rounded-[8px] py-2 pl-12 pr-4
                             w-[600px] placeholder:italic`}
                         />
                     </div>
