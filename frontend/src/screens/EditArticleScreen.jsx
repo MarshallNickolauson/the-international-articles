@@ -146,7 +146,8 @@ const EditArticleScreen = () => {
                         isDarkMode ? 'text-white' : 'text-darkExpansion'
                     }`}
                 >
-                    {translations.editArticle || 'Edit Article'}
+                    {translations.edit || 'Edit'}{' '}
+                    {formData[selectedPrimaryLanguage]?.title}
                 </h2>
                 <div className='flex gap-4'>
                     <button
@@ -272,20 +273,34 @@ const EditArticleScreen = () => {
             </div>
 
             {/* Form Fields */}
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+            <div
+                className={`flex gap-6 ${
+                    selectedSecondaryLanguage === 'none' ? '' : ''
+                }`}
+            >
                 {[selectedPrimaryLanguage, selectedSecondaryLanguage].map(
                     (lang) =>
                         lang !== 'none' && (
-                            <div key={lang} className='space-y-5'>
+                            <div
+                                key={lang}
+                                className={`flex flex-col transition-all duration-700 ${
+                                    selectedSecondaryLanguage === 'none'
+                                        ? 'w-full'
+                                        : 'w-1/2'
+                                }`}
+                            >
+                                <label className={`text-lg mb-1 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
+                                    {translations.title || 'Title'}
+                                </label>
                                 <input
-                                    className={`w-full px-4 py-2 border transition-all duration-200 ${
+                                    className={`w-full mb-3 px-4 py-2 border transition-all duration-200 ${
                                         isDarkMode
                                             ? 'border-white text-white bg-_303030'
                                             : 'border-gray-300 text-darkExpansion bg-white'
                                     }
-                                    focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
-                                    font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
-                                    w-[600px] placeholder:italic`}
+                        focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
+                        font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
+                        placeholder:italic`}
                                     type='text'
                                     placeholder='Title'
                                     value={formData[lang]?.title || ''}
@@ -297,15 +312,18 @@ const EditArticleScreen = () => {
                                         )
                                     }
                                 />
+                                <label className={`text-lg mb-1 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
+                                    {translations.date || 'Date'}
+                                </label>
                                 <input
-                                    className={`w-full px-4 py-2 border transition-all duration-200 ${
+                                    className={`w-full mb-3 px-4 py-2 border transition-all duration-200 ${
                                         isDarkMode
                                             ? 'border-white text-white bg-_303030'
                                             : 'border-gray-300 text-darkExpansion bg-white'
                                     }
-                                    focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
-                                    font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
-                                    w-[600px] placeholder:italic`}
+                        focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
+                        font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
+                        placeholder:italic`}
                                     type='date'
                                     value={formData[lang]?.date || ''}
                                     onChange={(e) =>
@@ -316,15 +334,18 @@ const EditArticleScreen = () => {
                                         )
                                     }
                                 />
+                                <label className={`text-lg mb-1 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
+                                    {translations.content || 'Content'}
+                                </label>
                                 <textarea
                                     className={`w-full px-4 py-2 border transition-all duration-200 ${
                                         isDarkMode
                                             ? 'border-white text-white bg-_303030'
                                             : 'border-gray-300 text-darkExpansion bg-white'
                                     }
-                                    focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
-                                    font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
-                                    w-[600px] placeholder:italic`}
+                        focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
+                        font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
+                        placeholder:italic`}
                                     placeholder='Content'
                                     rows={6}
                                     value={formData[lang]?.content || ''}
