@@ -74,7 +74,6 @@ export const createArticle = expressAsyncHandler(async (req, res) => {
 // @access  Private
 export const updateArticle = expressAsyncHandler(async (req, res) => {
     const { languages } = req.body;
-    console.log(languages)
 
     if (!languages || typeof languages !== 'object') {
         res.status(400);

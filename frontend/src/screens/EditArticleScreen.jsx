@@ -17,7 +17,9 @@ const EditArticleScreen = () => {
     const [updateArticle, { isLoading: isUpdating }] = useUpdateArticleMutation();
     const [deleteArticle, { isLoading: isDeleting }] = useDeleteArticleMutation();
 
+    const [referenceArticleData, setReferenceArticleData] = useState({});
     const [formData, setFormData] = useState({});
+    const [isSaved, setIsSaved] = useState(true);
     const [selectedPrimaryLanguage, setSelectedPrimaryLanguage] = useState(language);
     const [selectedSecondaryLanguage, setSelectedSecondaryLanguage] = useState('none');
 
@@ -37,6 +39,7 @@ const EditArticleScreen = () => {
                     content: article.languages[lang]?.content || '',
                 };
             });
+            setReferenceArticleData(initialData);
             setFormData(initialData);
         }
     }, [article]);
@@ -51,11 +54,16 @@ const EditArticleScreen = () => {
         }));
     };
 
+    useEffect(() => {
+        if (formData === referenceArticleData) setIsSaved(true);
+        else setIsSaved(false);
+    }, [referenceArticleData, formData])
+
     const handlePublish = async (e) => {
         console.log('publish button clicked');
     };
 
-    const handleSubmit = async (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
         try {
             await updateArticle({
@@ -63,6 +71,7 @@ const EditArticleScreen = () => {
                 languages: formData,
             }).unwrap();
             console.log('Updated successfully!');
+            setReferenceArticleData(formData);
         } catch (error) {
             console.error('Update failed', error);
         }
@@ -107,10 +116,11 @@ const EditArticleScreen = () => {
                     {translations.edit || 'Edit'} {formData[selectedPrimaryLanguage]?.title}
                 </h2>
                 <div className='flex gap-4'>
-                    <button onClick={handlePublish} className='bg-blue-500 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100' disabled={isUpdating}>
+                    <button onClick={handlePublish} className={` text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100 
+                        ${!isSaved ? 'cursor-not-allowed bg-gray-500' : 'bg-blue-500 hover:bg-blue-700'}`} disabled={!isSaved}>
                         {translations.publish || 'Publish'}
                     </button>
-                    <button onClick={handleSubmit} className='bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100' disabled={isUpdating}>
+                    <button onClick={handleSave} className='bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100' disabled={isUpdating}>
                         {translations.saveChanges || 'Save Changes'}
                     </button>
                     <button onClick={handleDeleteArticle} className='bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100'>
