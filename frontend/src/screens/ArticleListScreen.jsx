@@ -49,7 +49,6 @@ const ArticleListScreen = () => {
         );
     }
 
-    // Main content - displaying articles
     return (
         <div>
             <div className='flex flex-col'>

@@ -19,7 +19,7 @@ const Dashboard = () => {
 
     const translations = TRANSLATIONS[language] || TRANSLATIONS.en;
 
-    if (isLoading) {
+    if (isLoading || isFetching) {
         return (
             <section>
                 <div className='flex space-x-6'>
