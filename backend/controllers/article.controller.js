@@ -6,8 +6,6 @@ import Article from '../models/article.model.js';
 // @access  Public
 export const getAllArticles = expressAsyncHandler(async (req, res) => {
     const articles = await Article.find({ isPublished: true }).sort({ createdAt: -1 });
-    // Purposeful delay to test loaders
-    await new Promise((resolve) => setTimeout(resolve, 500));
     res.status(200).json(articles);
 });
 
@@ -16,8 +14,6 @@ export const getAllArticles = expressAsyncHandler(async (req, res) => {
 // @access  Public
 export const getAllUserArticles = expressAsyncHandler(async (req, res) => {
     const articles = await Article.find({ user: req.user._id }).sort({ createdAt: -1 });
-    // Purposeful delay to test loaders
-    await new Promise((resolve) => setTimeout(resolve, 500));
     res.status(200).json(articles);
 });
 
@@ -28,8 +24,6 @@ export const getArticleById = expressAsyncHandler(async (req, res) => {
     const article = await Article.findById({ _id: req.params.id });
 
     if (article) {
-        // Purposeful delay to test loaders
-        await new Promise((resolve) => setTimeout(resolve, 500));
         res.status(200).json(article);
     } else {
         res.status(404);
@@ -42,8 +36,6 @@ export const getArticleById = expressAsyncHandler(async (req, res) => {
 // @access  Public
 export const get5RecentArticles = expressAsyncHandler(async (req, res) => {
     const articles = await Article.find({ isPublished: true }).sort({ createdAt: -1 }).limit(5);
-    // Purposeful delay to test loaders
-    await new Promise((resolve) => setTimeout(resolve, 500));
     res.status(200).json(articles);
 });
 
@@ -84,7 +76,6 @@ export const updateArticle = expressAsyncHandler(async (req, res) => {
 
     if (article) {
         article.languages = languages;
-
         const updatedArticle = await article.save();
         res.status(200).json(updatedArticle);
     } else {
@@ -98,7 +89,7 @@ export const updateArticle = expressAsyncHandler(async (req, res) => {
 // @access  Private
 export const toggleArticlePublished = expressAsyncHandler(async (req, res) => {
     const article = await Article.findById(req.params.id);
-    
+
     if (article) {
         article.isPublished = !article.isPublished;
         const updatedArticle = await article.save();

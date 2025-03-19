@@ -118,6 +118,22 @@ const EditArticleScreen = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            if (!isSaved) {
+                const message = 'You have unsaved changes. Are you sure you want to leave?';
+                event.returnValue = message;
+                return message;
+            }
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [isSaved]);
+
     if (isLoading || isFetching) return <p>Loading...</p>;
     if (isError) return <p>Error loading article.</p>;
 
