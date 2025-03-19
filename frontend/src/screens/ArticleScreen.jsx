@@ -134,7 +134,7 @@ const ArticleScreen = () => {
             <div className='flex w-full space-x-5 mt-4'>
                 {/* Main Language Article */}
                 <div className={`card-shadow-static rounded-[16px] transition-all duration-200 ease-in-out ${isDarkMode ? 'bg-_303030' : 'bg-white'} ${isSecondaryLangVisible ? 'w-1/2' : 'w-11/12'}`}>
-                    <img src={dock} alt='' className='rounded-t-[16px] image-shadow w-full' />
+                    <img src={dock} alt='' className='rounded-t-[16px] image-shadow w-full max-h-[300px] object-cover' />
                     <div className='p-5'>
                         <h1 className={`text-3xl font-bold mb-2 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{articleData.title}</h1>
                         <div className='flex space-x-2'>
@@ -160,7 +160,7 @@ const ArticleScreen = () => {
                 </div>
 
                 {/* Right Section */}
-                <div className={`flex flex-col items-end transition-all duration-200 ease-in-out ${isSecondaryLangVisible ? 'w-1/2 space-y-[320px]' : 'w-1/12'}`}>
+                <div className={`flex flex-col items-end transition-all duration-200 ease-in-out ${isSecondaryLangVisible ? 'w-1/2 space-y-[225px]' : 'w-1/12'}`}>
                     {/* Connect Section */}
                     <div className={`card-shadow-static rounded-[16px] p-1 flex justify-center items-center transition-all duration-200 ease-in-out ${isDarkMode ? 'text-white bg-_303030' : 'text-darkExpansion bg-white'} ${isSecondaryLangVisible ? 'flex-row h-[80px] w-[400px] space-x-4' : 'flex-col w-[100px] h-[400px] space-y-4'}`}>
                         <FaSquareXTwitter size={socialIconSize} className={socialIconClass} />
@@ -190,7 +190,20 @@ const ArticleScreen = () => {
                                     <h1 className={`text-sm italic mb-6 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{secondaryLangArticleDate}</h1>
                                     <HiOutlineSpeakerWave size={20} className={`pt-[1px] hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />
                                 </div>
-                                <h1 className={`text-lg transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{secondaryLangArticleData.content}</h1>
+                                <div
+                                    className={`text-lg font-opensans tracking-wider leading-[1.75] transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}
+                                    style={{
+                                        whiteSpace: 'pre-wrap',
+                                        wordBreak: 'break-word',
+                                        overflowWrap: 'break-word',
+                                    }}
+                                >
+                                    <div
+                                        dangerouslySetInnerHTML={{
+                                            __html: convertPtoNewline(secondaryLangArticleData.content),
+                                        }}
+                                    />
+                                </div>
                             </div>
                         )}
                     </div>
