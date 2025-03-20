@@ -21,6 +21,7 @@ import RegisterScreen from './screens/RegisterScreen.jsx';
 import PrivateRoute from './components/PrivateRoute.jsx';
 import EditArticleScreen from './screens/EditArticleScreen.jsx';
 import MyArticlesScreen from './screens/MyArticlesScreen.jsx';
+import FavoriteArticlesScreen from './screens/FavoriteArticlesScreen.jsx';
 
 function App() {
     const router = createBrowserRouter(
@@ -35,6 +36,7 @@ function App() {
                 <Route path='' element={<PrivateRoute />}>
                     <Route path='/account' element={<AccountScreen />} />
                     <Route path='/my-articles' element={<MyArticlesScreen />} />
+                    <Route path='/favorites' element={<FavoriteArticlesScreen />} />
                     <Route path='/article/:id/edit' element={<EditArticleScreen />} />
                 </Route>
             </Route>

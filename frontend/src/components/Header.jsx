@@ -7,6 +7,7 @@ import { changeLanguage, changeSecondaryLanguage } from '../slices/language/lang
 import { toggleDarkMode } from '../slices/theme/themeSlice';
 import { LANGUAGES, TRANSLATIONS } from '../constants';
 import { useCreateArticleMutation } from '../slices/article/articleApiSlice';
+import { BsBookmarkHeart } from 'react-icons/bs';
 
 function Header() {
     const navigate = useNavigate();
@@ -131,8 +132,8 @@ function Header() {
                     </div>
                     <div className='font-opensans flex space-x-5 text-white items-center'>
                         {/* Dark/Light Theme Toggle */}
-                        <div className={`relative w-14 h-7 rounded-full flex items-center cursor-pointer transition-all duration-300 ${isDarkMode ? 'bg-gray-800' : 'bg-gray-100'}`} onClick={() => dispatch(toggleDarkMode())}>
-                            <div className={`absolute w-5 h-5 rounded-full transition-all duration-300 ${isDarkMode ? 'bg-white translate-x-[30px]' : 'bg-gray-800 translate-x-[5px]'}`}></div>
+                        <div className={`relative w-14 h-7 rounded-full flex items-center cursor-pointer transition-all duration-300 ${isDarkMode ? 'bg-_252825' : 'bg-gray-100'}`} onClick={() => dispatch(toggleDarkMode())}>
+                            <div className={`absolute w-5 h-5 rounded-full transition-all duration-300 ${isDarkMode ? 'bg-white translate-x-[30px]' : 'bg-_252825 translate-x-[5px]'}`}></div>
                         </div>
 
                         {userInfo && (
@@ -140,6 +141,8 @@ function Header() {
                                 {translations.myArticles || 'My Articles'}
                             </h1>
                         )}
+
+                        <BsBookmarkHeart size={35} onClick={() => userInfo ? navigate('/favorites') : navigate('/login')} className={`hover:scale-[1.08] hover:cursor-pointer text-white}`} />
 
                         <h1 onClick={handleWriteNewArticle} className='bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100 cursor-pointer'>
                             {translations.writeArticle || 'Write Article'}
