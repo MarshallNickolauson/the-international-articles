@@ -63,12 +63,12 @@ const MyArticlesScreen = () => {
     return (
         <div>
             <div className='flex items-center space-x-4'>
-                <h1 className={`py-5 font-poppins font-bold text-4xl ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{translations.myArticles || 'My Articles'}</h1>
+                <h1 className={`py-5 font-poppins font-bold text-4xl tranistion-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{translations.myArticles || 'My Articles'}</h1>
                 <div className='my-4 flex space-x-3 items-center'>
                     <FaRegArrowAltCircleDown
                         size={35}
                         onClick={() => setIsRotated(!isRotated)}
-                        className={`transition-transform duration-200 cursor-pointer transform ${isRotated ? 'rotate-180' : ''}`}
+                        className={`transition-all duration-200 cursor-pointer transform ${isRotated ? 'rotate-180' : ''} ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}
                     />
                     <button
                         className={`mr-2 px-4 py-2 font-bold rounded-lg transition-all duration-200 ${filterStatus === 'all' ? 'bg-blue-500 text-white shadow-md' : 'bg-gray-300 text-darkExpansion'}`}

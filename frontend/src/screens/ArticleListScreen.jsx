@@ -64,7 +64,7 @@ const ArticleListScreen = () => {
                     <FaRegArrowAltCircleDown
                         size={35}
                         onClick={() => setIsRotated(!isRotated)}
-                        className={`transition-transform duration-200 cursor-pointer transform ${isRotated ? 'rotate-180' : ''}`}
+                        className={`transition-all duration-200 cursor-pointer transform ${isRotated ? 'rotate-180' : ''} ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}
                     />
                 </div>
             </div>
