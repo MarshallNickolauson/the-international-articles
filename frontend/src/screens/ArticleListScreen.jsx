@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ArticleListCard from '../components/ArticleListCard';
 import { useGetAllArticlesQuery } from '../slices/article/articleApiSlice';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import RecentCardLoader from '../components/loaders/RecentCardLoader';
 import { TRANSLATIONS } from '../constants';
+import { FaRegArrowAltCircleDown } from 'react-icons/fa';
 
 const ArticleListScreen = () => {
     const navigate = useNavigate();
@@ -14,7 +15,13 @@ const ArticleListScreen = () => {
 
     const translations = TRANSLATIONS[language] || TRANSLATIONS.en;
 
-    const { data: articles = [], isLoading, isError, error, refetch, isFetching } = useGetAllArticlesQuery(undefined, {refetchOnMountOrArgChange: true});
+    const { data: articles = [], isLoading, isError, error, refetch, isFetching } = useGetAllArticlesQuery(undefined, { refetchOnMountOrArgChange: true });
+
+    const [isRotated, setIsRotated] = useState(false);
+
+    const sortedArticles = isRotated
+        ? [...articles].sort((a, b) => new Date(a.languages[language]?.date) - new Date(b.languages[language]?.date)) // ASC by date
+        : [...articles].sort((a, b) => new Date(b.languages[language]?.date) - new Date(a.languages[language]?.date)); // DESC by date
 
     useEffect(() => {
         refetch();
@@ -51,11 +58,18 @@ const ArticleListScreen = () => {
 
     return (
         <div>
-            <div className='flex flex-col'>
+            <div className='flex items-center space-x-4'>
                 <h1 className={`py-5 font-poppins font-bold text-4xl transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{translations.articles || 'Articles'}</h1>
+                <div className='my-4 flex space-x-3 items-center'>
+                    <FaRegArrowAltCircleDown
+                        size={35}
+                        onClick={() => setIsRotated(!isRotated)}
+                        className={`transition-transform duration-500 cursor-pointer transform ${isRotated ? 'rotate-180' : ''}`}
+                    />
+                </div>
             </div>
             <div className='space-y-4 py-2'>
-                {articles.map((article) => (
+                {sortedArticles.map((article) => (
                     <ArticleListCard key={article._id} article={article} />
                 ))}
             </div>
