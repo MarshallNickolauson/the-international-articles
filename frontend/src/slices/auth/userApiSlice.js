@@ -34,6 +34,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 credentials: 'include',
             })
         }),
+        toggleFavoriteArticle: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/favorite`,
+                method: 'PUT',
+                body: data,
+                credentials: 'include',
+            })
+        }),
     }),
 });
 
@@ -41,5 +49,6 @@ export const {
     useLoginMutation,
     useLogoutMutation,
     useRegisterMutation,
-    useUpdateMutation
+    useUpdateMutation,
+    useToggleFavoriteArticleMutation,
 } = usersApiSlice;

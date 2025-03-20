@@ -15,8 +15,12 @@ import { changeSecondaryLanguage } from '../slices/language/languageSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetArticleByIdQuery } from '../slices/article/articleApiSlice';
 import ArticleScreenLoader from '../components/loaders/ArticleScreenLoader';
-import { toggleArticleLoading } from '../slices/article/articleSlice';
 import { LANGUAGES, TRANSLATIONS } from '../constants';
+import { FaRegHeart } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
+import { useToggleFavoriteArticleMutation } from '../slices/auth/userApiSlice';
+import { toggleArticleLoading } from '../slices/article/articleSlice.js';
+import { toggleFavorite } from '../slices/auth/authSlice.js';
 
 const ArticleScreen = () => {
     const dispatch = useDispatch();
@@ -31,12 +35,23 @@ const ArticleScreen = () => {
     const [isSecondaryLangVisible, setisSecondaryLangVisible] = useState(false);
     const secondaryLanguage = useSelector((state) => state.language.secondaryLanguage);
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+    const { userInfo } = useSelector((state) => state.auth);
+
+    const [isFavorited, setIsFavorited] = useState(false);
 
     useEffect(() => {
         setisSecondaryLangVisible(secondaryLanguage !== 'Dual Language');
     }, [secondaryLanguage]);
 
     const { data: article, isLoading, isError, error, refetch, isFetching } = useGetArticleByIdQuery(id, { refetchOnMountOrArgChange: true });
+    const [toggleFavoriteArticle, { isLoading: isArticleToggleLoading, isError: isArticleToggleError }] = useToggleFavoriteArticleMutation();
+
+    useEffect(() => {
+        if (userInfo) {
+            const isFavorited = userInfo.favorites.some((fav) => fav.articleId === id);
+            setIsFavorited(isFavorited);
+        }
+    }, [])
 
     useEffect(() => {
         refetch();
@@ -116,6 +131,19 @@ const ArticleScreen = () => {
         return htmlContent.replace(/<p><\/p>/g, '\n');
     };
 
+    const handleToggleFavoriteArticle = async () => {
+        if (!userInfo) navigate('/login');
+        else {
+            try {
+                await toggleFavoriteArticle({ articleId: id }).unwrap();
+                setIsFavorited(!isFavorited);
+                dispatch(toggleFavorite(id));
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
     return (
         <div className='mt-6 transition-all duration-300 ease-in-out'>
             <div className='flex w-full space-x-5 items-center'>
@@ -123,7 +151,10 @@ const ArticleScreen = () => {
                     <h1 className={`font-poppins italic transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
                         {'>'} {TRANSLATIONS[language]?.articles || 'Articles'} {'>'} {LANGUAGES[language]?.name || 'LANG'} {'>'} {articleData.title}
                     </h1>
-                    <FiPrinter size={28} className={`hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />
+                    <div className='flex space-x-3 items-center'>
+                        {isFavorited ? <FaHeart onClick={() => handleToggleFavoriteArticle()} size={28} className={`hover:scale-[1.08] hover:cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-red-500' : 'text-red-500'}`} /> : <FaRegHeart onClick={() => handleToggleFavoriteArticle()} size={28} className={`hover:scale-[1.08] hover:cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />}
+                        <FiPrinter size={28} className={`hover:scale-[1.08] hover:cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />
+                    </div>
                 </div>
                 <div className={`flex items-center justify-end space-x-2 cursor-pointer hover:underline transition-all duration-300 ease-in-out ${isSecondaryLangVisible ? 'w-1/2' : 'w-1/12'}`}>
                     <h1 className={`font-opensans text-xl transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{TRANSLATIONS[language].share || 'Share'}</h1>

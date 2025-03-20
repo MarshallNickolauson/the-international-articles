@@ -1,6 +1,6 @@
-import expressAsyncHandler from "express-async-handler";
+import expressAsyncHandler from 'express-async-handler';
 import generateToken from '../utils/generateToken.js';
-import User from "../models/user.model.js";
+import User from '../models/user.model.js';
 import Article from '../models/article.model.js';
 
 // @desc    Login user + set token in cookie
@@ -18,6 +18,7 @@ export const loginUser = expressAsyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             isAdmin: user.isAdmin,
+            favorites: user.favoriteArticles,
         });
     } else {
         res.status(401);
@@ -45,6 +46,7 @@ export const registerUser = expressAsyncHandler(async (req, res) => {
             name: newUser.name,
             email: newUser.email,
             isAdmin: newUser.isAdmin,
+            favorites: newUser.favoriteArticles,
         });
     } else {
         res.status(400);
@@ -58,7 +60,7 @@ export const registerUser = expressAsyncHandler(async (req, res) => {
 export const logoutUser = expressAsyncHandler(async (req, res) => {
     res.cookie('jwt', '', {
         httpOnly: true,
-        expires: new Date(0)
+        expires: new Date(0),
     });
     res.status(200).json({ message: 'User logged out' });
 });
@@ -98,6 +100,7 @@ export const updateUserProfile = expressAsyncHandler(async (req, res) => {
             name: updatedUser.name,
             email: updatedUser.email,
             isAdmin: updatedUser.isAdmin,
+            favoriteArticles: req.user.favoriteArticles,
         });
     } else {
         res.status(404);
@@ -105,58 +108,39 @@ export const updateUserProfile = expressAsyncHandler(async (req, res) => {
     }
 });
 
-// @desc    Add article to user's favorite list
+// @desc    Toggle article in user's favorite list
 // @route   PUT api/users/favorite
 // @access  Private
-export const addFavoriteArticle = expressAsyncHandler(async (req, res) => {
+export const toggleFavoriteArticle = expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
 
-    if (user) {
-        const articleId = req.body.articleId;
-        const articleExists = await Article.findById(articleId);
-
-        if (!articleExists) {
-            res.status(404);
-            throw new Error('Article not found');
-        }
-
-        const isArticleSaved = user.favoriteArticles.find(
-            (article) => article.articleId.toString() === articleId
-        );
-
-        if (isArticleSaved) {
-            res.status(400);
-            throw new Error('Article already in favorites');
-        }
-
-        user.favoriteArticles.push({ articleId });
-        await user.save();
-        res.status(201).json({ message: 'Article added to favorites' });
-    } else {
+    if (!user) {
         res.status(404);
         throw new Error('User not found');
     }
-});
 
-// @desc    Remove article from user's favorite list
-// @route   DELETE api/users/favorites
-// @access  Private
-export const removeFavoriteArticle = expressAsyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id);
+    const articleId = req.body.articleId;
+    const articleExists = await Article.findById(articleId);
 
-    if (user) {
-        const articleId = req.body.articleId;
-
-        user.favoriteArticles = user.favoriteArticles.filter(
-            (article) => article.articleId.toString() !== articleId
-        );
-
-        await user.save();
-        res.status(200).json({ message: 'Article removed from favorites' });
-    } else {
+    if (!articleExists) {
         res.status(404);
-        throw new Error('User not found');
+        throw new Error('Article not found');
     }
+
+    const isFavorite = user.favoriteArticles.some((article) => article.articleId.toString() === articleId);
+
+    if (isFavorite) {
+        user.favoriteArticles = user.favoriteArticles.filter((article) => article.articleId.toString() !== articleId);
+    } else user.favoriteArticles.push({ articleId });
+
+    await user.save();
+
+    res.status(200).json({
+        //Return true or false here for frontend to register
+        message: isFavorite ? 'Article removed from favorites' : 'Article added to favorites',
+        isFavorited: !isFavorite,
+        favorites: user.favoriteArticles,
+    });
 });
 
 // @desc    Delete user
