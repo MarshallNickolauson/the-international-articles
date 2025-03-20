@@ -78,6 +78,7 @@ export const searchArticles = expressAsyncHandler(async (req, res) => {
     }
 
     const articles = await Article.find({
+        isPublished: true,
         $or: [{ [`languages.${language}.title`]: { $regex: query, $options: 'i' } }, { [`languages.${language}.content`]: { $regex: query, $options: 'i' } }],
     }).sort({ createdAt: -1 });
 
