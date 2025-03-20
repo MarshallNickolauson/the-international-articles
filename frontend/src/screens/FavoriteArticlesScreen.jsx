@@ -71,7 +71,7 @@ const FavoriteArticlesScreen = () => {
                     <FaRegArrowAltCircleDown
                         size={35}
                         onClick={() => setIsRotated(!isRotated)}
-                        className={`transition-transform duration-500 cursor-pointer transform ${isRotated ? 'rotate-180' : ''}`}
+                        className={`transition-transform duration-200 cursor-pointer transform ${isRotated ? 'rotate-180' : ''}`}
                     />
                 </div>
             </div>

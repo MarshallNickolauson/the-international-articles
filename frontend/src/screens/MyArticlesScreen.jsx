@@ -68,7 +68,7 @@ const MyArticlesScreen = () => {
                     <FaRegArrowAltCircleDown
                         size={35}
                         onClick={() => setIsRotated(!isRotated)}
-                        className={`transition-transform duration-500 cursor-pointer transform ${isRotated ? 'rotate-180' : ''}`}
+                        className={`transition-transform duration-200 cursor-pointer transform ${isRotated ? 'rotate-180' : ''}`}
                     />
                     <button className={`mr-2 px-4 py-2 rounded-lg ${filterStatus === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`} onClick={() => setFilterStatus('all')}>
                         {translations.all || 'All'}
