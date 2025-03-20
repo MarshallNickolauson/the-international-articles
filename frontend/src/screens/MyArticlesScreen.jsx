@@ -10,7 +10,7 @@ import { FaRegArrowAltCircleDown } from 'react-icons/fa';
 const MyArticlesScreen = () => {
     const navigate = useNavigate();
 
-    const language = useSelector((state) => state.language.language); // Get current language from Redux
+    const language = useSelector((state) => state.language.language);
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
     const translations = TRANSLATIONS[language] || TRANSLATIONS.en;
