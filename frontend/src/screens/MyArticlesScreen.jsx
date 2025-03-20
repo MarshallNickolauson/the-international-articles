@@ -70,13 +70,24 @@ const MyArticlesScreen = () => {
                         onClick={() => setIsRotated(!isRotated)}
                         className={`transition-transform duration-200 cursor-pointer transform ${isRotated ? 'rotate-180' : ''}`}
                     />
-                    <button className={`mr-2 px-4 py-2 rounded-lg ${filterStatus === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`} onClick={() => setFilterStatus('all')}>
+                    <button
+                        className={`mr-2 px-4 py-2 font-bold rounded-lg transition-all duration-200 ${filterStatus === 'all' ? 'bg-blue-500 text-white shadow-md' : 'bg-gray-300 text-darkExpansion'}`}
+                        onClick={() => setFilterStatus('all')}
+                    >
                         {translations.all || 'All'}
                     </button>
-                    <button className={`mr-2 px-4 py-2 rounded-lg ${filterStatus === 'published' ? 'bg-green-500 text-white' : 'bg-gray-300'}`} onClick={() => setFilterStatus('published')}>
+
+                    <button
+                        className={`mr-2 px-4 bg-opacity-90 py-2 font-bold rounded-lg transition-all duration-200 ${filterStatus === 'published' ? 'bg-green-500 text-white shadow-md' : 'bg-gray-300 text-darkExpansion'}`}
+                        onClick={() => setFilterStatus('published')}
+                    >
                         {translations.published || 'Published'}
                     </button>
-                    <button className={`px-4 py-2 rounded-lg ${filterStatus === 'draft' ? 'bg-yellow-500 text-white' : 'bg-gray-300'}`} onClick={() => setFilterStatus('draft')}>
+
+                    <button
+                        className={`px-4 py-2 font-bold rounded-lg transition-all duration-200 ${filterStatus === 'draft' ? 'bg-yellow-500 text-white shadow-md' : 'bg-gray-300 text-darkExpansion'}`}
+                        onClick={() => setFilterStatus('draft')}
+                    >
                         {translations.draft || 'Draft'}
                     </button>
                 </div>
