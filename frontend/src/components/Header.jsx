@@ -122,13 +122,10 @@ function Header() {
         } else navigate('/login');
     };
 
-    const [triggerSearch, { data, error: searchingError, isLoading: isSearchLoading }] = useLazySearchArticleQuery();
-
     const handleSearch = async (query) => {
         if (query.trim()) {
-            console.log(`Searching for: ${query} in language: ${language}`);
-            const res = await triggerSearch({ searchQuery: query, language });
-            console.log(res.data);
+            navigate(`/search?q=${encodeURIComponent(query)}`);
+            setSearchQuery('');
         }
     };
 
