@@ -43,7 +43,19 @@ const ArticleScreen = () => {
         setisSecondaryLangVisible(secondaryLanguage !== 'Dual Language');
     }, [secondaryLanguage]);
 
-    const { data: article, isLoading, isError, error, refetch, isFetching } = useGetArticleByIdQuery(id, { refetchOnMountOrArgChange: true });
+    const articleFromCache = useSelector((state) => state.article.currentArticle);
+
+    const {
+        data: article,
+        isLoading,
+        isError,
+        error,
+        refetch,
+        isFetching,
+    } = useGetArticleByIdQuery(id, {
+        skip: !!articleFromCache,
+        refetchOnMountOrArgChange: true,
+    });
     const [toggleFavoriteArticle, { isLoading: isArticleToggleLoading, isError: isArticleToggleError }] = useToggleFavoriteArticleMutation();
 
     useEffect(() => {
@@ -51,11 +63,13 @@ const ArticleScreen = () => {
             const isFavorited = userInfo.favorites.some((fav) => fav.articleId === id);
             setIsFavorited(isFavorited);
         }
-    }, [])
+    }, []);
 
     useEffect(() => {
-        refetch();
-    }, [refetch]);
+        if (!articleFromCache) {
+            refetch();
+        }
+    }, [refetch, articleFromCache]);
 
     useEffect(() => {
         dispatch(toggleArticleLoading(isLoading));
@@ -82,7 +96,11 @@ const ArticleScreen = () => {
                     {/* Right Section */}
                     <div className={`flex flex-col items-end transition-all duration-200 ease-in-out ${isSecondaryLangVisible ? 'w-1/2 space-y-[320px]' : 'w-1/12'}`}>
                         {/* Connect Section */}
-                        <div className={`card-shadow-static rounded-[16px] p-1 flex justify-center items-center transition-all duration-200 ease-in-out ${isDarkMode ? 'text-white bg-_303030' : 'text-darkExpansion bg-white'} ${isSecondaryLangVisible ? 'flex-row h-[80px] w-[400px] space-x-4' : 'flex-col w-[100px] h-[400px] space-y-4'}`}>
+                        <div
+                            className={`card-shadow-static rounded-[16px] p-1 flex justify-center items-center transition-all duration-200 ease-in-out ${
+                                isDarkMode ? 'text-white bg-_303030' : 'text-darkExpansion bg-white'
+                            } ${isSecondaryLangVisible ? 'flex-row h-[80px] w-[400px] space-x-4' : 'flex-col w-[100px] h-[400px] space-y-4'}`}
+                        >
                             <FaSquareXTwitter size={socialIconSize} className={socialIconClass} />
                             <FaYoutube size={socialIconSize} className={socialIconClass} />
                             <FaInstagram size={socialIconSize} className={socialIconClass} />
@@ -110,7 +128,8 @@ const ArticleScreen = () => {
         );
     }
 
-    const articleData = article.languages[language.toLowerCase()];
+    const articleData = articleFromCache?.languages[language.toLowerCase()] || article?.languages[language.toLowerCase()];
+
     if (!articleData) return null;
 
     const localeMap = {
@@ -123,9 +142,11 @@ const ArticleScreen = () => {
 
     const articleDate = new Date(articleData.date).toLocaleDateString(localeMap[language.toLowerCase()] || 'en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
-    const secondaryLangArticleData = article.languages[secondaryLanguage.toLowerCase()];
+    const secondaryLangArticleData = article?.languages[secondaryLanguage.toLowerCase()] || articleFromCache?.languages[secondaryLanguage.toLowerCase()];
 
-    const secondaryLangArticleDate = secondaryLangArticleData ? new Date(secondaryLangArticleData.date).toLocaleDateString(localeMap[secondaryLanguage.toLowerCase()] || 'en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'null date';
+    const secondaryLangArticleDate = secondaryLangArticleData
+        ? new Date(secondaryLangArticleData.date).toLocaleDateString(localeMap[secondaryLanguage.toLowerCase()] || 'en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+        : 'null date';
 
     const convertPtoNewline = (htmlContent) => {
         return htmlContent.replace(/<p><\/p>/g, '\n');
@@ -152,7 +173,19 @@ const ArticleScreen = () => {
                         {'>'} {TRANSLATIONS[language]?.articles || 'Articles'} {'>'} {LANGUAGES[language]?.name || 'LANG'} {'>'} {articleData.title}
                     </h1>
                     <div className='flex space-x-3 items-center'>
-                        {isFavorited ? <FaHeart onClick={() => handleToggleFavoriteArticle()} size={28} className={`hover:scale-[1.08] hover:cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-red-500' : 'text-red-500'}`} /> : <FaRegHeart onClick={() => handleToggleFavoriteArticle()} size={28} className={`hover:scale-[1.08] hover:cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />}
+                        {isFavorited ? (
+                            <FaHeart
+                                onClick={() => handleToggleFavoriteArticle()}
+                                size={28}
+                                className={`hover:scale-[1.08] hover:cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-red-500' : 'text-red-500'}`}
+                            />
+                        ) : (
+                            <FaRegHeart
+                                onClick={() => handleToggleFavoriteArticle()}
+                                size={28}
+                                className={`hover:scale-[1.08] hover:cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}
+                            />
+                        )}
                         <FiPrinter size={28} className={`hover:scale-[1.08] hover:cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />
                     </div>
                 </div>
@@ -193,7 +226,11 @@ const ArticleScreen = () => {
                 {/* Right Section */}
                 <div className={`flex flex-col items-end transition-all duration-200 ease-in-out ${isSecondaryLangVisible ? 'w-1/2 space-y-[225px]' : 'w-1/12'}`}>
                     {/* Connect Section */}
-                    <div className={`card-shadow-static rounded-[16px] p-1 flex justify-center items-center transition-all duration-200 ease-in-out ${isDarkMode ? 'text-white bg-_303030' : 'text-darkExpansion bg-white'} ${isSecondaryLangVisible ? 'flex-row h-[80px] w-[400px] space-x-4' : 'flex-col w-[100px] h-[400px] space-y-4'}`}>
+                    <div
+                        className={`card-shadow-static rounded-[16px] p-1 flex justify-center items-center transition-all duration-200 ease-in-out ${
+                            isDarkMode ? 'text-white bg-_303030' : 'text-darkExpansion bg-white'
+                        } ${isSecondaryLangVisible ? 'flex-row h-[80px] w-[400px] space-x-4' : 'flex-col w-[100px] h-[400px] space-y-4'}`}
+                    >
                         <FaSquareXTwitter size={socialIconSize} className={socialIconClass} />
                         <FaYoutube size={socialIconSize} className={socialIconClass} />
                         <FaInstagram size={socialIconSize} className={socialIconClass} />
@@ -203,7 +240,11 @@ const ArticleScreen = () => {
                     </div>
 
                     {/* Secondary Language Article */}
-                    <div className={`transition-all duration-200 ease-in-out ${isDarkMode ? 'bg-_303030' : 'bg-white'} ${isSecondaryLangVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-5 scale-95 pointer-events-none absolute'} w-full card-shadow-static rounded-[16px] relative`}>
+                    <div
+                        className={`transition-all duration-200 ease-in-out ${isDarkMode ? 'bg-_303030' : 'bg-white'} ${
+                            isSecondaryLangVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-5 scale-95 pointer-events-none absolute'
+                        } w-full card-shadow-static rounded-[16px] relative`}
+                    >
                         <div className='absolute top-4 right-5 translate-x-2 -translate-y-2 text-2xl'>
                             <IoClose
                                 size={30}

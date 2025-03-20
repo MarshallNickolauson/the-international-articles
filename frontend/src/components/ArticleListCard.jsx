@@ -1,9 +1,11 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import dock from '../assets/dock.png';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { setCurrentArticle } from '../slices/article/articleSlice';
 
 const ArticleListCard = ({ article }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const location = useLocation();
 
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
@@ -32,10 +34,19 @@ const ArticleListCard = ({ article }) => {
         .trim()
         .substring(0, 500);
 
+    const handleClick = () => {
+        dispatch(setCurrentArticle(article));
+        if (location.pathname.includes('/my-articles')) {
+            navigate(`/article/${article._id}/edit`)
+        } else {
+            navigate(`/article/${article._id}`)
+        }
+    }
+
     return (
         <div
             className={`card-shadow rounded-[16px] hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'bg-_303030' : ''}`}
-            onClick={() => (location.pathname.includes('/my-articles') ? navigate(`/article/${article._id}/edit`) : navigate(`/article/${article._id}`))}
+            onClick={() => handleClick()}
         >
             <div className='flex space-x-4'>
                 <div className='h-36 w-36 flex-shrink-0'>
