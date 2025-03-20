@@ -32,6 +32,13 @@ export const articleApiSlice = apiSlice.injectEndpoints({
             }),
             providesTags: ['Article'],
         }),
+        searchArticle: builder.query({
+            query: ({ searchQuery, language }) => ({
+                url: `${ARTICLE_URL}/search?query=${encodeURIComponent(searchQuery)}&language=${language}`,
+                method: 'GET',
+            }),
+            providesTags: ['Article'],
+        }),
         createArticle: builder.mutation({
             query: (data) => ({
                 url: `${ARTICLE_URL}`,
@@ -69,6 +76,7 @@ export const {
     useGetAllUserArticlesQuery,
     useGet5RecentArticlesQuery,
     useGetArticleByIdQuery,
+    useLazySearchArticleQuery,
     useCreateArticleMutation,
     useUpdateArticleMutation,
     useToggleArticlePublishedMutation,

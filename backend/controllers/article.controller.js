@@ -48,17 +48,40 @@ export const createArticle = expressAsyncHandler(async (req, res) => {
         de: { title: 'Mi Artículo', date: new Date(), content: '' },
         es: { title: 'Mon Article', date: new Date(), content: '' },
         fr: { title: 'Mein Artikel', date: new Date(), content: '' },
-        pt: { title: 'Meu Artigo', date: new Date(), content: '' }
+        pt: { title: 'Meu Artigo', date: new Date(), content: '' },
     };
 
     const article = new Article({
         languages,
         isPublished: false,
-        user: req.user._id
+        user: req.user._id,
     });
 
     const createdArticle = await article.save();
     res.status(201).json(createdArticle);
+});
+
+// @desc    Search articles by keyword in any language
+// @route   GET api/articles/search
+// @access  Public
+export const searchArticles = expressAsyncHandler(async (req, res) => {
+    const { query, language } = req.query;
+
+    if (!query || query.trim() === '') {
+        res.status(400);
+        throw new Error('Search query is required');
+    }
+
+    if (!language) {
+        res.status(400);
+        throw new Error('Valid language is required');
+    }
+
+    const articles = await Article.find({
+        $or: [{ [`languages.${language}.title`]: { $regex: query, $options: 'i' } }, { [`languages.${language}.content`]: { $regex: query, $options: 'i' } }],
+    }).sort({ createdAt: -1 });
+
+    res.status(200).json(articles.length > 0 ? articles : []);
 });
 
 // @desc    Update an article

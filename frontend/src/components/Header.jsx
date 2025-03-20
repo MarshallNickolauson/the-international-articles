@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeLanguage, changeSecondaryLanguage } from '../slices/language/languageSlice';
 import { toggleDarkMode } from '../slices/theme/themeSlice';
 import { LANGUAGES, TRANSLATIONS } from '../constants';
-import { useCreateArticleMutation } from '../slices/article/articleApiSlice';
+import { useCreateArticleMutation, useLazySearchArticleQuery } from '../slices/article/articleApiSlice';
 import { BsBookmarkHeart } from 'react-icons/bs';
 
 function Header() {
@@ -122,6 +122,16 @@ function Header() {
         } else navigate('/login');
     };
 
+    const [triggerSearch, { data, error: searchingError, isLoading: isSearchLoading }] = useLazySearchArticleQuery();
+
+    const handleSearch = async (query) => {
+        if (query.trim()) {
+            console.log(`Searching for: ${query} in language: ${language}`);
+            const res = await triggerSearch({ searchQuery: query, language });
+            console.log(res.data);
+        }
+    };
+
     return (
         <>
             <nav className='top-0 w-full bg-darkGreen py-3 px-4 flex justify-center'>
@@ -132,7 +142,10 @@ function Header() {
                     </div>
                     <div className='font-opensans flex space-x-5 text-white items-center'>
                         {/* Dark/Light Theme Toggle */}
-                        <div className={`relative w-14 h-7 rounded-full flex items-center cursor-pointer transition-all duration-300 ${isDarkMode ? 'bg-_252825' : 'bg-gray-100'}`} onClick={() => dispatch(toggleDarkMode())}>
+                        <div
+                            className={`relative w-14 h-7 rounded-full flex items-center cursor-pointer transition-all duration-300 ${isDarkMode ? 'bg-_252825' : 'bg-gray-100'}`}
+                            onClick={() => dispatch(toggleDarkMode())}
+                        >
                             <div className={`absolute w-5 h-5 rounded-full transition-all duration-300 ${isDarkMode ? 'bg-white translate-x-[30px]' : 'bg-_252825 translate-x-[5px]'}`}></div>
                         </div>
 
@@ -142,7 +155,7 @@ function Header() {
                             </h1>
                         )}
 
-                        <BsBookmarkHeart size={35} onClick={() => userInfo ? navigate('/favorites') : navigate('/login')} className={`hover:scale-[1.08] hover:cursor-pointer text-white}`} />
+                        <BsBookmarkHeart size={35} onClick={() => (userInfo ? navigate('/favorites') : navigate('/login'))} className={`hover:scale-[1.08] hover:cursor-pointer text-white}`} />
 
                         <h1 onClick={handleWriteNewArticle} className='bg-white text-darkGreen font-semibold px-4 py-2 rounded-[8px] hover:bg-gray-200 transition-all duration-100 cursor-pointer'>
                             {translations.writeArticle || 'Write Article'}
@@ -174,8 +187,15 @@ function Header() {
 
                         {/* Primary Language */}
                         <div className='relative' ref={primaryLangDropdownRef}>
-                            <div className={`flex items-center py-1 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${isDarkMode ? 'bg-_303030 hover:bg-_252825' : 'bg-white'}`} onClick={() => setIsPrimaryLangDropdownOpen(!isPrimaryLangDropdownOpen)}>
-                                <h1 className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-lg transition-all duration-200 ${isPrimaryLanguageLoading ? 'opacity-0' : 'opacity-100'}`}>{LANGUAGES[selectedPrimaryLanguage]?.name || 'English'}</h1>
+                            <div
+                                className={`flex items-center py-1 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${
+                                    isDarkMode ? 'bg-_303030 hover:bg-_252825' : 'bg-white'
+                                }`}
+                                onClick={() => setIsPrimaryLangDropdownOpen(!isPrimaryLangDropdownOpen)}
+                            >
+                                <h1 className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-lg transition-all duration-200 ${isPrimaryLanguageLoading ? 'opacity-0' : 'opacity-100'}`}>
+                                    {LANGUAGES[selectedPrimaryLanguage]?.name || 'English'}
+                                </h1>
                                 <IoIosArrowDropdown className={`ml-2 text-2xl transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />
                             </div>
                             <div className='relative'>
@@ -194,8 +214,15 @@ function Header() {
                         {/* Secondary Language */}
                         {isSecondaryLangVisible && (
                             <div className={`relative`} ref={secondaryLangDropdownRef}>
-                                <div className={`flex items-center py-1 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${isDarkMode ? 'bg-_303030 hover:bg-_252825' : 'bg-white'}`} onClick={() => setIsSecondaryLangDropdownOpen(!isSecondaryLangDropdownOpen)}>
-                                    <h1 className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-lg transition-all duration-200`}>{LANGUAGES[secondaryLanguage]?.name || secondaryLanguage}</h1>
+                                <div
+                                    className={`flex items-center py-1 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${
+                                        isDarkMode ? 'bg-_303030 hover:bg-_252825' : 'bg-white'
+                                    }`}
+                                    onClick={() => setIsSecondaryLangDropdownOpen(!isSecondaryLangDropdownOpen)}
+                                >
+                                    <h1 className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-lg transition-all duration-200`}>
+                                        {LANGUAGES[secondaryLanguage]?.name || secondaryLanguage}
+                                    </h1>
                                     <IoIosArrowDropdown className={`ml-2 text-2xl transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />
                                 </div>
                                 {isSecondaryLangDropdownOpen && (
@@ -218,6 +245,9 @@ function Header() {
                             type='text'
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') handleSearch(searchQuery);
+                            }}
                             placeholder={translations.searchPlaceholder || 'Search...'}
                             className={`border-[1px] transition-all duration-200 ${isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'}
                             outline-none ring-0 focus:border-gray-500
