@@ -5,7 +5,7 @@ const initialState = {
         ? JSON.parse(
               localStorage.getItem("the-international-articles-language-select")
           )
-        : "English",
+        : "en",
     secondaryLanguage: "Dual Language",
 };
 
