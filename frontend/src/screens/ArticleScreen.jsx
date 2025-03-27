@@ -56,7 +56,7 @@ const ArticleScreen = () => {
         skip: !!articleFromCache,
         refetchOnMountOrArgChange: true,
     });
-    const [toggleFavoriteArticle, { isLoading: isArticleToggleLoading, isError: isArticleToggleError }] = useToggleFavoriteArticleMutation();
+    const [toggleFavoriteArticle] = useToggleFavoriteArticleMutation();
 
     useEffect(() => {
         if (userInfo) {

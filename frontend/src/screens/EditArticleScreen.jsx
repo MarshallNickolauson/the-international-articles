@@ -67,7 +67,7 @@ const EditArticleScreen = () => {
         else setIsSaved(false);
     }, [referenceArticleData, formData]);
 
-    const [toggleArticlePublishUpdate, { isLoading: isPublishing, isError: isPublishingError }] = useToggleArticlePublishedMutation();
+    const [toggleArticlePublishUpdate] = useToggleArticlePublishedMutation();
 
     const handlePublishToggle = async (e) => {
         try {

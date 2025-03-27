@@ -6,7 +6,6 @@ const FeaturedArticle = ({ article }) => {
     const navigate = useNavigate();
 
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
-
     const language = useSelector((state) => state.language.language);
 
     const articleData = article.languages[language.toLowerCase()];

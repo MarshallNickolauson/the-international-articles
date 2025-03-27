@@ -9,9 +9,8 @@ const ArticleListCard = ({ article }) => {
     const location = useLocation();
 
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
-
     const language = useSelector((state) => state.language.language);
-
+    
     const articleData = article.languages[language.toLowerCase()];
 
     if (!articleData) return null;

@@ -20,7 +20,6 @@ const MyArticlesScreen = () => {
     const [isRotated, setIsRotated] = useState(false);
     const [filterStatus, setFilterStatus] = useState('all'); // 'all', 'published', 'draft'
 
-    // Filter by status first, then sort by date
     const filteredArticles = filterStatus === 'all' ? articles : articles.filter((article) => (filterStatus === 'published' ? article.isPublished : !article.isPublished));
 
     const sortedArticles = isRotated

@@ -17,7 +17,7 @@ const AccountScreen = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const [updateUser, { isLoading, isError, error }] = useUpdateMutation();
+    const [updateUser] = useUpdateMutation();
     const [passwordsMatch, setPasswordsMatch] = useState(true);
     const [updatedMessage, setUpdatedMessage] = useState(false);
 

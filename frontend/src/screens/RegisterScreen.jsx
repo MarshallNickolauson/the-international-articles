@@ -16,7 +16,7 @@ const RegisterScreen = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordsMatch, setPasswordsMatch] = useState(true);
-    const [registerUser, { isLoading, isError, error }] = useRegisterMutation();
+    const [registerUser] = useRegisterMutation();
 
     const translations = TRANSLATIONS[language] || TRANSLATIONS.en;
 
