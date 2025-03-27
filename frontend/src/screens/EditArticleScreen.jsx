@@ -7,12 +7,14 @@ import { TRANSLATIONS, LANGUAGES } from '../constants';
 import SimpleEditor from './SimpleEditor';
 
 const EditArticleScreen = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+
     const language = useSelector((state) => state.language.language);
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
     const location = useLocation();
     const { id } = useParams();
+
+    const translations = TRANSLATIONS[language] || TRANSLATIONS.en;
 
     const { data: article, isLoading, isError, refetch, isFetching } = useGetArticleByIdQuery(id, { refetchOnMountOrArgChange: true });
 
@@ -21,7 +23,7 @@ const EditArticleScreen = () => {
     }, [location, id, refetch]);
 
     const [updateArticle, { isLoading: isUpdating }] = useUpdateArticleMutation();
-    const [deleteArticle, { isLoading: isDeleting }] = useDeleteArticleMutation();
+    const [deleteArticle] = useDeleteArticleMutation();
 
     const [referenceArticleData, setReferenceArticleData] = useState({});
     const [formData, setFormData] = useState({});
@@ -137,8 +139,6 @@ const EditArticleScreen = () => {
     if (isLoading || isFetching) return <p>Loading...</p>;
     if (isError) return <p>Error loading article.</p>;
 
-    const translations = TRANSLATIONS[selectedPrimaryLanguage] || TRANSLATIONS.en;
-
     return (
         <div className='py-4'>
             {/* Header */}
@@ -159,7 +159,7 @@ const EditArticleScreen = () => {
                         {translations.saveChanges || 'Save Changes'}
                     </button>
                     <button onClick={handleDeleteArticle} className='bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100'>
-                        {translations.deleteArticle || 'Delete'}
+                        {translations.delete || 'Delete'}
                     </button>
                 </div>
             </div>
@@ -203,7 +203,7 @@ const EditArticleScreen = () => {
                         onClick={() => setIsSecondaryLangDropdownOpen((prev) => !prev)}
                     >
                         <span className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-xl transition-all duration-200`}>
-                            {selectedSecondaryLanguage === 'none' ? 'Select Other Language' : LANGUAGES[selectedSecondaryLanguage]?.name}
+                            {selectedSecondaryLanguage === 'none' ? translations.selectOtherLanguage || 'Select Other Language' : LANGUAGES[selectedSecondaryLanguage]?.name}
                         </span>
                         <IoIosArrowDropdown className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-2xl transition-all duration-200`} />
                     </div>
@@ -216,7 +216,7 @@ const EditArticleScreen = () => {
                                     setIsSecondaryLangDropdownOpen(false);
                                 }}
                             >
-                                None
+                                {translations.none || 'None'}
                             </li>
                             {Object.keys(LANGUAGES).map((lang) => (
                                 <li
