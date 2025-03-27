@@ -43,9 +43,7 @@ const LoginScreen = () => {
 
     return (
         <div
-            className={`flex items-center justify-center mt-16 ${
-                isDarkMode ? '' : ''
-            }`}
+            className={`flex items-center justify-center mt-16`}
         >
             <div
                 className={`w-full max-w-md p-8 rounded-lg card-shadow-static transition-all duration-200 ${
@@ -54,11 +52,11 @@ const LoginScreen = () => {
                         : 'border-gray-300 text-darkExpansion bg-white'
                 }`}
             >
-                <h2 className='text-3xl font-bold text-center mb-6'>
+                <h2 className='text-3xl font-poppins font-bold text-center mb-6'>
                     {translations.signIn || 'Sign In'}
                 </h2>
 
-                <form onSubmit={handleLogin}>
+                <form onSubmit={handleLogin} className='font-opensans'>
                     <div className='mb-4'>
                         <label className='block text-lg font-medium mb-1'>
                             {translations.email || 'Email'}
@@ -105,7 +103,7 @@ const LoginScreen = () => {
                     </button>
                 </form>
 
-                <div className='text-center mt-4'>
+                <div className='text-center mt-4 font-opensans'>
                     <p className='text-lg'>
                         {translations.dontHaveAccount || "Don't have an account?"}{' '}
                         <Link

@@ -46,11 +46,11 @@ const RegisterScreen = () => {
                         : 'border-gray-300 text-darkExpansion bg-white'
                 }`}
             >
-                <h2 className='text-3xl font-bold text-center mb-6'>
+                <h2 className='text-3xl font-poppins font-bold text-center mb-6'>
                     {translations.register || 'Register'}
                 </h2>
 
-                <form onSubmit={handleRegister}>
+                <form onSubmit={handleRegister} className='font-opensans'>
                     <div className='mb-4'>
                         <label className='block text-lg font-medium mb-1'>
                             {translations.name || 'Name'}
@@ -130,7 +130,7 @@ const RegisterScreen = () => {
                     </div>
 
                     {!passwordsMatch && (
-                        <div className='text-red-500 text-md mb-4 text-center'>
+                        <div className='text-red-500 text-md mb-4 font-opensans text-center'>
                             {translations.passwordsMismatch ||
                                 'Passwords do not match'}
                         </div>
@@ -143,7 +143,7 @@ const RegisterScreen = () => {
                         {translations.submit || 'Sign Up'}
                     </button>
                 </form>
-                <div className='text-center mt-4'>
+                <div className='text-center mt-4 font-opensans'>
                     <span className='text-lg'>
                         {translations.alreadyHaveAccount ||
                             'Already have an account?'}{' '}

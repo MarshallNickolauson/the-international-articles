@@ -66,7 +66,7 @@ const AccountScreen = () => {
                         : 'border-gray-300 text-darkExpansion bg-white'
                 }`}
             >
-                <h2 className='text-3xl font-bold text-center mb-6'>
+                <h2 className='text-3xl font-poppins font-bold text-center mb-6'>
                     {translations.account || 'Your Account'}
                 </h2>
 
@@ -77,7 +77,7 @@ const AccountScreen = () => {
                     </div>
                 )}
 
-                <form onSubmit={handleUpdate}>
+                <form onSubmit={handleUpdate} className='font-opensans'>
                     <div className='mb-4'>
                         <label className='block text-lg font-medium mb-1'>
                             {translations.name || 'Name'}
@@ -155,7 +155,7 @@ const AccountScreen = () => {
                     </div>
 
                     {!passwordsMatch && (
-                        <div className='text-red-500 text-md mb-4 text-center'>
+                        <div className='text-red-500 font-opensans text-md mb-4 text-center'>
                             {translations.passwordsMismatch ||
                                 'Passwords do not match'}
                         </div>
@@ -170,7 +170,7 @@ const AccountScreen = () => {
                 </form>
                 <button
                     onClick={handleLogout}
-                    className='w-full mt-4 bg-white text-darkGreen border border-darkGreen py-2 rounded-md font-semibold hover:bg-gray-100 transition-all duration-200'
+                    className='w-full mt-4 font-opensans bg-white text-darkGreen border border-darkGreen py-2 rounded-md font-semibold hover:bg-gray-100 transition-all duration-200'
                 >
                     {translations.logout || 'Logout'}
                 </button>
