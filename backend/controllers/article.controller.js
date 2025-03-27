@@ -82,6 +82,8 @@ export const searchArticles = expressAsyncHandler(async (req, res) => {
         $or: [{ [`languages.${language}.title`]: { $regex: query, $options: 'i' } }, { [`languages.${language}.content`]: { $regex: query, $options: 'i' } }],
     });
 
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     res.status(200).json(articles.length > 0 ? articles : []);
 });
 

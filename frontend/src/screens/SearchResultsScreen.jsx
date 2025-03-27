@@ -14,7 +14,7 @@ const SearchResultsScreen = () => {
     const isDarkMode = useSelector((state) => state.theme.isDarkMode);
     const translations = TRANSLATIONS[language] || TRANSLATIONS.en;
 
-    const [triggerSearch, { error, isLoading }] = useLazySearchArticleQuery();
+    const [triggerSearch, { error, isFetching }] = useLazySearchArticleQuery();
     const [searchResults, setSearchResults] = useState([]);
 
     const queryParams = new URLSearchParams(location.search);
@@ -26,7 +26,7 @@ const SearchResultsScreen = () => {
                 try {
                     const res = await triggerSearch({ searchQuery: query, language });
                     if (res?.data) {
-                        setSearchResults(res.data || []); 
+                        setSearchResults(res.data || []);
                     } else if (res?.error) {
                         console.error('Error:', res.error);
                     }
@@ -39,11 +39,11 @@ const SearchResultsScreen = () => {
         fetchData();
     }, [query, language, triggerSearch]);
 
-    if (isLoading) {
+    if (isFetching) {
         return (
             <div className='flex flex-col'>
                 <h1 className={`py-5 font-poppins font-bold text-4xl transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
-                    {translations.searchResultsFor || 'Search Results For'}
+                    {translations.searchResultsFor || 'Search Results For'}: "{query}"
                 </h1>
                 <div className='h-[460px] pt-1'>
                     {[...Array(8)].map((_, index) => (
@@ -77,7 +77,7 @@ const SearchResultsScreen = () => {
             </h1>
 
             {searchResults.length === 0 ? (
-                <p className='text-center text-gray-500'>{translations.noResults || 'No articles found'}</p>
+                <p className='text-center text-gray-500'>{translations.noResults || `No results found for "${query}". Try searching for something else :)`}</p>
             ) : (
                 <div className='space-y-4 py-2'>
                     {searchResults.map((article) => (
