@@ -169,7 +169,7 @@ const ArticleScreen = () => {
         <div className='mt-6 transition-all duration-300 ease-in-out'>
             <div className='flex w-full space-x-5 items-center'>
                 <div className={`flex justify-between transition-all duration-300 ease-in-out ${isSecondaryLangVisible ? 'w-1/2' : 'w-11/12'}`}>
-                    <h1 className={`font-poppins italic transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
+                    <h1 className={`font-opensans italic transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
                         {'>'} {TRANSLATIONS[language]?.articles || 'Articles'} {'>'} {LANGUAGES[language]?.name || 'LANG'} {'>'} {articleData.title}
                     </h1>
                     <div className='flex space-x-3 items-center'>
@@ -177,13 +177,13 @@ const ArticleScreen = () => {
                             <FaHeart
                                 onClick={() => handleToggleFavoriteArticle()}
                                 size={28}
-                                className={`hover:scale-[1.08] hover:cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-red-500' : 'text-red-500'}`}
+                                className={`hover:scale-[1.08] cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-red-500' : 'text-red-500'}`}
                             />
                         ) : (
                             <FaRegHeart
                                 onClick={() => handleToggleFavoriteArticle()}
                                 size={28}
-                                className={`hover:scale-[1.08] hover:cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}
+                                className={`hover:scale-[1.08] cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}
                             />
                         )}
                         <FiPrinter size={28} className={`hover:scale-[1.08] hover:cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />
@@ -200,9 +200,9 @@ const ArticleScreen = () => {
                 <div className={`card-shadow-static rounded-[16px] transition-all duration-200 ease-in-out ${isDarkMode ? 'bg-_303030' : 'bg-white'} ${isSecondaryLangVisible ? 'w-1/2' : 'w-11/12'}`}>
                     <img src={dock} alt='' className='rounded-t-[16px] image-shadow w-full max-h-[300px] object-cover' />
                     <div className='p-5'>
-                        <h1 className={`text-3xl font-bold mb-2 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{articleData.title}</h1>
+                        <h1 className={`text-3xl font-bold font-poppins mb-2 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{articleData.title}</h1>
                         <div className='flex space-x-2'>
-                            <h1 className={`text-sm italic mb-6 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{articleDate}</h1>
+                            <h1 className={`text-sm italic font-opensans mb-6 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{articleDate}</h1>
                             <HiOutlineSpeakerWave size={20} className={`pt-[1px] hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />
                         </div>
 
@@ -257,9 +257,9 @@ const ArticleScreen = () => {
 
                         {secondaryLangArticleData && (
                             <div className='py-3 px-2'>
-                                <h1 className={`text-3xl font-bold mb-2 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{secondaryLangArticleData.title}</h1>
+                                <h1 className={`text-3xl font-bold font-poppins mb-2 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{secondaryLangArticleData.title}</h1>
                                 <div className='flex space-x-2'>
-                                    <h1 className={`text-sm italic mb-6 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{secondaryLangArticleDate}</h1>
+                                    <h1 className={`text-sm italic mb-6 font-opensans transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{secondaryLangArticleDate}</h1>
                                     <HiOutlineSpeakerWave size={20} className={`pt-[1px] hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />
                                 </div>
                                 <div
