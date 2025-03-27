@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { setCredentials, logout } from '../slices/auth/authSlice.js';
 import { useUpdateMutation } from '../slices/auth/userApiSlice.js';
 import { TRANSLATIONS } from '../constants.js';
+import FormInput from '../components/FormInput.jsx';
 
 const AccountScreen = () => {
     const dispatch = useDispatch();
@@ -69,56 +70,10 @@ const AccountScreen = () => {
                 {updatedMessage && <div className='text-mainGreen text-md mb-4 text-center'>{translations.profileUpdated || 'Profile updated successfully'}</div>}
 
                 <form onSubmit={handleUpdate} className='font-opensans'>
-                    <div className='mb-4'>
-                        <label className='block text-lg font-medium mb-1'>{translations.name || 'Name'}</label>
-                        <input
-                            type='text'
-                            className={`w-full px-4 py-2 border transition-all duration-200 ${isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'}
-                            focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
-                            font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
-                            w-[600px] placeholder:italic`}
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <div className='mb-4'>
-                        <label className='block text-lg font-medium mb-1'>{translations.email || 'Email'}</label>
-                        <input
-                            type='email'
-                            className={`w-full px-4 py-2 border transition-all duration-200 ${isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'}
-                            focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
-                            font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
-                            w-[600px] placeholder:italic`}
-                            value={email}
-                            required
-                            disabled
-                        />
-                    </div>
-                    <div className='mb-4'>
-                        <label className='block text-lg font-medium mb-1'>{translations.password || 'Password'}</label>
-                        <input
-                            type='password'
-                            className={`w-full px-4 py-2 border transition-all duration-200 ${isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'}
-                            focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
-                            font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
-                            w-[600px] placeholder:italic`}
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
-                    <div className='mb-4'>
-                        <label className='block text-lg font-medium mb-1'>{translations.confirmPassword || 'Confirm Password'}</label>
-                        <input
-                            type='password'
-                            className={`w-full px-4 py-2 border transition-all duration-200 ${isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'}
-                            focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
-                            font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
-                            w-[600px] placeholder:italic`}
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                        />
-                    </div>
+                    <FormInput label={translations.name || 'Name'} type='text' value={name} onChange={(e) => setName(e.target.value)} />
+                    <FormInput label={translations.email || 'Email'} type='email' value={email} onChange={(e) => setEmail(e.target.value)} disabled />
+                    <FormInput label={translations.password || 'Password'} type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <FormInput label={translations.confirmPassword || 'Confirm Password'} type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
 
                     {!passwordsMatch && <div className='text-red-500 font-opensans text-md mb-4 text-center'>{translations.passwordsMismatch || 'Passwords do not match'}</div>}
 
