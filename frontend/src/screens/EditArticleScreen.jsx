@@ -67,11 +67,11 @@ const EditArticleScreen = () => {
         else setIsSaved(false);
     }, [referenceArticleData, formData]);
 
-    const [toggleArticleUpdate, { isLoading: isPublishing, isError: isPublishingError }] = useToggleArticlePublishedMutation();
+    const [toggleArticlePublishUpdate, { isLoading: isPublishing, isError: isPublishingError }] = useToggleArticlePublishedMutation();
 
     const handlePublishToggle = async (e) => {
         try {
-            const res = await toggleArticleUpdate({ id }).unwrap();
+            const res = await toggleArticlePublishUpdate({ id }).unwrap();
             setIsPublished(res.isPublished);
         } catch (error) {
             console.log(error);
@@ -146,7 +146,7 @@ const EditArticleScreen = () => {
                 <h2 className={`font-poppins font-bold text-4xl ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
                     {translations.edit || 'Edit'} {formData[selectedPrimaryLanguage]?.title}
                 </h2>
-                <div className='flex gap-4'>
+                <div className='flex gap-4 font-opensans'>
                     <button
                         onClick={handlePublishToggle}
                         className={` text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100 
@@ -165,7 +165,7 @@ const EditArticleScreen = () => {
             </div>
 
             {/* Language Selectors */}
-            <div className='grid grid-cols-2 gap-4 mb-8'>
+            <div className='grid grid-cols-2 gap-4 mb-8 font-opensans'>
                 <div className='relative' ref={primaryLangDropdownRef}>
                     <div className={`flex items-center py-3 justify-center space-x-2 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${isDarkMode ? 'bg-_303030 hover:bg-_252825' : 'bg-white'}`} onClick={() => setIsPrimaryLangDropdownOpen((prev) => !prev)}>
                         <span className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-xl transition-all duration-200`}>{LANGUAGES[selectedPrimaryLanguage]?.name}</span>
@@ -191,7 +191,7 @@ const EditArticleScreen = () => {
 
                 {/* Secondary Language */}
                 <div className='relative' ref={secondaryLangDropdownRef}>
-                    <div className={`flex items-center py-3 justify-center space-x-2 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${isDarkMode ? 'bg-_303030 hover:bg-_252825' : 'bg-white'}`} onClick={() => setIsSecondaryLangDropdownOpen((prev) => !prev)}>
+                    <div className={`flex font-opensans items-center py-3 justify-center space-x-2 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${isDarkMode ? 'bg-_303030 hover:bg-_252825' : 'bg-white'}`} onClick={() => setIsSecondaryLangDropdownOpen((prev) => !prev)}>
                         <span className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-xl transition-all duration-200`}>{selectedSecondaryLanguage === 'none' ? 'Select Other Language' : LANGUAGES[selectedSecondaryLanguage]?.name}</span>
                         <IoIosArrowDropdown className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-2xl transition-all duration-200`} />
                     </div>
@@ -228,7 +228,7 @@ const EditArticleScreen = () => {
                 {[selectedPrimaryLanguage, selectedSecondaryLanguage].map(
                     (lang) =>
                         lang !== 'none' && (
-                            <div key={lang} className={`flex flex-col transition-all duration-700 ${selectedSecondaryLanguage === 'none' ? 'w-full' : 'w-1/2'}`}>
+                            <div key={lang} className={`flex font-opensans flex-col transition-all duration-700 ${selectedSecondaryLanguage === 'none' ? 'w-full' : 'w-1/2'}`}>
                                 <label className={`text-lg mb-1 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{translations.title || 'Title'}</label>
                                 <input
                                     className={`w-full mb-3 px-4 py-2 border-[1px] ${isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'}
