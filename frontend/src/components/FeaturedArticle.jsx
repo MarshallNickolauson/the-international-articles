@@ -10,14 +10,16 @@ const FeaturedArticle = ({ article }) => {
 
     const articleData = article.languages[language.toLowerCase()];
 
+    console.log(language)
+
     if (!articleData) return null;
 
     const localeMap = {
-        english: 'en-US',
-        español: 'es-ES',
-        français: 'fr-FR',
-        deutsch: 'de-DE',
-        português: 'pt-PT',
+        en: 'en-US',
+        es: 'es-ES',
+        fr: 'fr-FR',
+        de: 'de-DE',
+        pt: 'pt-PT',
     };
 
     const articleDate = new Date(articleData.date).toLocaleDateString(localeMap[language.toLowerCase()] || 'en-US', { month: 'short', day: 'numeric', year: 'numeric' });
