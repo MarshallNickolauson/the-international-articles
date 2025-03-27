@@ -61,34 +61,19 @@ const AccountScreen = () => {
         <div className='flex items-center justify-center mt-16'>
             <div
                 className={`w-full max-w-md p-8 rounded-lg card-shadow-static transition-all duration-200 ${
-                    isDarkMode
-                        ? 'border-white text-white bg-_303030'
-                        : 'border-gray-300 text-darkExpansion bg-white'
+                    isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'
                 }`}
             >
-                <h2 className='text-3xl font-poppins font-bold text-center mb-6'>
-                    {translations.account || 'Your Account'}
-                </h2>
+                <h2 className='text-3xl font-poppins font-bold text-center mb-6'>{translations.account || 'Your Account'}</h2>
 
-                {updatedMessage && (
-                    <div className='text-mainGreen text-md mb-4 text-center'>
-                        {translations.profileUpdated ||
-                            'Profile updated successfully'}
-                    </div>
-                )}
+                {updatedMessage && <div className='text-mainGreen text-md mb-4 text-center'>{translations.profileUpdated || 'Profile updated successfully'}</div>}
 
                 <form onSubmit={handleUpdate} className='font-opensans'>
                     <div className='mb-4'>
-                        <label className='block text-lg font-medium mb-1'>
-                            {translations.name || 'Name'}
-                        </label>
+                        <label className='block text-lg font-medium mb-1'>{translations.name || 'Name'}</label>
                         <input
                             type='text'
-                            className={`w-full px-4 py-2 border transition-all duration-200 ${
-                                isDarkMode
-                                    ? 'border-white text-white bg-_303030'
-                                    : 'border-gray-300 text-darkExpansion bg-white'
-                            }
+                            className={`w-full px-4 py-2 border transition-all duration-200 ${isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'}
                             focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
                             font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
                             w-[600px] placeholder:italic`}
@@ -98,16 +83,10 @@ const AccountScreen = () => {
                         />
                     </div>
                     <div className='mb-4'>
-                        <label className='block text-lg font-medium mb-1'>
-                            {translations.email || 'Email'}
-                        </label>
+                        <label className='block text-lg font-medium mb-1'>{translations.email || 'Email'}</label>
                         <input
                             type='email'
-                            className={`w-full px-4 py-2 border transition-all duration-200 ${
-                                isDarkMode
-                                    ? 'border-white text-white bg-_303030'
-                                    : 'border-gray-300 text-darkExpansion bg-white'
-                            }
+                            className={`w-full px-4 py-2 border transition-all duration-200 ${isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'}
                             focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
                             font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
                             w-[600px] placeholder:italic`}
@@ -117,16 +96,10 @@ const AccountScreen = () => {
                         />
                     </div>
                     <div className='mb-4'>
-                        <label className='block text-lg font-medium mb-1'>
-                            {translations.password || 'Password'}
-                        </label>
+                        <label className='block text-lg font-medium mb-1'>{translations.password || 'Password'}</label>
                         <input
                             type='password'
-                            className={`w-full px-4 py-2 border transition-all duration-200 ${
-                                isDarkMode
-                                    ? 'border-white text-white bg-_303030'
-                                    : 'border-gray-300 text-darkExpansion bg-white'
-                            }
+                            className={`w-full px-4 py-2 border transition-all duration-200 ${isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'}
                             focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
                             font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
                             w-[600px] placeholder:italic`}
@@ -135,17 +108,10 @@ const AccountScreen = () => {
                         />
                     </div>
                     <div className='mb-4'>
-                        <label className='block text-lg font-medium mb-1'>
-                            {translations.confirmPassword ||
-                                'Confirm Password'}
-                        </label>
+                        <label className='block text-lg font-medium mb-1'>{translations.confirmPassword || 'Confirm Password'}</label>
                         <input
                             type='password'
-                            className={`w-full px-4 py-2 border transition-all duration-200 ${
-                                isDarkMode
-                                    ? 'border-white text-white bg-_303030'
-                                    : 'border-gray-300 text-darkExpansion bg-white'
-                            }
+                            className={`w-full px-4 py-2 border transition-all duration-200 ${isDarkMode ? 'border-white text-white bg-_303030' : 'border-gray-300 text-darkExpansion bg-white'}
                             focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500
                             font-opensans rounded-[8px] py-2 pr-4 transition-all duration-200 
                             w-[600px] placeholder:italic`}
@@ -154,17 +120,9 @@ const AccountScreen = () => {
                         />
                     </div>
 
-                    {!passwordsMatch && (
-                        <div className='text-red-500 font-opensans text-md mb-4 text-center'>
-                            {translations.passwordsMismatch ||
-                                'Passwords do not match'}
-                        </div>
-                    )}
+                    {!passwordsMatch && <div className='text-red-500 font-opensans text-md mb-4 text-center'>{translations.passwordsMismatch || 'Passwords do not match'}</div>}
 
-                    <button
-                        type='submit'
-                        className='w-full bg-darkGreen text-white py-2 rounded-md font-semibold hover:bg-green-700 transition-all duration-200'
-                    >
+                    <button type='submit' className='w-full bg-darkGreen text-white py-2 rounded-md font-semibold hover:bg-green-700 transition-all duration-200'>
                         {translations.update || 'Update'}
                     </button>
                 </form>

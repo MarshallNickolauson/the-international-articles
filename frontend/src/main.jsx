@@ -2,12 +2,7 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { StrictMode } from 'react';
 import store from './store.js';
-import {
-    Route,
-    createBrowserRouter,
-    createRoutesFromElements,
-    RouterProvider,
-} from 'react-router-dom';
+import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import MainLayout from './layouts/MainLayout';

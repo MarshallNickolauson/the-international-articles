@@ -1,8 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { apiSlice } from "./slices/apiSlice.js";
-import languageReducer from "./slices/language/languageSlice.js";
-import themeReducer from "./slices/theme/themeSlice.js";
-import articleReducer from "./slices/article/articleSlice.js";
+import { configureStore } from '@reduxjs/toolkit';
+import { apiSlice } from './slices/apiSlice.js';
+import languageReducer from './slices/language/languageSlice.js';
+import themeReducer from './slices/theme/themeSlice.js';
+import articleReducer from './slices/article/articleSlice.js';
 import authReducer from './slices/auth/authSlice.js';
 
 const store = configureStore({

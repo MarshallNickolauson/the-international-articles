@@ -1,4 +1,3 @@
-
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import { errorHandler } from './middleware/error.middleware.js';
@@ -13,10 +12,12 @@ connectDB();
 const app = express();
 
 if (process.env.NODE_ENV === 'development') {
-    app.use(cors({
-        origin: 'http://localhost:3000',
-        credentials: true
-    }));
+    app.use(
+        cors({
+            origin: 'http://localhost:3000',
+            credentials: true,
+        })
+    );
 }
 
 app.use(cookieParser());

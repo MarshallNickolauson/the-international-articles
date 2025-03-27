@@ -167,7 +167,12 @@ const EditArticleScreen = () => {
             {/* Language Selectors */}
             <div className='grid grid-cols-2 gap-4 mb-8 font-opensans'>
                 <div className='relative' ref={primaryLangDropdownRef}>
-                    <div className={`flex items-center py-3 justify-center space-x-2 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${isDarkMode ? 'bg-_303030 hover:bg-_252825' : 'bg-white'}`} onClick={() => setIsPrimaryLangDropdownOpen((prev) => !prev)}>
+                    <div
+                        className={`flex items-center py-3 justify-center space-x-2 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${
+                            isDarkMode ? 'bg-_303030 hover:bg-_252825' : 'bg-white'
+                        }`}
+                        onClick={() => setIsPrimaryLangDropdownOpen((prev) => !prev)}
+                    >
                         <span className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-xl transition-all duration-200`}>{LANGUAGES[selectedPrimaryLanguage]?.name}</span>
                         <IoIosArrowDropdown className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-2xl transition-all duration-200`} />
                     </div>
@@ -191,8 +196,15 @@ const EditArticleScreen = () => {
 
                 {/* Secondary Language */}
                 <div className='relative' ref={secondaryLangDropdownRef}>
-                    <div className={`flex font-opensans items-center py-3 justify-center space-x-2 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${isDarkMode ? 'bg-_303030 hover:bg-_252825' : 'bg-white'}`} onClick={() => setIsSecondaryLangDropdownOpen((prev) => !prev)}>
-                        <span className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-xl transition-all duration-200`}>{selectedSecondaryLanguage === 'none' ? 'Select Other Language' : LANGUAGES[selectedSecondaryLanguage]?.name}</span>
+                    <div
+                        className={`flex font-opensans items-center py-3 justify-center space-x-2 px-4 border-[1px] border-gray-300 rounded-[8px] hover:cursor-pointer hover:border-gray-400 transition-all duration-200 ${
+                            isDarkMode ? 'bg-_303030 hover:bg-_252825' : 'bg-white'
+                        }`}
+                        onClick={() => setIsSecondaryLangDropdownOpen((prev) => !prev)}
+                    >
+                        <span className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-xl transition-all duration-200`}>
+                            {selectedSecondaryLanguage === 'none' ? 'Select Other Language' : LANGUAGES[selectedSecondaryLanguage]?.name}
+                        </span>
                         <IoIosArrowDropdown className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-2xl transition-all duration-200`} />
                     </div>
                     {isSecondaryLangDropdownOpen && (

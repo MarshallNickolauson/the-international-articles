@@ -78,7 +78,9 @@ const MyArticlesScreen = () => {
                     </button>
 
                     <button
-                        className={`mr-2 px-4 bg-opacity-90 py-2 font-bold rounded-lg transition-all duration-200 ${filterStatus === 'published' ? 'bg-green-500 text-white shadow-md' : 'bg-gray-300 text-darkExpansion'}`}
+                        className={`mr-2 px-4 bg-opacity-90 py-2 font-bold rounded-lg transition-all duration-200 ${
+                            filterStatus === 'published' ? 'bg-green-500 text-white shadow-md' : 'bg-gray-300 text-darkExpansion'
+                        }`}
                         onClick={() => setFilterStatus('published')}
                     >
                         {translations.published || 'Published'}

@@ -257,7 +257,9 @@ const ArticleScreen = () => {
 
                         {secondaryLangArticleData && (
                             <div className='py-3 px-2'>
-                                <h1 className={`text-3xl font-bold font-poppins mb-2 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{secondaryLangArticleData.title}</h1>
+                                <h1 className={`text-3xl font-bold font-poppins mb-2 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
+                                    {secondaryLangArticleData.title}
+                                </h1>
                                 <div className='flex space-x-2'>
                                     <h1 className={`text-sm italic mb-6 font-opensans transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{secondaryLangArticleDate}</h1>
                                     <HiOutlineSpeakerWave size={20} className={`pt-[1px] hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />
