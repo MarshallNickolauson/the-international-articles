@@ -113,7 +113,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* Recent Articles */}
-                <div className="flex-1 flex flex-col">
+                <div className="flex-1 flex flex-col font-opensans">
                     <h1
                         className={`py-5 font-poppins font-bold text-xl mt-3 transition-all duration-200 ${
                             isDarkMode ? "text-white" : "text-darkExpansion"

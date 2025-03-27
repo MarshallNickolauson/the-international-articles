@@ -34,7 +34,7 @@ const FeaturedArticle = ({ article }) => {
     return (
         <div className={`card-shadow rounded-[16px] hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'bg-_303030' : ''}`} onClick={() => navigate(`/article/${article._id}`)}>
             <img src={dock} alt='' className='rounded-t-[16px] image-shadow' />
-            <div className='py-5 px-2 space-y-2'>
+            <div className='py-5 px-2 space-y-2 font-opensans'>
                 <h1 className={`text-2xl font-bold transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{articleData.title}</h1>
                 <h1 className={`text-sm italic transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-gray-600'}`}>{articleDate}</h1>
                 <h1 className={`text-lg line-clamp-3 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{cleanText}</h1>

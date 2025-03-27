@@ -172,7 +172,7 @@ function Header() {
             </nav>
 
             {/* Secondary Navbar */}
-            <nav className={`w-full px-4 py-4 border-b-[1px] border-gray-300`}>
+            <nav className={`w-full px-4 py-4 border-b-[1px] border-gray-300 font-opensans`}>
                 <div className='flex mx-auto max-w-[1450px] justify-between items-center'>
                     <div className='flex space-x-10 items-center'>
                         <Link to='/' className={`text-lg hover:underline transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
