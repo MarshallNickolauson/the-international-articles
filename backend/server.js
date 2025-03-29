@@ -5,9 +5,15 @@ import { connectDB } from "./config/db.js";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
+import multer from "multer";
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 const port = process.env.BACKEND_PORT || 5000;
 
 connectDB();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
@@ -29,6 +35,26 @@ import articleRoutes from "./routes/article.routes.js";
 
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
+
+const storage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, '/data');
+    },
+    filename: (req, file, callback) => {
+        callback(null, Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage });
+
+app.post('/upload/image', upload.single('image'), (req, res) => {
+    if (!req.file) return res.status(400).send('No file uploaded.');
+
+    res.send({
+        message: 'Image uploaded successfully',
+        file: req.file
+    });
+});
 
 app.use(errorHandler);
 
