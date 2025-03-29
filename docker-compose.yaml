@@ -1,0 +1,53 @@
+services:
+    backend:
+        build:
+            context: ./backend
+        ports:
+            - "5000:5000"
+        env_file:
+            - .env
+        volumes:
+            - ./backend:/app
+            - /app/node_modules
+            # - image-data:/data
+        networks:
+            - app-network
+        command: ["sh", "-c", "npm install && npm run server"]
+
+    frontend:
+        build:
+            context: ./frontend
+        ports:
+            - "0.0.0.0:3000:3000"
+        env_file:
+            - .env
+        depends_on:
+            - backend
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+        volumes:
+            - ./frontend:/app
+            - /app/node_modules
+        networks:
+            - app-network
+
+    mongodb:
+        image: mongo:latest
+        container_name: mongodb
+        ports:
+            - "27017:27017"
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: password
+        volumes:
+            - mongo-data:/data/db
+        networks:
+            - app-network
+
+volumes:
+    mongo-data:
+    # image-data:
+
+networks:
+    app-network:
+        driver: bridge
