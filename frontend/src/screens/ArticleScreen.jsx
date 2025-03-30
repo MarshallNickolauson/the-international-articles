@@ -198,7 +198,7 @@ const ArticleScreen = () => {
             <div className='flex w-full space-x-5 mt-4'>
                 {/* Main Language Article */}
                 <div className={`card-shadow-static rounded-[16px] transition-all duration-200 ease-in-out ${isDarkMode ? 'bg-_303030' : 'bg-white'} ${isSecondaryLangVisible ? 'w-1/2' : 'w-11/12'}`}>
-                    <img src={dock} alt='' className='rounded-t-[16px] image-shadow w-full max-h-[300px] object-cover' />
+                    <img src={`http://localhost:8080/images/${String(article?.imageUrl || articleFromCache?.imageUrl).replace("/data", "")}`} alt='' className='rounded-t-[16px] image-shadow w-full max-h-[300px] object-cover' />
                     <div className='p-5'>
                         <h1 className={`text-3xl font-bold font-poppins mb-2 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{articleData.title}</h1>
                         <div className='flex space-x-2'>

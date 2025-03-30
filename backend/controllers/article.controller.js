@@ -55,6 +55,7 @@ export const createArticle = expressAsyncHandler(async (req, res) => {
         languages,
         isPublished: false,
         user: req.user._id,
+        imageUrl: '',
     });
 
     const createdArticle = await article.save();
@@ -91,7 +92,7 @@ export const searchArticles = expressAsyncHandler(async (req, res) => {
 // @route   PUT api/articles/:id
 // @access  Private
 export const updateArticle = expressAsyncHandler(async (req, res) => {
-    const { languages } = req.body;
+    const { languages, imageUrl } = req.body;
 
     if (!languages || typeof languages !== 'object') {
         res.status(400);
@@ -102,6 +103,7 @@ export const updateArticle = expressAsyncHandler(async (req, res) => {
 
     if (article) {
         article.languages = languages;
+        article.imageUrl = imageUrl || article.imageUrl;
         const updatedArticle = await article.save();
         res.status(200).json(updatedArticle);
     } else {

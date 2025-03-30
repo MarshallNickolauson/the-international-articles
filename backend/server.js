@@ -48,7 +48,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.post("/upload/image", upload.single("image"), (req, res) => {
+app.post("/api/upload/image", upload.single("image"), (req, res) => {
     if (!req.file) return res.status(400).send("No file uploaded.");
 
     res.send({
@@ -57,7 +57,7 @@ app.post("/upload/image", upload.single("image"), (req, res) => {
     });
 });
 
-app.delete("/upload/image/:filename", (req, res) => {
+app.delete("/api/upload/image/:filename", (req, res) => {
     const { filename } = req.params;
     const filePath = path.join("/data", filename);
 
