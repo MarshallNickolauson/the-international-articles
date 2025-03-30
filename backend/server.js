@@ -6,8 +6,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config({ path: "../.env" });
 import multer from "multer";
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
 const port = process.env.BACKEND_PORT || 5000;
 
 connectDB();
@@ -38,21 +39,37 @@ app.use("/api/articles", articleRoutes);
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, '/data');
+        callback(null, "/data");
     },
     filename: (req, file, callback) => {
         callback(null, Date.now() + path.extname(file.originalname));
-    }
+    },
 });
 
 const upload = multer({ storage });
 
-app.post('/upload/image', upload.single('image'), (req, res) => {
-    if (!req.file) return res.status(400).send('No file uploaded.');
+app.post("/upload/image", upload.single("image"), (req, res) => {
+    if (!req.file) return res.status(400).send("No file uploaded.");
 
     res.send({
-        message: 'Image uploaded successfully',
-        file: req.file
+        message: "Image uploaded successfully",
+        file: req.file,
+    });
+});
+
+app.delete("/upload/image/:filename", (req, res) => {
+    const { filename } = req.params;
+    const filePath = path.join("/data", filename);
+
+    fs.unlink(filePath, (err) => {
+        if (err) {
+            console.error(`Error deleting file: ${err.message}`);
+            console.error(`Stack Trace: ${err.stack}`);
+
+            return res.status(500).json({ message: "Failed to delete the file.", error: err.message });
+        }
+
+        res.json({ message: "File deleted successfully!" });
     });
 });
 
