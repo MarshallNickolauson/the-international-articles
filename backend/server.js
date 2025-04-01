@@ -33,6 +33,7 @@ app.use(express.urlencoded({ extended: false }));
 
 import userRoutes from "./routes/user.routes.js";
 import articleRoutes from "./routes/article.routes.js";
+import { protect } from './middleware/auth.middleware.js';
 
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
@@ -48,7 +49,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.post("/api/upload/image", upload.single("image"), (req, res) => {
+app.post("/api/upload/image", protect, upload.single("image"), (req, res) => {
     if (!req.file) return res.status(400).send("No file uploaded.");
 
     res.send({
@@ -57,7 +58,7 @@ app.post("/api/upload/image", upload.single("image"), (req, res) => {
     });
 });
 
-app.delete("/api/upload/image/:filename", (req, res) => {
+app.delete("/api/upload/image/:filename", protect, (req, res) => {
     const { filename } = req.params;
     const filePath = path.join("/data", filename);
 

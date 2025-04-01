@@ -9,6 +9,7 @@ export const imageApiSlice = apiSlice.injectEndpoints({
                     url: IMAGE_URL,
                     method: "POST",
                     body: imageFile,
+                    credentials: 'include',
                 };
             },
         }),
@@ -17,6 +18,7 @@ export const imageApiSlice = apiSlice.injectEndpoints({
                 return {
                     url: `${IMAGE_URL}/${imageFile}`,
                     method: "DELETE",
+                    credentials: 'include',
                 };
             },
         }),
