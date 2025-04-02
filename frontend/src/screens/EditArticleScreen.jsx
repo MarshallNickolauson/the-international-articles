@@ -107,6 +107,8 @@ const EditArticleScreen = () => {
             let imageUrl = '';
 
             if (imageFile) {
+                if (article.imageUrl) await deleteImage(String(article.imageUrl).replace('/data/', '')).unwrap();
+
                 const formDataForImage = new FormData();
                 formDataForImage.append('image', imageFile);
 
