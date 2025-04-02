@@ -21,6 +21,7 @@ export const imageApiSlice = apiSlice.injectEndpoints({
                     credentials: 'include',
                 };
             },
+            invalidatesTags: ['Article'],
         }),
     }),
 });

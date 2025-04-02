@@ -7,6 +7,7 @@ import { TRANSLATIONS, LANGUAGES } from '../constants';
 import SimpleEditor from './SimpleEditor';
 import { useUploadImageMutation, useDeleteImageMutation } from '../slices/image/imageApiSlice.js';
 import { ClipLoader } from 'react-spinners';
+import { IoClose } from 'react-icons/io5';
 
 const EditArticleScreen = () => {
     const navigate = useNavigate();
@@ -124,6 +125,17 @@ const EditArticleScreen = () => {
         }
     };
 
+    const handleDeleteImage = async () => {
+        try {
+            setImageFile(null);
+            setImageUrl('');
+            if (article.imageUrl) await deleteImage(String(article.imageUrl).replace('/data/', '')).unwrap();
+            refetch();
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const handleDeleteArticle = async () => {
         if (window.confirm('Are you sure you want to delete this article?')) {
             try {
@@ -197,11 +209,22 @@ const EditArticleScreen = () => {
             </div>
 
             {/* File input for image upload */}
-            <div className='flex items-center space-x-2 text-lg'>
-                <label htmlFor='imageFile' className='text-darkExpansion'>
-                    Upload Image:
-                </label>
-                <input id='imageFile' type='file' onChange={handleImageChange} accept='image/*' className='cursor-pointer' />
+            <div className='flex items-center justify-between w-full text-lg'>
+                <div className='flex space-x-2'>
+                    <label htmlFor='imageFile' className='text-darkExpansion'>
+                        Upload Image:
+                    </label>
+                    <input id='imageFile' type='file' onChange={handleImageChange} accept='image/*' className='cursor-pointer' />
+                </div>
+                <div className='ml-auto relative'>
+                    <div className='absolute right-3 translate-x-2 -translate-y-2 text-2xl'>
+                        <IoClose
+                            size={30}
+                            className={`hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}
+                            onClick={handleDeleteImage}
+                        />
+                    </div>
+                </div>
             </div>
 
             {/* Image preview */}
