@@ -44,13 +44,16 @@ const SimpleEditor = ({ initialContent, onChange }) => {
             },
         },
     });
-
+    
+    // Ensure the editor content is set correctly only once or when new content arrives
     useEffect(() => {
-        if (editor && initialContent && !hasInitialized.current) {
-            editor.commands.setContent(initialContent);
-            hasInitialized.current = true;
+        if (editor) {
+            // If the initialContent has changed, reset the content of the editor
+            if (editor.getHTML() !== initialContent) {
+                editor.commands.setContent(initialContent); // Reinitialize content
+            }
         }
-    }, [editor, initialContent]);
+    }, [initialContent, editor]);
 
     return (
         <div>

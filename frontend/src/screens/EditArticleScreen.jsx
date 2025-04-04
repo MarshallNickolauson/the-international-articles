@@ -8,6 +8,7 @@ import SimpleEditor from './SimpleEditor';
 import { useUploadImageMutation, useDeleteImageMutation } from '../slices/image/imageApiSlice.js';
 import { ClipLoader } from 'react-spinners';
 import { IoClose } from 'react-icons/io5';
+import { BsStars } from 'react-icons/bs';
 
 const EditArticleScreen = () => {
     const navigate = useNavigate();
@@ -30,6 +31,10 @@ const EditArticleScreen = () => {
 
     const [uploadImage, { isLoading: isUploading }] = useUploadImageMutation();
     const [deleteImage, { isLoading: isImageDeleting }] = useDeleteImageMutation();
+
+    const [isTranslating, setIsTranslating] = useState(false);
+    const [abortController, setAbortController] = useState(null);
+    const [requestId, setRequestId] = useState('');
 
     const [referenceArticleData, setReferenceArticleData] = useState({});
     const [formData, setFormData] = useState({});
@@ -179,6 +184,84 @@ const EditArticleScreen = () => {
         };
     }, [isSaved]);
 
+    const handleTranslate = async () => {
+        if (!selectedSecondaryLanguage || selectedSecondaryLanguage === 'none') {
+            alert('Please select a secondary language for translation.');
+            return;
+        }
+
+        setTimeout(() => setIsTranslating(true), 0);
+
+        const controller = new AbortController();
+        setAbortController(controller);
+
+        const randomUUid = crypto.randomUUID();
+        setRequestId(randomUUid);
+
+        try {
+            const response = await fetch('http://localhost:9000/translate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    sourceLang: selectedPrimaryLanguage,
+                    targetLang: selectedSecondaryLanguage,
+                    text: formData[selectedPrimaryLanguage]?.content || '',
+                    requestId: randomUUid,
+                }),
+                signal: controller.signal,
+            });
+
+            const data = await response.json();
+            setIsTranslating(false);
+
+            if (response.ok) {
+                const translatedText = data.translatedText || '';
+
+                // Typing effect
+                let index = 0;
+                const interval = setInterval(() => {
+                    handleChange(selectedSecondaryLanguage, 'content', translatedText.slice(0, index));
+                    index += 10;
+
+                    if (index > translatedText.length) {
+                        clearInterval(interval);
+                    }
+                }, 5);
+            } else {
+                alert('Translation failed: ' + data.error);
+            }
+        } catch (error) {
+            setIsTranslating(false);
+
+            if (error.name === 'AbortError' || error.message.includes('abort')) return;
+
+            console.error('Error translating:', error);
+            alert('Error connecting to translation service.');
+        }
+    };
+
+    const handleCancelTranslation = async () => {
+        if (abortController) {
+            abortController.abort();
+            setAbortController(null);
+            setIsTranslating(false);
+
+            try {
+                const response = await fetch('http://localhost:9000/translate/abort', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        requestId,
+                    }),
+                });
+
+                const data = await response.json();
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
     if (isLoading || isFetching) return <p>Loading...</p>;
     if (isError) return <p>Error loading article.</p>;
 
@@ -218,11 +301,7 @@ const EditArticleScreen = () => {
                 </div>
                 <div className='ml-auto relative'>
                     <div className='absolute right-3 translate-x-2 -translate-y-2 text-2xl'>
-                        <IoClose
-                            size={30}
-                            className={`hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}
-                            onClick={handleDeleteImage}
-                        />
+                        <IoClose size={30} className={`hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} onClick={handleDeleteImage} />
                     </div>
                 </div>
             </div>
@@ -335,7 +414,37 @@ const EditArticleScreen = () => {
                                     value={formData[lang]?.date || ''}
                                     onChange={(e) => handleChange(lang, 'date', e.target.value)}
                                 />
-                                <label className={`text-lg mb-1 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{translations.content || 'Content'}</label>
+                                <div className='flex justify-between items-center relative pb-3'>
+                                    <label className={`text-lg mb-1 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{translations.content || 'Content'}</label>
+                                    {lang === selectedSecondaryLanguage && (
+                                        <div className='absolute right-0'>
+                                            <div className='flex space-x-3'>
+                                                {isTranslating && <ClipLoader color='#36d7b7' size={40} />}
+                                                {isTranslating && (
+                                                    <button
+                                                        onClick={handleCancelTranslation}
+                                                        className='flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full shadow-md font-medium transition-all duration-300'
+                                                    >
+                                                        <IoClose className='text-xl' />
+                                                        <h1 className='mr-1'>Cancel</h1>
+                                                    </button>
+                                                )}
+                                                <button
+                                                    onClick={handleTranslate}
+                                                    className={`flex items-center gap-2 px-4 py-2 rounded-full shadow-md font-medium transition-all duration-300 ${
+                                                        isTranslating
+                                                            ? 'bg-gradient-to-r from-blue-300 to-purple-300'
+                                                            : 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white'
+                                                    }`}
+                                                    disabled={isTranslating}
+                                                >
+                                                    <BsStars className='text-xl' />
+                                                    <h1 className='mr-1'>Generate</h1>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
                                 <SimpleEditor
                                     key={lang}
                                     initialContent={formData[lang]?.content}
