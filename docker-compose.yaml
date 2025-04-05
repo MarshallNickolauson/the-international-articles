@@ -57,19 +57,24 @@ services:
     networks:
       - app-network
 
-  # marianmt-ai:
-  #   container_name: marianmt-ai
-  #   build:
-  #     context: ./marianmt-ai
-  #   ports:
-  #     - "9000:9000"
-  #   networks:
-  #     - app-network
+  marianmt-ai:
+    container_name: marianmt-ai
+    build:
+      context: ./marianmt-ai
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./marianmt-ai:/app
+      - marian-models:/app/models
+      - pip-cache:/root/.cache/pip
+    networks:
+      - app-network
 
 volumes:
   mongo-data:
   image-data:
-
+  marian-models:
+  pip-cache:
 
 networks:
   app-network:
