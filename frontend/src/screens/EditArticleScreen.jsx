@@ -145,6 +145,11 @@ const EditArticleScreen = () => {
         if (window.confirm('Are you sure you want to delete this article?')) {
             try {
                 if (article.imageUrl) await deleteImage(String(article.imageUrl).replace('/data/', '')).unwrap();
+            } catch (error) {
+                
+            } 
+            
+            try {
                 await deleteArticle({ id });
                 navigate('/my-articles');
             } catch (error) {
