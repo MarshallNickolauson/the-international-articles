@@ -68,7 +68,7 @@ const ArticleListScreen = () => {
                     />
                 </div>
             </div>
-            <div className='space-y-4 py-2'>
+            <div className='space-y-4 py-2 animate-fadeInSlideUp'>
                 {sortedArticles.map((article) => (
                     <ArticleListCard key={article._id} article={article} />
                 ))}

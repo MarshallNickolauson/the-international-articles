@@ -79,7 +79,7 @@ const SearchResultsScreen = () => {
             {searchResults.length === 0 ? (
                 <p className='text-center text-gray-500'>{translations.noResults || `No results found for "${query}". Try searching for something else :)`}</p>
             ) : (
-                <div className='space-y-4 py-2'>
+                <div className='space-y-4 py-2 animate-fadeInSlideUp'>
                     {searchResults.map((article) => (
                         <ArticleListCard key={article._id} article={article} />
                     ))}

@@ -70,7 +70,7 @@ const MyArticlesScreen = () => {
                     <FaRegArrowAltCircleDown
                         size={35}
                         onClick={() => setIsRotated(!isRotated)}
-                        className={`transition-all duration-200 cursor-pointer transform ${isRotated ? "rotate-180" : ""} ${isDarkMode ? "text-white" : "text-darkExpansion"}`}
+                        className={`mr-1 transition-all duration-200 cursor-pointer transform ${isRotated ? "rotate-180" : ""} ${isDarkMode ? "text-white" : "text-darkExpansion"}`}
                     />
                     <button
                         className={`mr-2 px-4 py-2 font-bold rounded-lg transition-all duration-200 ${filterStatus === "all" ? "bg-blue-500 text-white shadow-md" : "bg-gray-300 text-darkExpansion"}`}
@@ -96,7 +96,7 @@ const MyArticlesScreen = () => {
                     </button>
                 </div>
             </div>
-            <div className="space-y-4 py-2">
+            <div className="space-y-4 py-2 animate-fadeInSlideUp">
                 {sortedArticles?.length > 0 ? sortedArticles.map((article) => <ArticleListCard key={article._id} article={article} />) : <p>No articles available.</p>}
             </div>
         </div>
