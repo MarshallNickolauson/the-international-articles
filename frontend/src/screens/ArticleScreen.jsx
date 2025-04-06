@@ -38,9 +38,10 @@ const ArticleScreen = () => {
     const { userInfo } = useSelector((state) => state.auth);
 
     const [isFavorited, setIsFavorited] = useState(false);
+    const [displayedTitle, setDisplayedTitle] = useState('');
 
     useEffect(() => {
-        setisSecondaryLangVisible(secondaryLanguage !== 'Dual Language');
+        if (secondaryLanguage) setisSecondaryLangVisible(secondaryLanguage !== 'Dual Language');
     }, [secondaryLanguage]);
 
     const articleFromCache = useSelector((state) => state.article.currentArticle);
@@ -54,8 +55,8 @@ const ArticleScreen = () => {
         isFetching,
     } = useGetArticleByIdQuery(id, {
         skip: !!articleFromCache,
-        refetchOnMountOrArgChange: true,
     });
+
     const [toggleFavoriteArticle] = useToggleFavoriteArticleMutation();
 
     useEffect(() => {
@@ -63,7 +64,7 @@ const ArticleScreen = () => {
             const isFavorited = userInfo.favorites.some((fav) => fav.articleId === id);
             setIsFavorited(isFavorited);
         }
-    }, []);
+    }, [userInfo, id]);
 
     useEffect(() => {
         if (!articleFromCache) {
@@ -169,10 +170,15 @@ const ArticleScreen = () => {
         <div className='mt-6 transition-all duration-300 ease-in-out'>
             <div className='flex w-full space-x-5 items-center'>
                 <div className={`flex justify-between transition-all duration-300 ease-in-out ${isSecondaryLangVisible ? 'w-1/2' : 'w-11/12'}`}>
-                    <h1 className={`font-opensans italic transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
-                        {'>'} {TRANSLATIONS[language]?.articles || 'Articles'} {'>'} {LANGUAGES[language]?.name || 'LANG'} {'>'} {articleData.title}
+                    <h1 className={`will-change-opacity animate-fadeInSlideUp font-opensans italic transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
+                        {'> '}
+                        {TRANSLATIONS[language]?.articles || 'Articles'}
+                        {'> '}
+                        {LANGUAGES[language]?.name || 'LANG'}
+                        {'> '}
+                        {articleData.title}
                     </h1>
-                    <div className='flex space-x-3 items-center'>
+                    <div className='flex space-x-3 items-center will-change-opacity animate-fadeInSlideUp'>
                         {isFavorited ? (
                             <FaHeart
                                 onClick={() => handleToggleFavoriteArticle()}
@@ -189,7 +195,11 @@ const ArticleScreen = () => {
                         <FiPrinter size={28} className={`hover:scale-[1.08] hover:cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />
                     </div>
                 </div>
-                <div className={`flex items-center justify-end space-x-2 cursor-pointer hover:underline transition-all duration-300 ease-in-out ${isSecondaryLangVisible ? 'w-1/2' : 'w-1/12'}`}>
+                <div
+                    className={`will-change-transform will-change-opacity flex items-center justify-end space-x-2 cursor-pointer hover:underline transition-all duration-300 ease-in-out ${
+                        isSecondaryLangVisible ? 'w-1/2' : 'w-1/12'
+                    } animate-fadeInSlideLeft`}
+                >
                     <h1 className={`font-opensans text-xl transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{TRANSLATIONS[language].share || 'Share'}</h1>
                     <CiShare1 size={25} className={`transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />
                 </div>
@@ -197,8 +207,16 @@ const ArticleScreen = () => {
 
             <div className='flex w-full space-x-5 mt-4'>
                 {/* Main Language Article */}
-                <div className={`card-shadow-static rounded-[16px] transition-all duration-200 ease-in-out ${isDarkMode ? 'bg-_303030' : 'bg-white'} ${isSecondaryLangVisible ? 'w-1/2' : 'w-11/12'}`}>
-                    <img src={`http://localhost:8080/images/${String(article?.imageUrl || articleFromCache?.imageUrl).replace("/data", "")}`} alt='' className='rounded-t-[16px] image-shadow w-full max-h-[300px] object-cover' />
+                <div
+                    className={`will-change-transform will-change-opacity card-shadow-static rounded-[16px] transition-all duration-200 ease-in-out ${isDarkMode ? 'bg-_303030' : 'bg-white'} ${
+                        isSecondaryLangVisible ? 'w-1/2' : 'w-11/12'
+                    } animate-fadeInSlideUp`}
+                >
+                    <img
+                        src={`http://localhost:8080/images/${String(article?.imageUrl || articleFromCache?.imageUrl).replace('/data', '')}`}
+                        alt=''
+                        className={`rounded-t-[16px] image-shadow w-full max-h-[300px] object-cover animate-fadeIn`}
+                    />
                     <div className='p-5'>
                         <h1 className={`text-3xl font-bold font-poppins mb-2 transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{articleData.title}</h1>
                         <div className='flex space-x-2'>
@@ -227,9 +245,10 @@ const ArticleScreen = () => {
                 <div className={`flex flex-col items-end transition-all duration-200 ease-in-out ${isSecondaryLangVisible ? 'w-1/2 space-y-[225px]' : 'w-1/12'}`}>
                     {/* Connect Section */}
                     <div
-                        className={`card-shadow-static rounded-[16px] p-1 flex justify-center items-center transition-all duration-200 ease-in-out ${
+                        className={`will-change-transform will-change-opacity card-shadow-static rounded-[16px] p-1 flex justify-center items-center transition-all duration-200 ease-in-out ${
                             isDarkMode ? 'text-white bg-_303030' : 'text-darkExpansion bg-white'
-                        } ${isSecondaryLangVisible ? 'flex-row h-[80px] w-[400px] space-x-4' : 'flex-col w-[100px] h-[400px] space-y-4'}`}
+                        } ${isSecondaryLangVisible ? 'flex-row h-[80px] w-[400px] space-x-4' : 'flex-col w-[100px] h-[400px] space-y-4'}
+                        animate-fadeInSlideLeft`}
                     >
                         <FaSquareXTwitter size={socialIconSize} className={socialIconClass} />
                         <FaYoutube size={socialIconSize} className={socialIconClass} />

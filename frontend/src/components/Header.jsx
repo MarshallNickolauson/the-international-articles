@@ -223,7 +223,7 @@ function Header() {
                                     <IoIosArrowDropdown className={`ml-2 text-2xl transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />
                                 </div>
                                 {isSecondaryLangDropdownOpen && (
-                                    <ul className='absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded-[8px] shadow-lg transition-all duration-200'>
+                                    <ul className='absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded-[8px] shadow-lg transition-all duration-200 z-[100]'>
                                         {secondaryLanguages.map((lang, index) => (
                                             <li key={index} className='px-4 py-2 hover:bg-gray-200 cursor-pointer' onClick={() => selectSecondaryLanguage(lang)}>
                                                 {LANGUAGES[lang]?.name}
