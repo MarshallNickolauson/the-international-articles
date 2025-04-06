@@ -92,9 +92,9 @@ const EditArticleScreen = () => {
     };
 
     useEffect(() => {
-        if (formData === referenceArticleData) setIsSaved(true);
-        else setIsSaved(false);
-    }, [referenceArticleData, formData]);
+        if (formData !== referenceArticleData) setIsSaved(false);
+        if (imageFile) setIsSaved(false);
+    }, [referenceArticleData, formData, imageFile]);
 
     const [toggleArticlePublishUpdate, { isLoading: isPublishingToggle }] = useToggleArticlePublishedMutation();
 
@@ -123,21 +123,24 @@ const EditArticleScreen = () => {
             }
 
             await updateArticle({ id, languages: formData, imageUrl }).unwrap();
-            console.log('Updated successfully!');
             setReferenceArticleData(formData);
+            setIsSaved(true);
         } catch (error) {
             console.error('Update failed', error);
         }
     };
 
     const handleDeleteImage = async () => {
-        try {
-            setImageFile(null);
-            setImageUrl('');
-            if (article.imageUrl) await deleteImage(String(article.imageUrl).replace('/data/', '')).unwrap();
-            refetch();
-        } catch (error) {
-            console.log(error);
+        setImageFile(null);
+
+        if (article.imageUrl) {
+            try {
+                setImageUrl('');
+                if (article.imageUrl) await deleteImage(String(article.imageUrl).replace('/data/', '')).unwrap();
+                refetch();
+            } catch (error) {
+                console.log(error);
+            }
         }
     };
 
@@ -322,9 +325,11 @@ const EditArticleScreen = () => {
                     <input id='imageFile' type='file' onChange={handleImageChange} accept='image/*' className='cursor-pointer' />
                 </div>
                 <div className='ml-auto relative'>
-                    <div className='absolute right-3 translate-x-2 -translate-y-2 text-2xl'>
-                        <IoClose size={30} className={`hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} onClick={handleDeleteImage} />
-                    </div>
+                    {(imageFile || article.imageUrl) && (
+                        <div className='absolute right-3 translate-x-2 -translate-y-2 text-2xl'>
+                            <IoClose size={30} className={`hover:cursor-pointer transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} onClick={handleDeleteImage} />
+                        </div>
+                    )}
                 </div>
             </div>
 
