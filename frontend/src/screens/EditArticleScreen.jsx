@@ -145,10 +145,8 @@ const EditArticleScreen = () => {
         if (window.confirm('Are you sure you want to delete this article?')) {
             try {
                 if (article.imageUrl) await deleteImage(String(article.imageUrl).replace('/data/', '')).unwrap();
-            } catch (error) {
-                
-            } 
-            
+            } catch (error) {}
+
             try {
                 await deleteArticle({ id });
                 navigate('/my-articles');
@@ -172,6 +170,21 @@ const EditArticleScreen = () => {
             document.removeEventListener('mousedown', handleClickOutside(secondaryLangDropdownRef, setIsSecondaryLangDropdownOpen));
         };
     }, []);
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+                event.preventDefault();
+                handleSave(event);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleSave]);
 
     useEffect(() => {
         const handleBeforeUnload = (event) => {
@@ -282,12 +295,16 @@ const EditArticleScreen = () => {
                     <button
                         onClick={handlePublishToggle}
                         className={` text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100 
-                        ${!isSaved ? 'cursor-not-allowed bg-gray-500' : 'bg-blue-500 hover:bg-blue-700'}`}
+                        ${!isSaved ? 'cursor-default bg-gray-400' : 'bg-blue-500 hover:bg-blue-700'}`}
                         disabled={!isSaved}
                     >
                         {!isPublished ? translations.publish || 'Publish' : translations.unpublish || 'Unpublish'}
                     </button>
-                    <button onClick={handleSave} className='bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100' disabled={isUpdating}>
+                    <button
+                        onClick={handleSave}
+                        className={`${isSaved ? 'cursor-default bg-gray-400' : 'bg-green-600 hover:bg-green-700'} text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100`}
+                        disabled={isUpdating}
+                    >
                         {translations.saveChanges || 'Save Changes'}
                     </button>
                     <button onClick={handleDeleteArticle} className='bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100'>
