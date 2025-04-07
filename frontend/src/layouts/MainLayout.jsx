@@ -15,7 +15,7 @@ const MainLayout = () => {
         <div className={`${isDarkMode ? 'bg-_252825' : 'bg-white'} transition-all duration-200`}>
             <Header />
             <div className='px-4'>
-                <div className='max-w-[1450px] mx-auto pb-[500px]'>
+                <div className='max-w-[1450px] mx-auto'>
                     <Outlet />
                 </div>
             </div>

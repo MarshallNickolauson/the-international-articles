@@ -9,7 +9,7 @@ import { FaLinkedin } from 'react-icons/fa';
 import { FaPinterest } from 'react-icons/fa';
 import { HiOutlineSpeakerWave } from 'react-icons/hi2';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import { changeSecondaryLanguage } from '../slices/language/languageSlice';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -38,7 +38,9 @@ const ArticleScreen = () => {
     const { userInfo } = useSelector((state) => state.auth);
 
     const [isFavorited, setIsFavorited] = useState(false);
-    const [displayedTitle, setDisplayedTitle] = useState('');
+    const [isPrinterModalOpen, setIsPrinterModalOpen] = useState(false);
+    const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+    const modalRef = useRef(null);
 
     useEffect(() => {
         if (secondaryLanguage) setisSecondaryLangVisible(secondaryLanguage !== 'Dual Language');
@@ -76,6 +78,27 @@ const ArticleScreen = () => {
         dispatch(toggleArticleLoading(isLoading));
     }, [isLoading, dispatch]);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                setIsPrinterModalOpen(false);
+                setIsShareModalOpen(false);
+            }
+        };
+
+        if (isPrinterModalOpen || isShareModalOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.body.style.overflow = 'auto';
+        };
+    }, [isPrinterModalOpen, isShareModalOpen]);
+
     if (isLoading || isFetching) {
         return (
             <div className='mt-6 transition-all duration-300 ease-in-out'>
@@ -91,12 +114,8 @@ const ArticleScreen = () => {
                 </div>
 
                 <div className='flex w-full space-x-5 mt-4'>
-                    {/* Main Language Article */}
                     <ArticleScreenLoader />
-
-                    {/* Right Section */}
                     <div className={`flex flex-col items-end transition-all duration-200 ease-in-out ${isSecondaryLangVisible ? 'w-1/2 space-y-[320px]' : 'w-1/12'}`}>
-                        {/* Connect Section */}
                         <div
                             className={`card-shadow-static rounded-[16px] p-1 flex justify-center items-center transition-all duration-200 ease-in-out ${
                                 isDarkMode ? 'text-white bg-_303030' : 'text-darkExpansion bg-white'
@@ -178,7 +197,7 @@ const ArticleScreen = () => {
                         {'> '}
                         {articleData.title}
                     </h1>
-                    <div className='flex space-x-3 items-center will-change-opacity animate-fadeInSlideUp'>
+                    <div className='flex space-x-3 mr-4 items-center will-change-opacity animate-fadeInSlideUp'>
                         {isFavorited ? (
                             <FaHeart
                                 onClick={() => handleToggleFavoriteArticle()}
@@ -192,18 +211,55 @@ const ArticleScreen = () => {
                                 className={`hover:scale-[1.08] cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}
                             />
                         )}
-                        <FiPrinter size={28} className={`hover:scale-[1.08] hover:cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />
+                        <FiPrinter
+                            size={28}
+                            className={`hover:scale-[1.08] hover:cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}
+                            onClick={() => setIsPrinterModalOpen(true)}
+                        />
+                        <CiShare1
+                            size={30}
+                            className={`hover:scale-[1.08] hover:cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}
+                            onClick={() => setIsShareModalOpen(true)}
+                        />
                     </div>
                 </div>
-                <div
-                    className={`will-change-transform will-change-opacity flex items-center justify-end space-x-2 cursor-pointer hover:underline transition-all duration-300 ease-in-out ${
-                        isSecondaryLangVisible ? 'w-1/2' : 'w-1/12'
-                    } animate-fadeInSlideLeft`}
-                >
-                    <h1 className={`font-opensans text-xl transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{TRANSLATIONS[language].share || 'Share'}</h1>
-                    <CiShare1 size={25} className={`transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`} />
-                </div>
             </div>
+
+            {(isPrinterModalOpen || isShareModalOpen) && (
+                <div className='fixed inset-0 z-50 bg-black bg-opacity-40 h-full min-h-[1000dvh]'>
+                    <div className='flex items-center justify-center mt-[230px]'>
+                        <div
+                            ref={modalRef}
+                            className={`rounded-[16px] p-6 w-[90%] max-w-md max-h-[90vh] overflow-y-auto transition-all duration-300 ease-in-out ${
+                                isDarkMode ? 'bg-[#303030] text-white' : 'bg-white text-darkExpansion'
+                            }`}
+                        >
+                            <div className='flex justify-between items-center mb-4'>
+                                <h2 className='text-2xl font-bold'>{isPrinterModalOpen ? 'Print Article' : 'Share Article'}</h2>
+                                <IoClose
+                                    size={28}
+                                    className='cursor-pointer hover:scale-110 transition'
+                                    onClick={() => {
+                                        setIsPrinterModalOpen(false);
+                                        setIsShareModalOpen(false);
+                                    }}
+                                />
+                            </div>
+
+                            {isPrinterModalOpen ? (
+                                <p>This would trigger a print dialog or print preview.</p>
+                            ) : (
+                                <div className='flex justify-center space-x-4 mt-4'>
+                                    <FaSquareXTwitter size={30} className={socialIconClass} />
+                                    <FaFacebookSquare size={30} className={socialIconClass} />
+                                    <FaInstagram size={30} className={socialIconClass} />
+                                    <FaLinkedin size={30} className={socialIconClass} />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <div className='flex w-full space-x-5 mt-4'>
                 {/* Main Language Article */}
