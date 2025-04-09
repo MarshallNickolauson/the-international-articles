@@ -214,7 +214,7 @@ const ArticleScreen = () => {
                         <FiPrinter
                             size={28}
                             className={`hover:scale-[1.08] hover:cursor-pointer transition-colors duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}
-                            onClick={() => setIsPrinterModalOpen(true)}
+                            onClick={() => window.print()}
                         />
                         <CiShare1
                             size={30}
@@ -225,7 +225,7 @@ const ArticleScreen = () => {
                 </div>
             </div>
 
-            {(isPrinterModalOpen || isShareModalOpen) && (
+            {isShareModalOpen && (
                 <div className='fixed inset-0 z-50 bg-black bg-opacity-40 h-full min-h-[1000dvh]'>
                     <div className='flex items-center justify-center mt-[230px]'>
                         <div
@@ -240,22 +240,29 @@ const ArticleScreen = () => {
                                     size={28}
                                     className='cursor-pointer hover:scale-110 transition'
                                     onClick={() => {
-                                        setIsPrinterModalOpen(false);
                                         setIsShareModalOpen(false);
                                     }}
                                 />
                             </div>
 
-                            {isPrinterModalOpen ? (
-                                <p>This would trigger a print dialog or print preview.</p>
-                            ) : (
-                                <div className='flex justify-center space-x-4 mt-4'>
-                                    <FaSquareXTwitter size={30} className={socialIconClass} />
-                                    <FaFacebookSquare size={30} className={socialIconClass} />
-                                    <FaInstagram size={30} className={socialIconClass} />
-                                    <FaLinkedin size={30} className={socialIconClass} />
-                                </div>
-                            )}
+                            <div className='bg-gray-100 dark:bg-gray-800 p-3 rounded-lg flex items-center justify-between'>
+                                <input type='text' readOnly value={window.location.href} className='bg-transparent w-full text-sm text-gray-700 dark:text-white focus:outline-none' />
+                                <button
+                                    onClick={() => {
+                                        navigator.clipboard.writeText(window.location.href);
+                                    }}
+                                    className='ml-2 text-blue-600 hover:text-blue-800 text-sm'
+                                >
+                                    Copy
+                                </button>
+                            </div>
+
+                            <div className='flex justify-center space-x-4 mt-4'>
+                                <FaSquareXTwitter size={30} className={socialIconClass} />
+                                <FaFacebookSquare size={30} className={socialIconClass} />
+                                <FaInstagram size={30} className={socialIconClass} />
+                                <FaLinkedin size={30} className={socialIconClass} />
+                            </div>
                         </div>
                     </div>
                 </div>
