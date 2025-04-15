@@ -9,6 +9,7 @@ import { useUploadImageMutation, useDeleteImageMutation } from '../slices/image/
 import { ClipLoader } from 'react-spinners';
 import { IoClose } from 'react-icons/io5';
 import { BsStars } from 'react-icons/bs';
+import AlertCard from '../components/AlertCard.jsx';
 
 const EditArticleScreen = () => {
     const navigate = useNavigate();
@@ -50,6 +51,12 @@ const EditArticleScreen = () => {
 
     const primaryLangDropdownRef = useRef(null);
     const secondaryLangDropdownRef = useRef(null);
+
+    const [alertData, setAlertData] = useState({ show: false, message: '', type: 'info' });
+
+    const showAlert = (message, type = 'info') => {
+        setAlertData({ show: true, message, type });
+    };
 
     useEffect(() => {
         if (article) {
@@ -206,11 +213,6 @@ const EditArticleScreen = () => {
     }, [isSaved]);
 
     const handleTranslate = async () => {
-        if (!selectedSecondaryLanguage || selectedSecondaryLanguage === 'none') {
-            alert('Please select a secondary language for translation.');
-            return;
-        }
-
         setTimeout(() => setIsTranslating(true), 0);
 
         const controller = new AbortController();
@@ -249,15 +251,14 @@ const EditArticleScreen = () => {
                     }
                 }, 5);
             } else {
-                alert('Translation failed: ' + data.error);
+                showAlert('Translation failed: ' + data.error, 'error');
             }
         } catch (error) {
             setIsTranslating(false);
 
             if (error.name === 'AbortError' || error.message.includes('abort')) return;
 
-            console.error('Error translating:', error);
-            alert('Error connecting to translation service.');
+            showAlert('Error connecting to translation service.', 'error');
         }
     };
 
@@ -288,6 +289,7 @@ const EditArticleScreen = () => {
 
     return (
         <div className='py-4'>
+            {alertData.show && <AlertCard type={alertData.type} message={alertData.message} />}
             {/* Header */}
             <div className='flex justify-between items-center mb-6'>
                 <h2 className={`font-poppins font-bold text-4xl ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>

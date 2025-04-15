@@ -16,7 +16,7 @@ const RegisterScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [passwordsMatch, setPasswordsMatch] = useState(true);
+    const [errorMessage, setErrorMessage] = useState(true);
     const [registerUser] = useRegisterMutation();
 
     const translations = TRANSLATIONS[language] || TRANSLATIONS.en;
@@ -24,7 +24,7 @@ const RegisterScreen = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
-            setPasswordsMatch(false);
+            setErrorMessage(translations.passwordsMismatch || 'Passwords do not match');
             return;
         }
         try {
@@ -34,7 +34,7 @@ const RegisterScreen = () => {
                 navigate('/');
             }, 1);
         } catch (err) {
-            console.log(err?.data?.message || err.error);
+            setErrorMessage(err?.data?.message || 'Registration failed');
         }
     };
 
@@ -53,7 +53,7 @@ const RegisterScreen = () => {
                     <FormInput label={translations.password || 'Password'} type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
                     <FormInput label={translations.confirmPassword || 'Confirm Password'} type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
 
-                    {!passwordsMatch && <div className='text-red-500 text-md mb-4 font-opensans text-center'>{translations.passwordsMismatch || 'Passwords do not match'}</div>}
+                    {errorMessage && <div className='text-red-500 text-md mb-4 font-opensans text-center'>{errorMessage}</div>}
 
                     <button type='submit' className='w-full bg-darkGreen text-white py-2 rounded-md font-semibold hover:bg-green-700 transition-all duration-200'>
                         {translations.submit || 'Sign Up'}

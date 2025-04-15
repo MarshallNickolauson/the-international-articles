@@ -14,6 +14,7 @@ const LoginScreen = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState(true);
     const [login, { isLoading, isError, error }] = useLoginMutation();
 
     const { userInfo } = useSelector((state) => state.auth);
@@ -36,7 +37,7 @@ const LoginScreen = () => {
             dispatch(setCredentials({ ...res }));
             navigate('/');
         } catch (err) {
-            console.log(err?.data?.message || err.error);
+            setErrorMessage(err?.data?.message || 'Login failed');
         }
     };
 
@@ -54,6 +55,8 @@ const LoginScreen = () => {
                 <form onSubmit={handleLogin} className='font-opensans'>
                     <FormInput label={translations.email || 'Email'} type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
                     <FormInput label={translations.password || 'Password'} type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+
+                    {errorMessage && <div className='text-red-500 text-md mb-4 font-opensans text-center'>{errorMessage}</div>}
 
                     <button type='submit' className='w-full bg-darkGreen text-white py-2 rounded-md font-semibold hover:bg-green-700 transition-all duration-200'>
                         {isLoading ? 'Loading...' : translations.login || 'Login'}
