@@ -100,12 +100,17 @@ const AccountScreen = () => {
                     {translations.logout || 'Logout'}
                 </button>
 
+                {/* 
+
+                // Removed because user._id is linked to written articles
+                // Will handle later
+
                 <button
                     onClick={handleDelete}
                     className='w-full mt-4 font-opensans bg-red-600 text-white border border-red-600 py-2 rounded-md font-semibold hover:bg-red-500 transition-all duration-200'
                 >
                     {translations.deleteAccount || 'Delete Account'}
-                </button>
+                </button> */}
             </div>
         </div>
     );
