@@ -103,7 +103,7 @@ export const updateArticle = expressAsyncHandler(async (req, res) => {
 
     if (article) {
         article.languages = languages;
-        article.imageUrl = imageUrl || article.imageUrl;
+        article.imageUrl = imageUrl;
         const updatedArticle = await article.save();
         res.status(200).json(updatedArticle);
     } else {

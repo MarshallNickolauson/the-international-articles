@@ -78,6 +78,9 @@ const EditArticleScreen = () => {
             } else {
                 setImageUrl('');
             }
+            setTimeout(() => {
+                setIsSaved(true);
+            }, 1);
         }
     }, [article]);
 
@@ -143,8 +146,11 @@ const EditArticleScreen = () => {
         if (article.imageUrl) {
             try {
                 setImageUrl('');
-                if (article.imageUrl) await deleteImage(String(article.imageUrl).replace('/data/', '')).unwrap();
-                refetch();
+                if (article.imageUrl) {
+                    await updateArticle({ id, languages: formData, imageUrl: '' }).unwrap();
+                    await deleteImage(String(article.imageUrl).replace('/data/', '')).unwrap();
+                }
+                await refetch();
             } catch (error) {
                 console.log(error);
             }
