@@ -42,6 +42,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 credentials: 'include',
             })
         }),
+        delete: builder.mutation({
+            query: (data) => ({
+                url: `${USERS_URL}/profile`,
+                method: 'DELETE',
+                credentials: 'include',
+            })
+        }),
     }),
 });
 
@@ -51,4 +58,5 @@ export const {
     useRegisterMutation,
     useUpdateMutation,
     useToggleFavoriteArticleMutation,
+    useDeleteMutation,
 } = usersApiSlice;

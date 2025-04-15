@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setCredentials, logout } from '../slices/auth/authSlice.js';
-import { useUpdateMutation } from '../slices/auth/userApiSlice.js';
+import { useUpdateMutation, useDeleteMutation } from '../slices/auth/userApiSlice.js';
 import { TRANSLATIONS } from '../constants.js';
 import FormInput from '../components/FormInput.jsx';
 
@@ -19,6 +19,7 @@ const AccountScreen = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const [updateUser] = useUpdateMutation();
+    const [deleteUser] = useDeleteMutation();
     const [passwordsMatch, setPasswordsMatch] = useState(true);
     const [updatedMessage, setUpdatedMessage] = useState(false);
 
@@ -55,7 +56,18 @@ const AccountScreen = () => {
         dispatch(logout());
         setTimeout(() => {
             navigate('/');
-        }, 50);
+        }, 1);
+    };
+
+    const handleDelete = async () => {
+        if (window.confirm('Are you sure you want to delete your account?')) {
+            try {
+                await deleteUser().unwrap();
+                handleLogout();
+            } catch (error) {
+                console.log(err?.data?.message || err.error);
+            }
+        }
     };
 
     return (
@@ -86,6 +98,13 @@ const AccountScreen = () => {
                     className='w-full mt-4 font-opensans bg-white text-darkGreen border border-darkGreen py-2 rounded-md font-semibold hover:bg-gray-100 transition-all duration-200'
                 >
                     {translations.logout || 'Logout'}
+                </button>
+
+                <button
+                    onClick={handleDelete}
+                    className='w-full mt-4 font-opensans bg-red-600 text-white border border-red-600 py-2 rounded-md font-semibold hover:bg-red-500 transition-all duration-200'
+                >
+                    {translations.deleteAccount || 'Delete Account'}
                 </button>
             </div>
         </div>

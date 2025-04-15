@@ -144,7 +144,7 @@ export const toggleFavoriteArticle = expressAsyncHandler(async (req, res) => {
 });
 
 // @desc    Delete user
-// @route   DELETE api/users/profiles
+// @route   DELETE api/users/profile
 // @access  Private
 export const deleteUser = expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
