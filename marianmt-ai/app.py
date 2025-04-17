@@ -8,6 +8,26 @@ import signal
 import sys
 import multiprocessing
 
+'''
+@InProceedings{TiedemannThottingal:EAMT2020,
+    author = {J{\"o}rg Tiedemann and Santhosh Thottingal},
+    title = {{OPUS-MT} — {B}uilding open translation services for the {W}orld},
+    booktitle = {Proceedings of the 22nd Annual Conferenec of the European Association for Machine Translation (EAMT)},
+    year = {2020},
+    address = {Lisbon, Portugal}
+}
+
+@misc{deepseekai2024deepseekv3technicalreport,
+    title={DeepSeek-V3 Technical Report}, 
+    author={DeepSeek-AI},
+    year={2024},
+    eprint={2412.19437},
+    archivePrefix={arXiv},
+    primaryClass={cs.CL},
+    url={https://arxiv.org/abs/2412.19437}, 
+}
+'''
+
 app = Flask(__name__)
 CORS(app)
 
