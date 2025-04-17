@@ -43,7 +43,7 @@ const FeaturedArticle = ({ article }) => {
                 navigate(`/article/${article._id}`);
             }}
         >
-            <img src={`http://localhost:8080/images/${String(article.imageUrl).replace('/data', '')}`} alt='' className='rounded-t-[16px] max-h-[26rem] w-full object-cover image-shadow' />{' '}
+            <img src={`/images/${String(article.imageUrl).replace(/^\/?data\/?/, '')}`} alt='' className='rounded-t-[16px] max-h-[26rem] w-full object-cover image-shadow' />{' '}
             <div className='py-5 px-2 space-y-2 font-opensans'>
                 <h1 className={`text-2xl font-bold transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>{articleData.title}</h1>
                 <h1 className={`text-sm italic transition-all duration-200 ${isDarkMode ? 'text-white' : 'text-gray-600'}`}>{articleDate}</h1>

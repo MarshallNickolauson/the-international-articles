@@ -276,7 +276,7 @@ const ArticleScreen = () => {
                     } animate-fadeInSlideUp`}
                 >
                     <img
-                        src={`http://localhost:8080/images/${String(article?.imageUrl || articleFromCache?.imageUrl).replace('/data', '')}`}
+                        src={`/images/${String(article?.imageUrl || articleFromCache?.imageUrl).replace(/^\/?data\/?/, '')}`}
                         alt=''
                         className={`rounded-t-[16px] image-shadow w-full max-h-[300px] object-cover animate-fadeIn`}
                     />

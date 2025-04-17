@@ -49,7 +49,7 @@ const ArticleListCard = ({ article }) => {
         <div className={`card-shadow rounded-[16px] hover:cursor-pointer transition-all duration-200 ${isDarkMode ? "bg-_303030" : ""}`} onClick={() => handleClick()}>
             <div className="flex space-x-4">
                 <div className="h-36 w-36 flex-shrink-0">
-                    <img src={`http://localhost:8080/images/${String(article.imageUrl).replace("/data", "")}`} alt="" className="h-full w-full object-cover rounded-l-[16px] image-shadow" />
+                    <img src={`/images/${String(article.imageUrl).replace(/^\/?data\/?/, "")}`} alt="" className="h-full w-full object-cover rounded-l-[16px] image-shadow" />
                 </div>
 
                 <div className="flex items-center w-full overflow-hidden">

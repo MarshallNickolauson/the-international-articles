@@ -73,7 +73,7 @@ const EditArticleScreen = () => {
             setIsPublished(article.isPublished);
 
             if (article.imageUrl) {
-                const fullImageUrl = `http://localhost:8080/images/${String(article.imageUrl).replace('/data', '')}`;
+                const fullImageUrl = `/images/${String(article.imageUrl).replace(/^\/?data\/?/, '')}`;
                 setImageUrl(fullImageUrl);
             } else {
                 setImageUrl('');
