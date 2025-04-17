@@ -93,7 +93,7 @@ const Dashboard = () => {
                     </h1>
 
                     {articles && articles.length > 1 ? (
-                        <div className='flex flex-col h-[500px] justify-between space-y-4 animate-fadeInSlideUp'>
+                        <div className='flex flex-col h-[500px] justify-between space-y-6 animate-fadeInSlideUp'>
                             {articles.slice(1).map((article) => (
                                 <ArticleListCard key={article._id} article={article} />
                             ))}
