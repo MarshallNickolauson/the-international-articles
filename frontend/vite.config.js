@@ -8,5 +8,12 @@ export default defineConfig({
         host: true,
         port: 3000,
         allowedHosts: ['frontend'],
+        hmr: false,
+        https: false,
+        cors: true,
+        strictPort: true,
+        watch: {
+            usePolling: true,
+        }
     },
 });
