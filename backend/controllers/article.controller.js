@@ -83,7 +83,41 @@ export const searchArticles = expressAsyncHandler(async (req, res) => {
         $or: [{ [`languages.${language}.title`]: { $regex: query, $options: 'i' } }, { [`languages.${language}.content`]: { $regex: query, $options: 'i' } }],
     });
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    res.status(200).json(articles.length > 0 ? articles : []);
+});
+
+// @desc    Get 3 articles about mental health (for dashboard)
+// @route   GET api/articles/get3MentalHealthArticles
+// @access  Public
+export const get3MentalHealthArticles = expressAsyncHandler(async (req, res) => {
+    const articles = await Article.find({
+        isPublished: true,
+        $or: [{ [`languages.en.title`]: { $regex: 'mental', $options: 'i' } }, { [`languages.en.content`]: { $regex: 'mental', $options: 'i' } }],
+    });
+
+    res.status(200).json(articles.length > 0 ? articles : []);
+});
+
+// @desc    Get 3 articles about business (for dashboard)
+// @route   GET api/articles/3Business
+// @access  Public
+export const get3BusinessArticles = expressAsyncHandler(async (req, res) => {
+    const articles = await Article.find({
+        isPublished: true,
+        $or: [{ [`languages.en.title`]: { $regex: 'business', $options: 'i' } }, { [`languages.en.content`]: { $regex: 'business', $options: 'i' } }],
+    });
+
+    res.status(200).json(articles.length > 0 ? articles : []);
+});
+
+// @desc    Get 3 articles about identity (for dashboard)
+// @route   GET api/articles/3Identity
+// @access  Public
+export const get3IdentityArticles = expressAsyncHandler(async (req, res) => {
+    const articles = await Article.find({
+        isPublished: true,
+        $or: [{ [`languages.en.title`]: { $regex: 'identity', $options: 'i' } }, { [`languages.en.content`]: { $regex: 'identity', $options: 'i' } }],
+    });
 
     res.status(200).json(articles.length > 0 ? articles : []);
 });
