@@ -121,12 +121,12 @@ const ArticleScreen = () => {
                                 isDarkMode ? 'text-white bg-_303030' : 'text-darkExpansion bg-white'
                             } ${isSecondaryLangVisible ? 'flex-row h-[80px] w-[400px] space-x-4' : 'flex-col w-[100px] h-[400px] space-y-4'}`}
                         >
-                            <FaSquareXTwitter size={socialIconSize} className={socialIconClass} />
-                            <FaYoutube size={socialIconSize} className={socialIconClass} />
-                            <FaInstagram size={socialIconSize} className={socialIconClass} />
-                            <FaFacebookSquare size={socialIconSize} className={socialIconClass} />
-                            <FaLinkedin size={socialIconSize} className={socialIconClass} />
-                            <FaPinterest size={socialIconSize} className={socialIconClass} />
+                            <FaSquareXTwitter size={socialIconSize} className={socialIconClass} onClick={() => window.open('https://www.x.com', '_blank')} />
+                            <FaYoutube size={socialIconSize} className={socialIconClass} onClick={() => window.open('https://www.youtube.com', '_blank')} />
+                            <FaInstagram size={socialIconSize} className={socialIconClass} onClick={() => window.open('https://www.instagram.com', '_blank')} />
+                            <FaFacebookSquare size={socialIconSize} className={socialIconClass} onClick={() => window.open('https://www.facebook.com', '_blank')} />
+                            <FaLinkedin size={socialIconSize} className={socialIconClass} onClick={() => window.open('https://www.linkedin.com', '_blank')} />
+                            <FaPinterest size={socialIconSize} className={socialIconClass} onClick={() => window.open('https://www.pinterest.com', '_blank')} />
                         </div>
                     </div>
                 </div>
@@ -258,10 +258,10 @@ const ArticleScreen = () => {
                             </div>
 
                             <div className='flex justify-center space-x-4 mt-4'>
-                                <FaSquareXTwitter size={30} className={socialIconClass} />
-                                <FaFacebookSquare size={30} className={socialIconClass} />
-                                <FaInstagram size={30} className={socialIconClass} />
-                                <FaLinkedin size={30} className={socialIconClass} />
+                                <FaSquareXTwitter size={30} className={socialIconClass} onClick={() => window.open('https://www.x.com', '_blank')} />
+                                <FaFacebookSquare size={30} className={socialIconClass} onClick={() => window.open('https://www.facebook.com', '_blank')} />
+                                <FaInstagram size={30} className={socialIconClass} onClick={() => window.open('https://www.instagram.com', '_blank')} />
+                                <FaLinkedin size={30} className={socialIconClass} onClick={() => window.open('https://www.linkedin.com', '_blank')} />
                             </div>
                         </div>
                     </div>
@@ -313,12 +313,12 @@ const ArticleScreen = () => {
                         } ${isSecondaryLangVisible ? 'flex-row h-[80px] w-[400px] space-x-4' : 'flex-col w-[100px] h-[400px] space-y-4'}
                         animate-fadeInSlideLeft`}
                     >
-                        <FaSquareXTwitter size={socialIconSize} className={socialIconClass} />
-                        <FaYoutube size={socialIconSize} className={socialIconClass} />
-                        <FaInstagram size={socialIconSize} className={socialIconClass} />
-                        <FaFacebookSquare size={socialIconSize} className={socialIconClass} />
-                        <FaLinkedin size={socialIconSize} className={socialIconClass} />
-                        <FaPinterest size={socialIconSize} className={socialIconClass} />
+                        <FaSquareXTwitter size={socialIconSize} className={socialIconClass} onClick={() => window.open('https://www.x.com', '_blank')} />
+                        <FaYoutube size={socialIconSize} className={socialIconClass} onClick={() => window.open('https://www.youtube.com', '_blank')} />
+                        <FaInstagram size={socialIconSize} className={socialIconClass} onClick={() => window.open('https://www.instagram.com', '_blank')} />
+                        <FaFacebookSquare size={socialIconSize} className={socialIconClass} onClick={() => window.open('https://www.facebook.com', '_blank')} />
+                        <FaLinkedin size={socialIconSize} className={socialIconClass} onClick={() => window.open('https://www.linkedin.com', '_blank')} />
+                        <FaPinterest size={socialIconSize} className={socialIconClass} onClick={() => window.open('https://www.pinterest.com', '_blank')} />
                     </div>
 
                     {/* Secondary Language Article */}
