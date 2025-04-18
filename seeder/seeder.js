@@ -86,8 +86,8 @@ const uploadImage = async (imagePath) => {
     }
 };
 
-const populateAdminUser = async () => {    
-    console.log("[Seeder] Populating database with default admin user...");
+const populateAdminUser = async () => {
+    console.log('[Seeder] Populating database with default admin user...');
 
     const formData = {
         name: 'admin',
@@ -95,7 +95,7 @@ const populateAdminUser = async () => {
         password: 'password',
     };
 
-    const adminUserExists = await User.findOne({ email: 'admin@email.com'});
+    const adminUserExists = await User.findOne({ email: 'admin@email.com' });
 
     if (!adminUserExists) {
         await axios.post(`${BACKEND_URL}/api/users/register`, formData, {
@@ -105,21 +105,28 @@ const populateAdminUser = async () => {
         });
     }
 
-    const adminUser = await User.findOne({ email: 'admin@email.com'});
+    const adminUser = await User.findOne({ email: 'admin@email.com' });
 
     if (adminUser) {
-        adminUser.isAdmin = true
+        adminUser.isAdmin = true;
         const updatedUser = await adminUser.save();
         console.log(updatedUser);
     }
 
-    console.log("[Seeder] Admin User Populated");
-}
+    console.log('[Seeder] Admin User Populated');
+};
 
 const populateArticles = async () => {
     const articleData = JSON.parse(fs.readFileSync(ARTICLE_JSON_FILE, 'utf-8'));
 
     for (const item of articleData) {
+        const existing = await Article.findOne({ 'languages.en.title': item.languages.en.title });
+
+        if (existing) {
+            console.log(`[Seeder] Skipping: ${item.languages.en.title} (already exists)`);
+            continue;
+        }
+
         const imagePath = path.join(IMAGE_DIR, item.image_file);
 
         if (!fs.existsSync(imagePath)) {
@@ -137,7 +144,7 @@ const populateArticles = async () => {
 
         console.log(`[Seeder] Image URL: ${imageUrl}`);
 
-        const adminUser = await User.findOne({ email: 'admin@email.com'});
+        const adminUser = await User.findOne({ email: 'admin@email.com' });
 
         const article = new Article({
             languages: item.languages,
@@ -149,7 +156,7 @@ const populateArticles = async () => {
         await article.save();
         console.log(`[Seeder] Inserted: ${item.languages['en'].title}`);
     }
-}
+};
 
 (async () => {
     try {
@@ -161,9 +168,9 @@ const populateArticles = async () => {
 })();
 
 populateAdminUser().catch((err) => {
-    console.error("Error populating admin user:", err.message);
+    console.error('Error populating admin user:', err.message);
 });
 
 populateArticles().catch((err) => {
-    console.error("Error populating articles:", err.message);
+    console.error('Error populating articles:', err.message);
 });
