@@ -93,7 +93,7 @@ export const get3MentalHealthArticles = expressAsyncHandler(async (req, res) => 
     const articles = await Article.find({
         isPublished: true,
         $or: [{ [`languages.en.title`]: { $regex: 'mental', $options: 'i' } }, { [`languages.en.content`]: { $regex: 'mental', $options: 'i' } }],
-    });
+    }).sort({ createdAt: -1 }).limit(3);
 
     res.status(200).json(articles.length > 0 ? articles : []);
 });
@@ -105,7 +105,7 @@ export const get3BusinessArticles = expressAsyncHandler(async (req, res) => {
     const articles = await Article.find({
         isPublished: true,
         $or: [{ [`languages.en.title`]: { $regex: 'business', $options: 'i' } }, { [`languages.en.content`]: { $regex: 'business', $options: 'i' } }],
-    });
+    }).sort({ createdAt: -1 }).limit(3);
 
     res.status(200).json(articles.length > 0 ? articles : []);
 });
@@ -117,7 +117,7 @@ export const get3IdentityArticles = expressAsyncHandler(async (req, res) => {
     const articles = await Article.find({
         isPublished: true,
         $or: [{ [`languages.en.title`]: { $regex: 'identity', $options: 'i' } }, { [`languages.en.content`]: { $regex: 'identity', $options: 'i' } }],
-    });
+    }).sort({ createdAt: -1 }).limit(3);
 
     res.status(200).json(articles.length > 0 ? articles : []);
 });

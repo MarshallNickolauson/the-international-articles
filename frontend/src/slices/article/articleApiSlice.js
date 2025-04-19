@@ -25,6 +25,27 @@ export const articleApiSlice = apiSlice.injectEndpoints({
             }),
             providesTags: ['Article'],
         }),
+        get3MentalArticles: builder.query({
+            query: (data) => ({
+                url: `${ARTICLE_URL}/3MentalHeath`,
+                method: 'GET',
+            }),
+            providesTags: ['Article'],
+        }),
+        get3BusinessArticles: builder.query({
+            query: (data) => ({
+                url: `${ARTICLE_URL}/3Business`,
+                method: 'GET',
+            }),
+            providesTags: ['Article'],
+        }),
+        get3IdentityArticles: builder.query({
+            query: (data) => ({
+                url: `${ARTICLE_URL}/3Identity`,
+                method: 'GET',
+            }),
+            providesTags: ['Article'],
+        }),
         getArticleById: builder.query({
             query: (id) => ({
                 url: `${ARTICLE_URL}/${id}`,
@@ -75,6 +96,9 @@ export const {
     useGetAllArticlesQuery,
     useGetAllUserArticlesQuery,
     useGet5RecentArticlesQuery,
+    useGet3MentalArticlesQuery,
+    useGet3BusinessArticlesQuery,
+    useGet3IdentityArticlesQuery,
     useGetArticleByIdQuery,
     useLazySearchArticleQuery,
     useCreateArticleMutation,
