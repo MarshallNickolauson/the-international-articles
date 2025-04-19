@@ -142,7 +142,3 @@ def abort():
     proc.join()
     active_processes.pop(request_id, None)  # safely remove
     return jsonify({'message': 'Translation process aborted successfully'}), 200
-
-if __name__ == '__main__':
-    multiprocessing.set_start_method('spawn')  # required for some OSes
-    app.run(debug=True, host='0.0.0.0', port=9000)

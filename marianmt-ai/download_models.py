@@ -27,7 +27,7 @@ MODEL_MAP = {
 }
 
 # Define the folder to store models
-MODEL_DIR = "models"
+MODEL_DIR = "/app/models"
 
 # Create the directory if it doesn't exist
 if not os.path.exists(MODEL_DIR):
