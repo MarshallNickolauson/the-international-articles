@@ -110,9 +110,9 @@ const Dashboard = () => {
     return (
         <>
             {/* Featured & Recent */}
-            <section className="flex space-x-6 mb-8">
-                <div className="flex-1">
-                    <h1 className={`py-5 font-poppins font-bold text-4xl ${isDarkMode ? "text-white" : "text-darkExpansion"}`}>
+            <section className="flex flex-col md:flex-row md:space-x-6 mb-8">
+                <div className="flex-none md:flex-1">
+                    <h1 className={`py-5 font-poppins font-bold text-4xl transition-all duration-200 ${isDarkMode ? "text-white" : "text-darkExpansion"}`}>
                         {translations.featuredArticle || "Featured Article"}
                     </h1>
                     {recentArticles.length > 0 ? (
@@ -122,8 +122,8 @@ const Dashboard = () => {
                     )}
                 </div>
 
-                <div className="flex-1">
-                    <h1 className={`py-5 font-poppins font-bold text-xl ${isDarkMode ? "text-white" : "text-darkExpansion"}`}>
+                <div className="flex-none md:flex-1">
+                    <h1 className={`py-5 font-poppins font-bold text-xl transition-all duration-200 ${isDarkMode ? "text-white" : "text-darkExpansion"}`}>
                         {translations.recentArticles || "Recent Articles"}
                     </h1>
                     <div className="space-y-6">
@@ -136,7 +136,7 @@ const Dashboard = () => {
 
             {/* Mental Health */}
             <section className="mb-8">
-                <h2 className={`text-2xl font-semibold mb-4 ${isDarkMode ? "text-white" : "text-darkExpansion"}`}>
+                <h2 className={`text-2xl font-semibold mb-4 transition-all duration-200 ${isDarkMode ? "text-white" : "text-darkExpansion"}`}>
                     {translations.mentalHealth || "Mental Health"}
                 </h2>
                 <div className="space-y-4">
@@ -148,7 +148,7 @@ const Dashboard = () => {
 
             {/* Business */}
             <section className="mb-8">
-                <h2 className={`text-2xl font-semibold mb-4 ${isDarkMode ? "text-white" : "text-darkExpansion"}`}>
+                <h2 className={`text-2xl font-semibold mb-4 transition-all duration-200 ${isDarkMode ? "text-white" : "text-darkExpansion"}`}>
                     {translations.business || "Business"}
                 </h2>
                 <div className="space-y-4">
@@ -160,7 +160,7 @@ const Dashboard = () => {
 
             {/* Identity */}
             <section className="mb-8">
-                <h2 className={`text-2xl font-semibold mb-4 ${isDarkMode ? "text-white" : "text-darkExpansion"}`}>
+                <h2 className={`text-2xl font-semibold mb-4 transition-all duration-200 ${isDarkMode ? "text-white" : "text-darkExpansion"}`}>
                     {translations.identity || "Identity"}
                 </h2>
                 <div className="space-y-4">

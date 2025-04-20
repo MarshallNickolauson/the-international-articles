@@ -297,8 +297,8 @@ const EditArticleScreen = () => {
         <div className='py-4'>
             {alertData.show && <AlertCard type={alertData.type} message={alertData.message} />}
             {/* Header */}
-            <div className='flex justify-between items-center mb-6'>
-                <h2 className={`font-poppins font-bold text-4xl ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
+            <div className='flex justify-end sm:justify-between items-center mb-6'>
+                <h2 className={`font-poppins font-bold text-4xl hidden sm:block ${isDarkMode ? 'text-white' : 'text-darkExpansion'}`}>
                     {translations.edit || 'Edit'} {formData[selectedPrimaryLanguage]?.title}
                 </h2>
                 <div className='flex gap-4 font-opensans'>
@@ -314,11 +314,11 @@ const EditArticleScreen = () => {
                     <button
                         onClick={handleSave}
                         className={`${isSaved ? 'cursor-default bg-gray-400' : 'bg-green-600 hover:bg-green-700'} text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100`}
-                        disabled={isUpdating}
+                        disabled={isUpdating || isSaved}
                     >
                         {translations.saveChanges || 'Save Changes'}
                     </button>
-                    <button onClick={handleDeleteArticle} className='bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100'>
+                    <button onClick={handleDeleteArticle} className='bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg shadow-md font-medium transition-all duration-100 flex justify'>
                         {translations.delete || 'Delete'}
                     </button>
                 </div>
@@ -360,7 +360,7 @@ const EditArticleScreen = () => {
                         }`}
                         onClick={() => setIsPrimaryLangDropdownOpen((prev) => !prev)}
                     >
-                        <span className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-xl transition-all duration-200`}>{LANGUAGES[selectedPrimaryLanguage]?.name}</span>
+                        <span className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-md sm:text-xl transition-all duration-200`}>{LANGUAGES[selectedPrimaryLanguage]?.name}</span>
                         <IoIosArrowDropdown className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-2xl transition-all duration-200`} />
                     </div>
                     {isPrimaryLangDropdownOpen && (
@@ -389,7 +389,7 @@ const EditArticleScreen = () => {
                         }`}
                         onClick={() => setIsSecondaryLangDropdownOpen((prev) => !prev)}
                     >
-                        <span className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-xl transition-all duration-200`}>
+                        <span className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-md sm:text-xl transition-all duration-200`}>
                             {selectedSecondaryLanguage === 'none' ? translations.selectOtherLanguage || 'Select Other Language' : LANGUAGES[selectedSecondaryLanguage]?.name}
                         </span>
                         <IoIosArrowDropdown className={`${isDarkMode ? 'text-white' : 'text-darkExpansion'} text-2xl transition-all duration-200`} />
