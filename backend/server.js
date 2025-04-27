@@ -9,6 +9,8 @@ import multer from 'multer';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import axios from 'axios';
+import Redis from 'redis';
 const port = process.env.BACKEND_PORT || 5000;
 
 connectDB();
